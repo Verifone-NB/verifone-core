@@ -1,0 +1,21 @@
+{
+    "source": {
+        "directories": [
+            "Verifone\/Core\/Configuration",
+            "Verifone\/Core\/Converter",
+            "Verifone\/Core\/DependencyInjection",
+            "Verifone\/Core\/Exception",
+            "Verifone\/Core\/Executor",
+            "Verifone\/Core\/Service",
+            "Verifone\/Core\/Storage",
+            "Verifone\/Core\/Transport"
+        ],
+        "excludes": [
+            "Verifone\/Core\/Tests"
+        ]
+    },
+    "timeout": 10,
+    "logs": {
+        "text": "humbuglog.txt"
+    }
+}

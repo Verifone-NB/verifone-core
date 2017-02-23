@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>./Verifone/Core/Tests/</directory>
+        </testsuite>
+    </testsuites>
+<filter>
+  <whitelist>
+      <directory suffix=".php">./Verifone/Core/Configuration</directory>
+      <directory suffix=".php">./Verifone/Core/Converter</directory>
+      <directory suffix=".php">./Verifone/Core/DependencyInjection</directory>
+      <directory suffix=".php">./Verifone/Core/Executor</directory>
+      <directory suffix=".php">./Verifone/Core/Exception</directory>
+      <directory suffix=".php">./Verifone/Core/Service</directory>
+      <directory suffix=".php">./Verifone/Core/Storage</directory>
+      <directory suffix=".php">./Verifone/Core/Transport</directory>
+      <directory suffix=".php">./Verifone/Core/ServiceFactory.php</directory>
+  </whitelist>
+</filter>
+</phpunit>
