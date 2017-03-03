@@ -11,7 +11,7 @@
 namespace Verifone\Core\DependencyInjection\Validation\Response;
 
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 
 class FrontendResponseValidation implements ResponseValidation
 {
@@ -21,35 +21,35 @@ class FrontendResponseValidation implements ResponseValidation
     const CURRENCY_ERROR_LABEL = 'currency code';
 
     private $mandatorySuccessResponseFields = array(
-        FieldConfig::ORDER_NUMBER,
-        FieldConfig::ORDER_TIMESTAMP,
-        FieldConfig::ORDER_TOTAL_INCL_TAX,
-        FieldConfig::ORDER_CURRENCY,
-        FieldConfig::SIGNATURE_ONE,
-        FieldConfig::SIGNATURE_TWO,
-        FieldConfig::INTERFACE_VERSION,
-        FieldConfig::CONFIG_SOFTWARE_VERSION,
-        FieldConfig::CONFIG_TRANSACTION,
-        FieldConfig::PAYMENT_METHOD
+        FieldConfigImpl::ORDER_NUMBER,
+        FieldConfigImpl::ORDER_TIMESTAMP,
+        FieldConfigImpl::ORDER_TOTAL_INCL_TAX,
+        FieldConfigImpl::ORDER_CURRENCY,
+        FieldConfigImpl::SIGNATURE_ONE,
+        FieldConfigImpl::SIGNATURE_TWO,
+        FieldConfigImpl::INTERFACE_VERSION,
+        FieldConfigImpl::CONFIG_SOFTWARE_VERSION,
+        FieldConfigImpl::CONFIG_TRANSACTION,
+        FieldConfigImpl::PAYMENT_METHOD
     );
 
     private $mandatoryCancelResponseFields = array(
-        FieldConfig::ORDER_NUMBER,
-        FieldConfig::SIGNATURE_ONE,
-        FieldConfig::SIGNATURE_TWO,
-        FieldConfig::INTERFACE_VERSION,
-        FieldConfig::CONFIG_SOFTWARE_VERSION
+        FieldConfigImpl::ORDER_NUMBER,
+        FieldConfigImpl::SIGNATURE_ONE,
+        FieldConfigImpl::SIGNATURE_TWO,
+        FieldConfigImpl::INTERFACE_VERSION,
+        FieldConfigImpl::CONFIG_SOFTWARE_VERSION
     );
     
     private $mandatoryCancelRequestFields = array(
-        FieldConfig::ORDER_NUMBER
+        FieldConfigImpl::ORDER_NUMBER
     );
 
     private $mandatorySuccessRequestFields = array(
-        FieldConfig::ORDER_NUMBER,
-        FieldConfig::ORDER_TIMESTAMP,
-        FieldConfig::ORDER_TOTAL_INCL_TAX,
-        FieldConfig::ORDER_CURRENCY,
+        FieldConfigImpl::ORDER_NUMBER,
+        FieldConfigImpl::ORDER_TIMESTAMP,
+        FieldConfigImpl::ORDER_TOTAL_INCL_TAX,
+        FieldConfigImpl::ORDER_CURRENCY,
     );
 
     private $utils;
@@ -61,7 +61,7 @@ class FrontendResponseValidation implements ResponseValidation
         $this->utils = $utils;
     }
 
-    public function validate($requestFields, $responseFields, $publicKey)
+    public function validate($requestFields, $responseFields, $publicKey, $matchingFields = array())
     {
         $this->requestFields = $requestFields;
         $this->responseFields = $responseFields;
@@ -78,7 +78,7 @@ class FrontendResponseValidation implements ResponseValidation
 
     private function isCancelResponse()
     {
-        return isset($this->responseFields[FieldConfig::RESPONSE_CANCEL_REASON]);
+        return isset($this->responseFields[FieldConfigImpl::RESPONSE_CANCEL_REASON]);
     }
 
     private function validateCancelResponse()
@@ -92,18 +92,18 @@ class FrontendResponseValidation implements ResponseValidation
         $this->utils->fieldsExist($this->requestFields, $this->mandatorySuccessRequestFields);
         $this->utils->fieldsExist($this->responseFields, $this->mandatorySuccessResponseFields);
         $this->utils->matches(
-            $this->responseFields[FieldConfig::ORDER_TIMESTAMP],
-            $this->requestFields[FieldConfig::ORDER_TIMESTAMP],
+            $this->responseFields[FieldConfigImpl::ORDER_TIMESTAMP],
+            $this->requestFields[FieldConfigImpl::ORDER_TIMESTAMP],
             self::TIMESTAMP_ERROR_LABEL
         );
         $this->utils->matches(
-            $this->responseFields[FieldConfig::ORDER_TOTAL_INCL_TAX],
-            $this->requestFields[FieldConfig::ORDER_TOTAL_INCL_TAX],
+            $this->responseFields[FieldConfigImpl::ORDER_TOTAL_INCL_TAX],
+            $this->requestFields[FieldConfigImpl::ORDER_TOTAL_INCL_TAX],
             self::GROSS_AMOUNT_ERROR_LABEL
         );
         $this->utils->matches(
-            $this->responseFields[FieldConfig::ORDER_CURRENCY],
-            $this->requestFields[FieldConfig::ORDER_CURRENCY],
+            $this->responseFields[FieldConfigImpl::ORDER_CURRENCY],
+            $this->requestFields[FieldConfigImpl::ORDER_CURRENCY],
             self::CURRENCY_ERROR_LABEL
         );
     }
@@ -111,8 +111,8 @@ class FrontendResponseValidation implements ResponseValidation
     private function validateGeneral($publicKey)
     {
         $this->utils->matches(
-            $this->responseFields[FieldConfig::ORDER_NUMBER],
-            $this->requestFields[FieldConfig::ORDER_NUMBER],
+            $this->responseFields[FieldConfigImpl::ORDER_NUMBER],
+            $this->requestFields[FieldConfigImpl::ORDER_NUMBER],
             self::ORDER_NUMBER_ERROR_LABEL
         );
         $this->utils->verifySignature($this->responseFields, $publicKey);

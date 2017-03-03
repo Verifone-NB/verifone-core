@@ -15,5 +15,5 @@ interface ResponseValidation
 {
     public function __construct(ResponseValidationUtils $utils);
 
-    public function validate($requestFields, $responseFields, $publicKey);
+    public function validate($requestFields, $responseFields, $publicKey, $matchingFields = array());
 }

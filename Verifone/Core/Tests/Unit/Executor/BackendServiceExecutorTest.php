@@ -24,6 +24,7 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
     private $validation;
     private $crypto;
     private $converter;
+    private $config;
 
     public function setUp()
     {
@@ -33,12 +34,19 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
         $this->validation = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Validation\CommonValidation')->getMock();
         $this->crypto = $this->getMockBuilder('\Verifone\Core\DependencyInjection\CryptUtils\CryptUtil')->getMock();
         $this->converter = $this->getMockBuilder('\Verifone\Core\Converter\Response\ResponseConverter')->getMock();
+        $this->config = $this->getMockBuilder('\Verifone\Core\Configuration\FieldConfig')->getMock();
         
         $this->service->expects($this->once())
             ->method('getFields')
             ->willReturn($this->storage);
         
-        $this->executor = new BackendServiceExecutor($this->validation, $this->crypto, $this->transport, $this->converter);
+        $this->executor = new BackendServiceExecutor(
+            $this->validation,
+            $this->crypto,
+            $this->transport,
+            $this->converter,
+            $this->config
+        );
     }
 
     public function testErroneousUrls()

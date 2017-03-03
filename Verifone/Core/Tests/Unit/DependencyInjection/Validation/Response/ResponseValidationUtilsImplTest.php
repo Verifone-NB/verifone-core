@@ -11,7 +11,7 @@
 namespace Verifone\Core\Tests\Unit\DependencyInjection\Validation\Response;
 
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Validation\Response\ResponseValidationUtilsImpl;
 use Verifone\Core\Exception\ResponseCheckFailedException;
 
@@ -100,7 +100,7 @@ class ResponseValidationUtilsImplTest extends \PHPUnit_Framework_TestCase
     {
         $validationUtils = new ResponseValidationUtilsImpl($this->cryptUtil);
         $this->expectException(ResponseCheckFailedException::class);
-        $validationUtils->checkErrorMessage(array(FieldConfig::RESPONSE_ERROR_MESSAGE => 'asdfasdfasdf'), 'asdf');
+        $validationUtils->checkErrorMessage(array(FieldConfigImpl::RESPONSE_ERROR_MESSAGE => 'asdfasdfasdf'), 'asdf');
     }
 
     public function testCheckErrorMessageDoesntExist()
@@ -112,7 +112,7 @@ class ResponseValidationUtilsImplTest extends \PHPUnit_Framework_TestCase
     public function testCheckErrorMessageEmpty()
     {
         $validationUtils = new ResponseValidationUtilsImpl($this->cryptUtil);
-        $validationUtils->checkErrorMessage(array(FieldConfig::RESPONSE_ERROR_MESSAGE => ''), 'asdf');
+        $validationUtils->checkErrorMessage(array(FieldConfigImpl::RESPONSE_ERROR_MESSAGE => ''), 'asdf');
     }
 
     /**

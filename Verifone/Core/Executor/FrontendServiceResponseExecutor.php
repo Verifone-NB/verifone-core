@@ -30,7 +30,7 @@ class FrontendServiceResponseExecutor
     {
         $storage = $service->getFields();
         $requestFields = $storage->getAsArray();
-        $this->validation->validate($requestFields, $service->getResponse(), $publicKey);
+        $this->validation->validateResponse($requestFields, $service->getResponse(), $publicKey);
         return $this->converter->convert(new CoreResponse(0, $service->getResponse()));
     }
 }

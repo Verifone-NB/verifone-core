@@ -10,24 +10,13 @@
 
 namespace Verifone\Core\DependencyInjection\Validation\Response;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Exception\ResponseCheckFailedException;
 
 class BackendResponseValidation implements ResponseValidation
 {
-    const OPERATION_ERROR_LABEL = 'operation';
-    const REQUEST_ID_ERROR_LABEL = 'request-id';
-    const RESPONSE_ID_ERROR_LABEL = 'response-id';
-
-    private $mandatoryRequestFields = array(
-        FieldConfig::OPERATION,
-        FieldConfig::REQUEST_ID
-    );
-    
     private $mandatoryResponseFields = array(
-        FieldConfig::OPERATION,
-        FieldConfig::REQUEST_ID,
-        FieldConfig::RESPONSE_ID
+        FieldConfigImpl::RESPONSE_ID
     );
     
     private $utils;
@@ -42,30 +31,20 @@ class BackendResponseValidation implements ResponseValidation
      * @param array $responseFields
      * @param array $requestFields
      * @param string $publicKey to verify response signature
+     * @param array $matchingFields
      * @throws ResponseCheckFailedException if something went wrong
      */
-    public function validate($requestFields, $responseFields, $publicKey)
+    public function validate($requestFields, $responseFields, $publicKey, $matchingFields = array())
     {
-        $this->utils->fieldsExist($requestFields, $this->mandatoryRequestFields);
-        $this->utils->fieldsExist($responseFields, $this->mandatoryResponseFields);
-
-        $this->utils->matches(
-            $requestFields[FieldConfig::OPERATION],
-            $responseFields[FieldConfig::OPERATION],
-            self::OPERATION_ERROR_LABEL
-        );
-        $this->utils->matches(
-            $requestFields[FieldConfig::REQUEST_ID],
-            $responseFields[FieldConfig::REQUEST_ID],
-            self::REQUEST_ID_ERROR_LABEL
-        );
-        $this->utils->matches(
-            $responseFields[FieldConfig::REQUEST_ID],
-            $responseFields[FieldConfig::RESPONSE_ID],
-            self::RESPONSE_ID_ERROR_LABEL,
-            self::REQUEST_ID_ERROR_LABEL
-        );
         $this->utils->checkErrorMessage($responseFields);
+        $this->utils->fieldsExist($responseFields, $this->mandatoryResponseFields);
+        $this->utils->matchesAll($requestFields, $responseFields, $matchingFields);
+        $this->utils->matches(
+            $responseFields[FieldConfigImpl::REQUEST_ID],
+            $responseFields[FieldConfigImpl::RESPONSE_ID],
+            FieldConfigImpl::REQUEST_ID,
+            FieldConfigImpl::RESPONSE_ID
+        );
         $this->utils->verifySignature($responseFields, $publicKey);
     }
 }

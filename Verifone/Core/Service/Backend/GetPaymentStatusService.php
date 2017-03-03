@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
@@ -25,6 +25,11 @@ use Verifone\Core\Storage\Storage;
 final class GetPaymentStatusService extends AbstractBackendService
 {
     const OPERATION_VALUE = 'get-payment-status';
+    private $matchingFields = array(
+        FieldConfigImpl::CONFIG_TRANSACTION,
+        FieldConfigImpl::PAYMENT_METHOD
+    );
+
 
     public function __construct(Storage $storage
         , BackendConfiguration $configuration,
@@ -32,12 +37,17 @@ final class GetPaymentStatusService extends AbstractBackendService
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $configuration, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfig::OPERATION, self::OPERATION_VALUE);
+        $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
     
     public function insertTransaction(Transaction $transaction)
     {
-        $this->addToStorage(FieldConfig::PAYMENT_METHOD, $transaction->getMethodCode());
-        $this->addToStorage(FieldConfig::CONFIG_TRANSACTION, $transaction->getNumber());
+        $this->addToStorage(FieldConfigImpl::PAYMENT_METHOD, $transaction->getMethodCode());
+        $this->addToStorage(FieldConfigImpl::CONFIG_TRANSACTION, $transaction->getNumber());
+    }
+
+    public function getMatchingFields()
+    {
+        return array_merge(parent::getMatchingFields(), $this->matchingFields);
     }
 }

@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
@@ -28,6 +28,11 @@ final class RefundPaymentService extends AbstractBackendService
     const OPERATION_VALUE = 'refund-payment';
     const REFUND_NOTE_VALUE = 'Refund Request';
 
+    private $matchingFields = array(
+        FieldConfigImpl::CONFIG_TRANSACTION,
+        FieldConfigImpl::PAYMENT_METHOD
+    );
+
     /**
      * RefundPaymentService constructor.
      * @param Storage $storage
@@ -42,15 +47,20 @@ final class RefundPaymentService extends AbstractBackendService
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $config, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfig::OPERATION, self::OPERATION_VALUE);
-        $this->addToStorage(FieldConfig::REFUND_NOTE, self::REFUND_NOTE_VALUE);
+        $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
+        $this->addToStorage(FieldConfigImpl::REFUND_NOTE, self::REFUND_NOTE_VALUE);
     }
 
     public function insertTransaction(Transaction $transaction)
     {
-        $this->addToStorage(FieldConfig::PAYMENT_METHOD, $transaction->getMethodCode());
-        $this->addToStorage(FieldConfig::CONFIG_TRANSACTION, $transaction->getNumber());
-        $this->addToStorage(FieldConfig::REFUND_AMOUNT, $transaction->getRefundAmount());
-        $this->addToStorage(FieldConfig::REFUND_CURRENCY, $transaction->getRefundCurrency());
+        $this->addToStorage(FieldConfigImpl::PAYMENT_METHOD, $transaction->getMethodCode());
+        $this->addToStorage(FieldConfigImpl::CONFIG_TRANSACTION, $transaction->getNumber());
+        $this->addToStorage(FieldConfigImpl::REFUND_AMOUNT, $transaction->getRefundAmount());
+        $this->addToStorage(FieldConfigImpl::REFUND_CURRENCY, $transaction->getRefundCurrency());
+    }
+
+    public function getMatchingFields()
+    {
+        return array_merge(parent::getMatchingFields(), $this->matchingFields);
     }
 }

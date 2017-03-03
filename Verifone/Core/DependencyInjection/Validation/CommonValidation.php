@@ -20,5 +20,12 @@ namespace Verifone\Core\DependencyInjection\Validation;
 
 interface CommonValidation
 {
-    public function validate(array $requestFields, array $responseFields = array(), $publicKey = false);
+    public function validateResponse(
+        array $requestFields,
+        array $responseFields,
+        $publicKey,
+        array $matchingFieldNames = array()
+    );
+
+    public function validate(array $requestFields);
 }

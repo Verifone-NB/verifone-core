@@ -20,6 +20,7 @@ use Verifone\Core\DependencyInjection\Configuration\ConfigurationImpl;
 class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendConfiguration
 {
     private $redirectUrls;
+    private $skipConfirmation;
 
     /**
      * FrontendConfigurationImpl constructor.
@@ -29,20 +30,28 @@ class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendCon
      * @param $merchantAgreementCode string between 1 and 36 characters
      * @param $software string between 1 and 30 characters
      * @param $softwareVersion string between 1 and 10 characters
+     * @param string $skipConfirmation possible values 1 or 0. 
      */
     public function __construct(
         RedirectUrls $redirectUrls,
         $privateKey,
         $merchantAgreementCode,
         $software,
-        $softwareVersion
+        $softwareVersion,
+        $skipConfirmation
     ) {
         parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion);
         $this->redirectUrls = $redirectUrls;
+        $this->skipConfirmation = $skipConfirmation;
     }
 
     public function getRedirectUrls()
     {
         return $this->redirectUrls;
+    }
+    
+    public function getSkipConfirmation()
+    {
+        return $this->skipConfirmation;
     }
 }

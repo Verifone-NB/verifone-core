@@ -34,18 +34,19 @@ class FrontendConfigurationImplTest extends \PHPUnit_Framework_TestCase
      * @param $merchantAgreementCode
      * @param $software
      * @param $softwareVersion
-     * @param $urls
+     * @param $skipConfirm
      *
      * @dataProvider providerTestConstructHappy
      */
-    public function testConstructHappy($privateKey, $merchantAgreementCode, $software, $softwareVersion)
+    public function testConstructHappy($privateKey, $merchantAgreementCode, $software, $softwareVersion, $skipConfirm)
     {
         $frontendConfiguration = new FrontendConfigurationImpl(
             $this->urls,
             $privateKey,
             $merchantAgreementCode,
             $software,
-            $softwareVersion
+            $softwareVersion,
+            $skipConfirm
         );
 
         $this->assertEquals($privateKey, $frontendConfiguration->getPrivateKey());
@@ -53,6 +54,7 @@ class FrontendConfigurationImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($software, $frontendConfiguration->getSoftware());
         $this->assertEquals($softwareVersion, $frontendConfiguration->getSoftwareVersion());
         $this->assertTrue($frontendConfiguration->getRedirectUrls() instanceof RedirectUrls);
+        $this->assertEquals($skipConfirm, $frontendConfiguration->getSkipConfirmation());
     }
 
     public function providerTestConstructHappy()
@@ -61,13 +63,14 @@ class FrontendConfigurationImplTest extends \PHPUnit_Framework_TestCase
             array('aaaaasfwerthieng.sdvcuhbaewjrnwe/f7wer17/-afdnsflkawe7asfd/fansdfnnn_fef78238r7000.fahha&fasdf0s',
                 '123asdfas',
                 'Magento Example',
-                '1.0.2'
+                '1.0.2',
+                '1'
             ), // common case
         );
     }
 
     public function testConstructSadRedirectUrls() {
         $this->expectException(\TypeError::class);
-        new FrontendConfigurationImpl(null, '', '', 'a', 'a');
+        new FrontendConfigurationImpl(null, '', '', 'a', 'a', '1');
     }
 }

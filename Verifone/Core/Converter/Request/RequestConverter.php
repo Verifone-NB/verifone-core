@@ -15,6 +15,8 @@ use Verifone\Core\Storage\Storage;
 /**
  * Interface RequestConverterInterface
  * @package Verifone\Core\Converter\Request
+ * 
+ * Converts requests to the needed form
  */
 interface RequestConverter
 {

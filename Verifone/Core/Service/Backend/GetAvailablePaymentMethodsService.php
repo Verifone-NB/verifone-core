@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\Configuration\Backend\GetAvailablePaymentMethodsConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
@@ -33,7 +33,7 @@ final class GetAvailablePaymentMethodsService extends AbstractBackendService
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $configuration, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfig::CONFIG_CURRENCY, $configuration->getCurrency());
-        $this->addToStorage(FieldConfig::OPERATION, self::OPERATION_VALUE);
+        $this->addToStorage(FieldConfigImpl::CONFIG_CURRENCY, $configuration->getCurrency());
+        $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
 }

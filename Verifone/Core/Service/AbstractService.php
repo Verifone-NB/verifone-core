@@ -11,7 +11,7 @@
 
 namespace Verifone\Core\Service;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Configuration\Configuration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtilImpl;
@@ -36,7 +36,7 @@ abstract class AbstractService implements Service
         $this->crypto = $crypto;
         $this->storage = $storage;
         $this->privateKey = $configuration->getPrivateKey();
-        $this->addToStorage(FieldConfig::INTERFACE_VERSION, self::INTERFACE_VERSION_VALUE);
+        $this->addToStorage(FieldConfigImpl::INTERFACE_VERSION, self::INTERFACE_VERSION_VALUE);
         $this->insertConfiguration($configuration);
     }
 
@@ -67,18 +67,18 @@ abstract class AbstractService implements Service
 
     public function getFields()
     {
-        if ($this->storage->get(FieldConfig::SIGNATURE_ONE) === false) {
+        if ($this->storage->get(FieldConfigImpl::SIGNATURE_ONE) === false) {
             $signature = $this->crypto->generateSignatureOne($this->privateKey, $this->storage->getAsArray());
-            $this->addToStorage(FieldConfig::SIGNATURE_ONE, $signature);
+            $this->addToStorage(FieldConfigImpl::SIGNATURE_ONE, $signature);
         }
         return $this->storage;
     }
     
     private function insertConfiguration(Configuration $configuration)
     {
-        $this->addToStorage(FieldConfig::CONFIG_MERCHANT_AGREEMENT_CODE, $configuration->getMerchantAgreementCode());
-        $this->addToStorage(FieldConfig::CONFIG_SOFTWARE, $configuration->getSoftware());
-        $this->addToStorage(FieldConfig::CONFIG_SOFTWARE_VERSION, $configuration->getSoftwareVersion());
+        $this->addToStorage(FieldConfigImpl::CONFIG_MERCHANT_AGREEMENT_CODE, $configuration->getMerchantAgreementCode());
+        $this->addToStorage(FieldConfigImpl::CONFIG_SOFTWARE, $configuration->getSoftware());
+        $this->addToStorage(FieldConfigImpl::CONFIG_SOFTWARE_VERSION, $configuration->getSoftwareVersion());
     }
     
     protected function addToStorage($key, $value)
@@ -88,12 +88,12 @@ abstract class AbstractService implements Service
     
     protected function getMerchantAgreementCode()
     {
-        return $this->storage->get(FieldConfig::CONFIG_MERCHANT_AGREEMENT_CODE);
+        return $this->storage->get(FieldConfigImpl::CONFIG_MERCHANT_AGREEMENT_CODE);
     }
 
     protected function getPaymentTimestamp()
     {
-        return $this->storage->get(FieldConfig::PAYMENT_TIMESTAMP);
+        return $this->storage->get(FieldConfigImpl::PAYMENT_TIMESTAMP);
     }
 
     protected function calculateTaxPercent($priceInclTax, $priceExclTax)

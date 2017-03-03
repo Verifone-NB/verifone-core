@@ -43,7 +43,7 @@ class FrontendResponseServiceExecutorTest extends \PHPUnit_Framework_TestCase
             ->method('getAsArray')
             ->willReturn(array());
         $this->validation->expects($this->once())
-            ->method('validate')
+            ->method('validateResponse')
             ->with(array(), array(), 'asdf');
         $this->converter->expects($this->once())
             ->method('convert');

@@ -16,6 +16,9 @@ use Verifone\Core\Storage\Storage;
 /**
  * Class ArrayConverter
  * @package Verifone\Core\Converter\Request
+ * Converts storage to an array.
+ * 
+ * Takes in Storage containing verifone fields and returns them as an array.
  */
 final class ArrayConverter implements RequestConverter
 {

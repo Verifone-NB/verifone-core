@@ -11,7 +11,7 @@
 namespace Verifone\Core\Tests\Unit\DependencyInjection\Validation\Response;
 
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Validation\Response\FrontendResponseValidation;
 
 class FrontendResponseValidationTest extends \PHPUnit_Framework_TestCase
@@ -35,8 +35,8 @@ class FrontendResponseValidationTest extends \PHPUnit_Framework_TestCase
         $this->utils->expects($this->exactly(2))->method('fieldsExist');
         $this->utils->expects($this->once())->method('verifySignature');
         $validation->validate(
-            array(FieldConfig::ORDER_NUMBER => 123),
-            array(FieldConfig::RESPONSE_CANCEL_REASON => 'asdf2', FieldConfig::ORDER_NUMBER => 123),
+            array(FieldConfigImpl::ORDER_NUMBER => 123),
+            array(FieldConfigImpl::RESPONSE_CANCEL_REASON => 'asdf2', FieldConfigImpl::ORDER_NUMBER => 123),
             'asdfasdfasdf');
     }
 
@@ -48,16 +48,16 @@ class FrontendResponseValidationTest extends \PHPUnit_Framework_TestCase
         $this->utils->expects($this->once())->method('verifySignature');
         $validation->validate(
             array(
-                FieldConfig::ORDER_NUMBER => 123,
-                FieldConfig::ORDER_TIMESTAMP => '13',
-                FieldConfig::ORDER_TOTAL_INCL_TAX => '123',
-                FieldConfig::ORDER_CURRENCY => '123'
+                FieldConfigImpl::ORDER_NUMBER => 123,
+                FieldConfigImpl::ORDER_TIMESTAMP => '13',
+                FieldConfigImpl::ORDER_TOTAL_INCL_TAX => '123',
+                FieldConfigImpl::ORDER_CURRENCY => '123'
             ),
             array(
-                FieldConfig::ORDER_NUMBER => 123,
-                FieldConfig::ORDER_TIMESTAMP => '13',
-                FieldConfig::ORDER_TOTAL_INCL_TAX => '123',
-                FieldConfig::ORDER_CURRENCY => '123'
+                FieldConfigImpl::ORDER_NUMBER => 123,
+                FieldConfigImpl::ORDER_TIMESTAMP => '13',
+                FieldConfigImpl::ORDER_TOTAL_INCL_TAX => '123',
+                FieldConfigImpl::ORDER_CURRENCY => '123'
             ),
             'asdfasdfasdf');
     }

@@ -15,9 +15,11 @@ interface ResponseValidationUtils
 {
     public function matches($value1, $value2, $fieldName1, $fieldName2 = '');
 
-    public function verifySignature($responseFields, $publicKey);
+    public function matchesAll(array $requestFields, array $responseFields, array $matchingFields);
+    
+    public function verifySignature(array $responseFields, $publicKey);
 
-    public function checkErrorMessage($responseFields);
+    public function checkErrorMessage(array $responseFields);
 
     public function fieldsExist(array $responseFields, array $mandatoryFields);
 }

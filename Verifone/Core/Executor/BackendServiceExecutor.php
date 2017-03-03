@@ -16,6 +16,7 @@ namespace Verifone\Core\Executor;
 use Lamia\Validation\Exception\FieldValidationFailedException;
 use Lamia\Validation\Validation\Interfaces\Validation;
 use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\DependencyInjection\Transporter\CoreResponse;
@@ -47,23 +48,20 @@ class BackendServiceExecutor
      * @param CryptUtil $cryptUtil
      * @param Transport $transport
      * @param ResponseConverter $converter
+     * @param FieldConfig $config
      */
     public function __construct(
         CommonValidation $validation,
         CryptUtil $cryptUtil,
         Transport $transport,
-        ResponseConverter $converter
+        ResponseConverter $converter,
+        FieldConfig $config
     ) {
         $this->transport = $transport;
         $this->cryptUtil = $cryptUtil;
         $this->validation = $validation;
         $this->converter = $converter;
-        $this->fieldConfig = $this->getConfig();
-    }
-
-    private function getConfig()
-    {
-        return FieldConfig::getConfig();
+        $this->fieldConfig = $config->getConfig();
     }
 
     /**
@@ -87,7 +85,12 @@ class BackendServiceExecutor
         foreach ($urls as $url) {
             $response = $this->transport->request($url, $requestFields);
             if ($response instanceof TransportationResponse) {
-                return $this->validateAndFormatResponse($response, $requestFields, $publicKey);
+                return $this->validateAndFormatResponse(
+                    $response,
+                    $requestFields,
+                    $publicKey,
+                    $service->getMatchingFields()
+                );
             }
         }
         throw new ResponseCheckFailedException('None of the urls returned 200 ok -response');
@@ -98,13 +101,18 @@ class BackendServiceExecutor
      * @param TransportationResponse $response containing response fields
      * @param array $requestFields
      * @param string $publicKey to verify response signature
+     * @param array $matchingFields
      * @return array of response fields
      * @throws ResponseCheckFailedException if validation of response failed
      */
-    private function validateAndFormatResponse(TransportationResponse $response, $requestFields, $publicKey)
-    {
+    private function validateAndFormatResponse(
+        TransportationResponse $response,
+        array $requestFields,
+        $publicKey,
+        array $matchingFields
+    ) {
         $responseFields = $this->converter->convert($response);
-        $this->validation->validate($requestFields, $responseFields, $publicKey);
+        $this->validation->validateResponse($requestFields, $responseFields, $publicKey, $matchingFields);
         return $this->serviceResponseConverter->convert(new CoreResponse(0, $responseFields));
     }
 

@@ -1,11 +1,12 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
+ * @author     Szymon Nosal <simon@lamia.fi>
  */
 
 namespace Verifone\Core\DependencyInjection\CryptUtils;
@@ -21,12 +22,13 @@ class CryptUtilImpl implements CryptUtil
 {
     const SIG_ONE = 's-t-256-256_signature-one';
     const SIG_TWO = 's-t-256-256_signature-two';
-
+    const ORDER_PHASE = 's-t-1-40_shop-order__phase';
 
     private $cryptography;
 
     /**
      * CryptUtilImpl constructor.
+     *
      * @param Cryptography $cryptography interface to cryptography lib implementation
      */
     public function __construct(Cryptography $cryptography)
@@ -36,7 +38,8 @@ class CryptUtilImpl implements CryptUtil
 
     /**
      * @param $privateKey string contents of a private key to sign with
-     * @param $fields array of fields to generate signature one from
+     * @param $fields     array of fields to generate signature one from
+     *
      * @return string signature one generated from fields
      */
     public function generateSignatureOne($privateKey, $fields)
@@ -49,7 +52,8 @@ class CryptUtilImpl implements CryptUtil
 
     /**
      * @param $publicKey string public key contents
-     * @param $fields string data to verify signature for
+     * @param $fields    string data to verify signature for
+     *
      * @return bool true - signature valid, false - invalid
      */
     public function verifyResponseFieldsSignature($publicKey, $fields)
@@ -58,12 +62,14 @@ class CryptUtilImpl implements CryptUtil
         $sigOne = $fields[self::SIG_ONE];
         unset($fields[self::SIG_ONE]);
         unset($fields[self::SIG_TWO]);
+        unset($fields[self::ORDER_PHASE]);
         $data = $this->formatFieldsForSignature($fields);
         return $this->cryptography->verify($publicKey, $data, $sigOne);
     }
 
     /**
      * @param $fields array of fields to format for signing
+     *
      * @return string of fields as string for signing
      */
     private function formatFieldsForSignature($fields)
@@ -79,7 +85,8 @@ class CryptUtilImpl implements CryptUtil
 
     /**
      * @param $privateKey string and not empty
-     * @param $fields array
+     * @param $fields     array
+     *
      * @throws CryptUtilException if validation failed
      */
     private function validateSignatureOneParameters($privateKey, $fields)
@@ -94,7 +101,8 @@ class CryptUtilImpl implements CryptUtil
 
     /**
      * @param $publicKey string and not empty
-     * @param $fields array
+     * @param $fields    array
+     *
      * @throws CryptUtilException if validation failed
      */
     private function validateVerifySignatureParameters($publicKey, $fields)

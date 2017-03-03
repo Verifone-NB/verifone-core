@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
@@ -34,15 +34,15 @@ final class GetSavedCreditCardsService extends AbstractBackendService
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $config, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfig::OPERATION, self::OPERATION_VALUE);
+        $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
 
 
     public function insertCustomer(Customer $customer)
     {
-        $this->addToStorage(FieldConfig::CUSTOMER_FIRST_NAME, $customer->getFirstName());
-        $this->addToStorage(FieldConfig::CUSTOMER_LAST_NAME, $customer->getLastName());
-        $this->addToStorage(FieldConfig::CUSTOMER_PHONE_NUMBER, $customer->getPhoneNumber());
-        $this->addToStorage(FieldConfig::CUSTOMER_EMAIL, $customer->getEmail());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_FIRST_NAME, $customer->getFirstName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_LAST_NAME, $customer->getLastName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_PHONE_NUMBER, $customer->getPhoneNumber());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_EMAIL, $customer->getEmail());
     }
 }

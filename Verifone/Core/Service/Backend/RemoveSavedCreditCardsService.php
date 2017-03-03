@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
@@ -33,12 +33,12 @@ final class RemoveSavedCreditCardsService extends AbstractBackendService
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $configuration, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfig::OPERATION, self::OPERATION_VALUE);
+        $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
     
     public function insertPaymentInfo(PaymentInfo $paymentInfo)
     {
-        $this->addToStorage(FieldConfig::PAYMENT_SAVED_METHOD_ID, $paymentInfo->getSavedMethodId());
+        $this->addToStorage(FieldConfigImpl::PAYMENT_SAVED_METHOD_ID, $paymentInfo->getSavedMethodId());
     }
 
 }

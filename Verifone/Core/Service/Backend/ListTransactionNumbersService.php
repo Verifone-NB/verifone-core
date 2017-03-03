@@ -11,7 +11,7 @@
 namespace Verifone\Core\Service\Backend;
 
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
@@ -42,7 +42,7 @@ final class ListTransactionNumbersService extends AbstractBackendService
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $config, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfig::OPERATION, self::OPERATION_VALUE);
+        $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
 
     /**
@@ -50,6 +50,6 @@ final class ListTransactionNumbersService extends AbstractBackendService
      */
     public function insertOrder(Order $order)
     {
-        $this->addToStorage(FieldConfig::ORDER_NUMBER, $order->getIdentificator());
+        $this->addToStorage(FieldConfigImpl::ORDER_NUMBER, $order->getIdentificator());
     }
 }

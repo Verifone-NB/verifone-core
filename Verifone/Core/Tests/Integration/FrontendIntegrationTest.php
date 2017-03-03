@@ -63,7 +63,7 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
             '3'
         );
 
-        $container = new ExecutorContainer(array(ExecutorContainer::REQUEST_CONVERTER => ExecutorContainer::TYPE_HTML));
+        $container = new ExecutorContainer(array(ExecutorContainer::REQUEST_CONVERTER => ExecutorContainer::REQUEST_CONVERTER_TYPE_HTML));
         $this->exec = $container->getExecutor('frontend');
     }
 
@@ -76,7 +76,7 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
             'demo-merchant-agreement',
             'Magento',
             '1.9.2.2',
-            array($this->testUrl)
+            '1'
         );
         $service = ServiceFactory::createService($config, 'Frontend\CreateNewOrderService');
 
@@ -120,7 +120,7 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
             'demo-merchant-agreement',
             'Magento',
             '1.9.2.2',
-            array($this->testUrl)
+            '1'
         );
         $service = ServiceFactory::createService($config, 'Frontend\AddNewCardService');
 

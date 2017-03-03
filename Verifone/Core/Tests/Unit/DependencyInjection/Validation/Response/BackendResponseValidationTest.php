@@ -11,7 +11,7 @@
 namespace Verifone\Core\Tests\Unit\DependencyInjection\Validation\Response;
 
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Validation\Response\BackendResponseValidation;
 
 class BackendResponseValidationTest extends \PHPUnit_Framework_TestCase
@@ -31,13 +31,14 @@ class BackendResponseValidationTest extends \PHPUnit_Framework_TestCase
     public function testValidationSuccess()
     {
         $validation = new BackendResponseValidation($this->utils);
-        $this->utils->expects($this->exactly(3))->method('matches');
-        $this->utils->expects($this->exactly(2))->method('fieldsExist');
+        $this->utils->expects($this->once())->method('matches');
+        $this->utils->expects($this->once())->method('matchesAll');
+        $this->utils->expects($this->once())->method('fieldsExist');
         $this->utils->expects($this->once())->method('checkErrorMessage');
         $this->utils->expects($this->once())->method('verifySignature');
         $validation->validate(
-            array(FieldConfig::OPERATION => 'asdf', FieldConfig::REQUEST_ID => '123'),
-            array(FieldConfig::OPERATION => 'asdf2', FieldConfig::REQUEST_ID => 123, FieldConfig::RESPONSE_ID => 123),
+            array(FieldConfigImpl::OPERATION => 'asdf', FieldConfigImpl::REQUEST_ID => '123'),
+            array(FieldConfigImpl::OPERATION => 'asdf2', FieldConfigImpl::REQUEST_ID => 123, FieldConfigImpl::RESPONSE_ID => 123),
             'asdfasdfasdf');
     }
 }

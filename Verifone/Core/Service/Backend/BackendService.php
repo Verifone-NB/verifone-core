@@ -22,4 +22,6 @@ interface BackendService extends Service
     public function getUrls();
     
     public function getResponseConverter();
+    
+    public function getMatchingFields();
 }

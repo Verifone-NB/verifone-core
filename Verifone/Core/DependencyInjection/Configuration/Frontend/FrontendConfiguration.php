@@ -23,8 +23,11 @@ interface FrontendConfiguration extends Configuration
         $privateKey,
         $merchantAgreementCode,
         $software,
-        $softwareVersion
+        $softwareVersion,
+        $skipConfirmation
     );
 
     public function getRedirectUrls();
+    
+    public function getSkipConfirmation();
 }

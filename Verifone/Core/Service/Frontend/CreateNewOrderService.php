@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Frontend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Address;
@@ -38,53 +38,53 @@ final class CreateNewOrderService extends AbstractFrontendService
     public function insertPaymentInfo(PaymentInfo $paymentInfo)
     {
         parent::insertPaymentInfo($paymentInfo);
-        $this->addToStorage(FieldConfig::PAYMENT_SAVED_METHOD_ID, $paymentInfo->getSavedMethodId());
+        $this->addToStorage(FieldConfigImpl::PAYMENT_SAVED_METHOD_ID, $paymentInfo->getSavedMethodId());
 
         if ($paymentInfo->getRecurring() instanceof Recurring) {
-            $this->addToStorage(FieldConfig::PAYMENT_SAVE_METHOD, '1');
+            $this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, '1');
             $this->insertRecurring($paymentInfo->getRecurring());
         }
         else {
-            $this->addToStorage(FieldConfig::PAYMENT_SAVE_METHOD, $paymentInfo->getSaveMethod());
+            $this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, $paymentInfo->getSaveMethod());
         }
     }
     
     public function insertTransaction(Transaction $transaction)
     {
-        $this->addToStorage(FieldConfig::FRONTEND_PAYMENT_METHOD, $transaction->getMethodCode());
+        $this->addToStorage(FieldConfigImpl::FRONTEND_PAYMENT_METHOD, $transaction->getMethodCode());
     }
 
     private function insertRecurring(Recurring $recurring)
     {
-        $this->addToStorage(FieldConfig::RECURRING_PAYMENT, self::RECURRING_PAYMENT_VALUE);
-        $this->addToStorage(FieldConfig::RECURRING_SUBSCRIPTION_NAME, $recurring->getSubscriptionName());
-        $this->addToStorage(FieldConfig::RECURRING_SUBSCRIPTION_CODE, $recurring->getSubscriptionCode());
-        $this->addToStorage(FieldConfig::RECURRING_PERIOD, self::RECURRING_PERIOD_VALUE);
+        $this->addToStorage(FieldConfigImpl::RECURRING_PAYMENT, self::RECURRING_PAYMENT_VALUE);
+        $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_NAME, $recurring->getSubscriptionName());
+        $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_CODE, $recurring->getSubscriptionCode());
+        $this->addToStorage(FieldConfigImpl::RECURRING_PERIOD, self::RECURRING_PERIOD_VALUE);
     }
     
 
     public function insertOrder(Order $order)
     {
         parent::insertOrder($order);
-        $this->addToStorage(FieldConfig::ORDER_TIMESTAMP, $order->getTimestamp());
-        $this->addToStorage(FieldConfig::ORDER_NUMBER, $order->getIdentificator());
-        $this->addToStorage(FieldConfig::ORDER_TOTAL_INCL_TAX, $order->getTotalInclTax());
-        $this->addToStorage(FieldConfig::ORDER_TOTAL_EXCL_TAX, $order->getTotalExclTax());
-        $this->addToStorage(FieldConfig::ORDER_TAX_AMOUNT, $order->getTaxAmount());
-        $this->addToStorage(FieldConfig::ORDER_CURRENCY, $order->getCurrency());
+        $this->addToStorage(FieldConfigImpl::ORDER_TIMESTAMP, $order->getTimestamp());
+        $this->addToStorage(FieldConfigImpl::ORDER_NUMBER, $order->getIdentificator());
+        $this->addToStorage(FieldConfigImpl::ORDER_TOTAL_INCL_TAX, $order->getTotalInclTax());
+        $this->addToStorage(FieldConfigImpl::ORDER_TOTAL_EXCL_TAX, $order->getTotalExclTax());
+        $this->addToStorage(FieldConfigImpl::ORDER_TAX_AMOUNT, $order->getTaxAmount());
+        $this->addToStorage(FieldConfigImpl::ORDER_CURRENCY, $order->getCurrency());
         $this->addPaymentToken($order->getIdentificator());
     }
 
     public function insertProduct(Product $product)
     {
         $taxPercent = $this->calculateTaxPercent($product->getPriceInclTax(), $product->getPriceExclTax());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_NAME), $product->getName());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_UNIT_PRICE), $product->getUnitPriceExclTax());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_PRICE_INCL_TAX), $product->getPriceInclTax());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_PRICE_EXCL_TAX), $product->getPriceExclTax());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_QUANTITY), $product->getQuantity());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_DISCOUNT), $product->getDiscountPercentage());
-        $this->addToStorage($this->getWithCounter(FieldConfig::PRODUCT_TAX), $taxPercent);
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_NAME), $product->getName());
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_UNIT_PRICE), $product->getUnitPriceExclTax());
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_PRICE_INCL_TAX), $product->getPriceInclTax());
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_PRICE_EXCL_TAX), $product->getPriceExclTax());
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_QUANTITY), $product->getQuantity());
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_DISCOUNT), $product->getDiscountPercentage());
+        $this->addToStorage($this->getWithCounter(FieldConfigImpl::PRODUCT_TAX), $taxPercent);
         $this->productCounter++;
     }
 
@@ -98,12 +98,12 @@ final class CreateNewOrderService extends AbstractFrontendService
 
     private function insertAddress(Address $address)
     {
-        $this->addToStorage(FieldConfig::CUSTOMER_ADDRESS_LINE_1, $address->getLineOne());
-        $this->addToStorage(FieldConfig::CUSTOMER_ADDRESS_LINE_2, $address->getLineTwo());
-        $this->addToStorage(FieldConfig::CUSTOMER_ADDRESS_LINE_3, $address->getLineThree());
-        $this->addToStorage(FieldConfig::CUSTOMER_ADDRESS_CITY, $address->getCity());
-        $this->addToStorage(FieldConfig::CUSTOMER_ADDRESS_POSTAL, $address->getPostalCode());
-        $this->addToStorage(FieldConfig::CUSTOMER_ADDRESS_COUNTRY, $address->getCountryCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_1, $address->getLineOne());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_2, $address->getLineTwo());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_3, $address->getLineThree());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_CITY, $address->getCity());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_POSTAL, $address->getPostalCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_COUNTRY, $address->getCountryCode());
     }
 
     private function getWithCounter($key)

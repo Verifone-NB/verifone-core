@@ -51,6 +51,6 @@ class VerifoneValidationTest extends \PHPUnit_Framework_TestCase
                 $this->arrayHasKey('test2'),
                 $this->stringContains('gbbasdfga')
             );
-        $validation->validate(array('test1' => 'aaa'), array('test2' => 'aaa'), 'gbbasdfga');
+        $validation->validateResponse(array('test1' => 'aaa'), array('test2' => 'aaa'), 'gbbasdfga');
     }
 }

@@ -32,11 +32,15 @@ class VerifoneValidation implements CommonValidation
      */
     public function validate(array $requestFields, array $responseFields = array(), $publicKey = false)
     {
-        if ($publicKey !== false) {
-            $this->responseValidation->validate($requestFields, $responseFields, $publicKey);
-        }
-        else {
-            $this->fieldValidation->validateFields($requestFields);
-        }
+        $this->fieldValidation->validateFields($requestFields);
+    }
+    
+    public function validateResponse(
+        array $requestFields,
+        array $responseFields,
+        $publicKey,
+        array $matchingFieldNames = array()
+    ) {
+        $this->responseValidation->validate($requestFields, $responseFields, $publicKey, $matchingFieldNames);
     }
 }

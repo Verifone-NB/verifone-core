@@ -11,7 +11,7 @@
 namespace Verifone\Core\DependencyInjection\Validation\Response;
 
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\Exception\ResponseCheckFailedException;
 
@@ -38,16 +38,29 @@ class ResponseValidationUtilsImpl implements ResponseValidationUtils
         }
     }
     
-    public function verifySignature($responseFields, $publicKey)
+    public function matchesAll(array $requestFields, array $responseFields, array $matchingFields)
+    {
+        $this->fieldsExist($requestFields, $matchingFields);
+        $this->fieldsExist($responseFields, $matchingFields);
+        foreach ($matchingFields as $field) {
+            $this->matches(
+                $responseFields[$field],
+                $requestFields[$field],
+                $field
+            );
+        }
+    }
+    
+    public function verifySignature(array $responseFields, $publicKey)
     {
         if (!$this->cryptUtil->verifyResponseFieldsSignature($publicKey, $responseFields)) {
             throw new ResponseCheckFailedException('Verifying signature one of response failed');
         }
     }
     
-    public function checkErrorMessage($responseFields)
+    public function checkErrorMessage(array $responseFields)
     {
-        $errorMessage = FieldConfig::RESPONSE_ERROR_MESSAGE;
+        $errorMessage = FieldConfigImpl::RESPONSE_ERROR_MESSAGE;
         if (isset($responseFields[$errorMessage]) && $responseFields[$errorMessage] !== '') {
             throw new ResponseCheckFailedException(
                 'There wes error set in verifone response: ' . $responseFields[$errorMessage]

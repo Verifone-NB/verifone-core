@@ -16,6 +16,7 @@ use Verifone\Core\Storage\Storage;
 /**
  * Class HtmlConverter
  * @package Verifone\Core\Converter\Request
+ * Converts Storage object to an html form
  */
 final class HtmlConverter implements RequestConverter
 {

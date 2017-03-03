@@ -10,7 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
-use Verifone\Core\Configuration\FieldConfig;
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\Service\AbstractService;
@@ -27,6 +27,10 @@ abstract class AbstractBackendService extends AbstractService implements Backend
 {
     private $urls;
     private $responseConverter;
+    private $matchingFields = array(
+        FieldConfigImpl::OPERATION,
+        FieldConfigImpl::REQUEST_ID
+    );
 
     /**
      * AbstractBackendService constructor.
@@ -43,8 +47,8 @@ abstract class AbstractBackendService extends AbstractService implements Backend
         ResponseConverter $converter
     ) {
         parent::__construct($storage, $configuration, $crypto);
-        $this->addToStorage(FieldConfig::REQUEST_TIMESTAMP, gmdate('Y-m-d H:i:s'));
-        $this->addToStorage(FieldConfig::REQUEST_ID, strval(hexdec(uniqid())));
+        $this->addToStorage(FieldConfigImpl::REQUEST_TIMESTAMP, gmdate('Y-m-d H:i:s'));
+        $this->addToStorage(FieldConfigImpl::REQUEST_ID, strval(hexdec(uniqid())));
         $this->urls = $configuration->getUrls();
         $this->responseConverter = $converter;
     }
@@ -57,5 +61,10 @@ abstract class AbstractBackendService extends AbstractService implements Backend
     public function getResponseConverter()
     {
         return $this->responseConverter;
+    }
+    
+    public function getMatchingFields()
+    {
+        return $this->matchingFields;
     }
 }
