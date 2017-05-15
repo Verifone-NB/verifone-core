@@ -24,7 +24,8 @@ interface FrontendConfiguration extends Configuration
         $merchantAgreementCode,
         $software,
         $softwareVersion,
-        $skipConfirmation
+        $skipConfirmation,
+        $disableRsaBlinding = false
     );
 
     public function getRedirectUrls();

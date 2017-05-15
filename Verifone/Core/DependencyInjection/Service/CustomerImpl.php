@@ -25,6 +25,7 @@ class CustomerImpl implements Customer
     private $phoneNumber;
     private $email;
     private $address;
+    private $externalId;
 
     /**
      * Customer constructor.
@@ -33,14 +34,16 @@ class CustomerImpl implements Customer
      * @param $lastName string between 1 and 30 characters
      * @param $phoneNumber string between 1 and 30 characters, can be empty
      * @param $email string between 1 and 100 characters
+     * @param $externalId string between 1 and 255 characters, will be cut is too long. can be empty.
      * @param $address Address optional
      */
-    public function __construct($firstName, $lastName, $phoneNumber, $email, Address $address = null)
+    public function __construct($firstName, $lastName, $phoneNumber, $email, $externalId = '', Address $address = null)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->phoneNumber = $phoneNumber;
         $this->email = $email;
+        $this->externalId = $externalId;
         $this->address = $address;
     }
 
@@ -67,5 +70,10 @@ class CustomerImpl implements Customer
     public function getAddress()
     {
         return $this->address;
+    }
+    
+    public function getExternalId()
+    {
+        return $this->externalId;
     }
 }

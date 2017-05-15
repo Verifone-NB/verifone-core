@@ -46,11 +46,11 @@ class JsonConverterTest extends \AbstractConverterTest
     public function providerTestConvert()
     {
         return array(
-            array(array(), array(), ''),
-            array(array('field1' => 'value1'), array('field1' => 'value1'), 'aa'),
+            array(array(), array('action' => ''), ''),
+            array(array('field1' => 'value1'), array('field1' => 'value1', 'action' => 'aa'), 'aa'),
             array(
                 array('field1' => 'value1', 'field2' => 'value2'),
-                array('field1' => 'value1', 'field2' => 'value2'),
+                array('field1' => 'value1', 'field2' => 'value2', 'action' => 'POST'),
                 'POST'
             )
         );

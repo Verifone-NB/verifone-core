@@ -32,9 +32,10 @@ final class ProcessPaymentService extends AbstractBackendService
     const OPERATION_VALUE = 'process-payment';
     const RECURRING_PAYMENT_VALUE = '1';
     
+    
     private $productCounter;
+    // Fields that need to match in both request and response
     private $matchingFields = array(
-        FieldConfigImpl::PAYMENT_METHOD,
         FieldConfigImpl::ORDER_NUMBER,
         FieldConfigImpl::ORDER_TIMESTAMP,
         FieldConfigImpl::ORDER_CURRENCY,
@@ -59,7 +60,11 @@ final class ProcessPaymentService extends AbstractBackendService
         $this->addToStorage(FieldConfigImpl::PAYMENT_TIMESTAMP, gmdate('Y-m-d H:i:s'));
         $this->productCounter = 0;
     }
-    
+
+    /**
+     * @param PaymentInfo $paymentInfo
+     * Payment info of the payment
+     */
     public function insertPaymentInfo(PaymentInfo $paymentInfo)
     {
         $this->addToStorage(FieldConfigImpl::PAYMENT_LOCALE, $paymentInfo->getLocale());
@@ -71,16 +76,34 @@ final class ProcessPaymentService extends AbstractBackendService
             $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_NAME, $recurring->getSubscriptionName());
             $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_CODE, $recurring->getSubscriptionCode());
         }
+
+        if ($paymentInfo->getSaveMaskedPan() === true) {
+            $this->addToStorage(
+                FieldConfigImpl::PAYMENT_DYNAMIC_FEEDBACK,
+                FieldConfigImpl::PAYMENT_PAN_LAST_2 . ',' . FieldConfigImpl::PAYMENT_PAN_FIRST_6
+            );
+        }
     }
 
+    /**
+     * @param Customer $customer
+     * Customer info of the payment
+     */
     public function insertCustomer(Customer $customer)
     {
         $this->addToStorage(FieldConfigImpl::CUSTOMER_FIRST_NAME, $customer->getFirstName());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_LAST_NAME, $customer->getLastName());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_PHONE_NUMBER, $customer->getPhoneNumber());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_EMAIL, $customer->getEmail());
+        if ($customer->getExternalId() != '') {
+            $this->addToStorage(FieldConfigImpl::CUSTOMER_EXTERNAL_ID, $customer->getExternalId());
+        }
     }
 
+    /**
+     * @param Order $order
+     * Order info for the payment
+     */
     public function insertOrder(Order $order)
     {
         $this->addToStorage(FieldConfigImpl::ORDER_TIMESTAMP, $order->getTimestamp());
@@ -88,7 +111,11 @@ final class ProcessPaymentService extends AbstractBackendService
         $this->addToStorage(FieldConfigImpl::ORDER_CURRENCY, $order->getCurrency());
         $this->addToStorage(FieldConfigImpl::ORDER_TOTAL_INCL_TAX, $order->getTotalInclTax());
     }
-    
+
+    /**
+     * @param Product $product
+     * Adding product for the payment (multiple can be added by calling this function multiple times)
+     */
     public function insertProduct(Product $product)
     {
         $taxPercent = $this->calculateTaxPercent($product->getPriceInclTax(), $product->getPriceExclTax());
@@ -102,11 +129,18 @@ final class ProcessPaymentService extends AbstractBackendService
         $this->productCounter++;
     }
 
+    /**
+     * @param $key
+     * @return string
+     */
     private function getWithCounter($key)
     {
         return $key . $this->productCounter;
     }
-    
+
+    /**
+     * @return array of fields that need to match in both request and response
+     */
     public function getMatchingFields()
     {
         return array_merge(parent::getMatchingFields(), $this->matchingFields);

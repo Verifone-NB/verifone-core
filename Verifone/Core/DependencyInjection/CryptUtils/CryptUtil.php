@@ -18,11 +18,20 @@ namespace Verifone\Core\DependencyInjection\CryptUtils;
 interface CryptUtil
 {
     /**
+     * Generate signature using RSA with SHA1
      * @param $privateKey string contents of a private key to sign with
      * @param $fields array of fields to generate signature one from
      * @return string signature one generated from fields
      */
     public function generateSignatureOne($privateKey, $fields);
+
+    /**
+     * Generate signature using RSA with SHA512
+     * @param $privateKey string contents of a private key to sign with
+     * @param $fields array of fields to generate signature one from
+     * @return string signature one generated from fields
+     */
+    public function generateSignatureTwo($privateKey, $fields);
 
     /**
      * @param $publicKey string public key contents

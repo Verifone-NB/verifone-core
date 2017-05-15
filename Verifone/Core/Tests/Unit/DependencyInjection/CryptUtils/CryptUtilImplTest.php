@@ -88,10 +88,12 @@ class CryptUtilImplTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifySignatureValid()
     {
-        $this->mockCryptography->expects($this->once())
+        $this->mockCryptography->expects($this->exactly(2))
             ->method('verify')
             ->will($this->returnValue(true));
-        $result = $this->cryptUtils->verifyResponseFieldsSignature('aa', array('s-t-256-256_signature-one' => 'a'));
+        $result = $this->cryptUtils->verifyResponseFieldsSignature(
+            'aa', array('s-t-256-256_signature-one' => 'a', 's-t-256-256_signature-two' => 'b')
+        );
         $this->assertTrue($result);
     }
 
@@ -100,7 +102,9 @@ class CryptUtilImplTest extends \PHPUnit_Framework_TestCase
         $this->mockCryptography->expects($this->once())
             ->method('verify')
             ->will($this->returnValue(false));
-        $result = $this->cryptUtils->verifyResponseFieldsSignature('aa', array('s-t-256-256_signature-one' => 'a'));
+        $result = $this->cryptUtils->verifyResponseFieldsSignature(
+            'aa', array('s-t-256-256_signature-one' => 'a', 's-t-256-256_signature-two' => 'b'))
+        ;
         $this->assertFalse($result);
     }
 

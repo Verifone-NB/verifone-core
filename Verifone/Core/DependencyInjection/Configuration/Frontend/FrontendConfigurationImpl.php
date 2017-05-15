@@ -31,6 +31,7 @@ class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendCon
      * @param $software string between 1 and 30 characters
      * @param $softwareVersion string between 1 and 10 characters
      * @param string $skipConfirmation possible values 1 or 0. 
+     * @param bool $disableRsaBlinding defaults to false
      */
     public function __construct(
         RedirectUrls $redirectUrls,
@@ -38,9 +39,10 @@ class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendCon
         $merchantAgreementCode,
         $software,
         $softwareVersion,
-        $skipConfirmation
+        $skipConfirmation,
+        $disableRsaBlinding = false
     ) {
-        parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion);
+        parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $disableRsaBlinding);
         $this->redirectUrls = $redirectUrls;
         $this->skipConfirmation = $skipConfirmation;
     }

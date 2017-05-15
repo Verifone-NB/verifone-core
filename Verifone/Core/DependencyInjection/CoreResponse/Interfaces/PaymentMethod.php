@@ -12,9 +12,13 @@ namespace Verifone\Core\DependencyInjection\CoreResponse\Interfaces;
 
 interface PaymentMethod
 {
-    public function __construct($code, $type);
+    public function __construct($code, $type, $minLimit, $maxLimit);
 
     public function getCode();
 
     public function getType();
+    
+    public function getMinLimit();
+    
+    public function getMaxLimit();
 }

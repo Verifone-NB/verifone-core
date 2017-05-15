@@ -33,7 +33,7 @@ class TestTransport implements Transport
         return $this->data;
     }
     
-    public function request($url, $data)
+    public function post($url, $data)
     {
         $this->data = $data;
         return false;

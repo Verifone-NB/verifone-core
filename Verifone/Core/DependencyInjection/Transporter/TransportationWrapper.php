@@ -35,6 +35,13 @@ interface TransportationWrapper
     public function post($url, $data);
 
     /**
+     * Get to given url
+     * @param $url
+     * @return mixed
+     */
+    public function get($url);
+
+    /**
      * Set option to transportation
      * @param $option string option name
      * @param $value mixed option value

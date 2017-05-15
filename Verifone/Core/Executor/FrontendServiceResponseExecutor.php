@@ -15,17 +15,32 @@ use Verifone\Core\DependencyInjection\Transporter\CoreResponse;
 use Verifone\Core\DependencyInjection\Validation\CommonValidation;
 use Verifone\Core\Service\FrontendResponse\FrontendResponseService;
 
+/**
+ * Class FrontendServiceResponseExecutor
+ * @package Verifone\Core\Executor
+ * The purpose of the class is to validate and convert verifone frontend response into common format
+ */
 class FrontendServiceResponseExecutor
 {
     private $validation;
     private $converter;
 
+    /**
+     * FrontendServiceResponseExecutor constructor.
+     * @param CommonValidation $validation
+     * @param ResponseConverter $converter
+     */
     public function __construct(CommonValidation $validation, ResponseConverter $converter)
     {
         $this->validation = $validation;
         $this->converter = $converter;
     }
 
+    /**
+     * @param FrontendResponseService $service
+     * @param $publicKey
+     * @return CoreResponse
+     */
     public function executeService(FrontendResponseService $service, $publicKey)
     {
         $storage = $service->getFields();

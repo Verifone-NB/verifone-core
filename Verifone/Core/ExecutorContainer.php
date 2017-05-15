@@ -50,13 +50,16 @@ class ExecutorContainer
     const TRANSPORTATION = 'transportation.class';
     // Response converter implementation to convert response to wanted format
     const RESPONSE_CONVERTER = 'responseConversion.class';
+    // Response converter implementation to convert frontend response to wanted format
+    const FRONTEND_RESPONSE_CONVERTER = 'frontendResponseConversion.class';
     // Request converter implementation to convert the request to wanted format
     const REQUEST_CONVERTER = 'requestConversion.class';
     // Field configuration
     const FIELD_CONFIGURATION = 'fieldConfiguration.class';
+    const DISABLE_RSA_BLINDING = 'disableRsaBlinding';
 
-    const REQUEST_CONVERTER_TYPE_JSON = 'json';
-    const REQUEST_CONVERTER_TYPE_HTML = 'html';
+    const REQUEST_CONVERTER_TYPE_JSON = 'Converter\Request\JsonConverter';
+    const REQUEST_CONVERTER_TYPE_HTML = 'Converter\Request\HtmlConverter';
     const EXECUTOR_TYPE_BACKEND = 'backend';
     const EXECUTOR_TYPE_FRONTEND = 'frontend';
     const EXECUTOR_TYPE_FRONTEND_RESPONSE = 'frontendResponse';
@@ -85,6 +88,8 @@ class ExecutorContainer
      * transportation.class => Transportation logic needed for transporting with chosen wrapper. @var Transport
      * responseConversion.class => Response converter for converting the response to needed format. @var ResponseConverter
      * requestConversion.class => Request converter for converting the request to needed format. @var RequestConverter
+     * frontendResponseConversion.class => Response converter for converting the frontend response to needed format @var ResponseConverter
+     * disableRsaBlinding => true / false, defaults to false.
      */
     public function __construct(array $parameters = array())
     {
@@ -104,13 +109,8 @@ class ExecutorContainer
         $this->setDefaultParameterValue(self::RESPONSE_CONVERTER, 'Converter\Response\ArrayResponseConverter');
         $this->setDefaultParameterValue(self::REQUEST_CONVERTER, 'Converter\Request\ArrayConverter');
         $this->setDefaultParameterValue(self::FIELD_CONFIGURATION, 'Configuration\FieldConfigImpl');
-
-        if ($this->parameters[self::REQUEST_CONVERTER] == self::REQUEST_CONVERTER_TYPE_JSON) {
-            $this->parameters[self::REQUEST_CONVERTER] = 'Converter\Request\JsonConverter';
-        }
-        else if ($this->parameters[self::REQUEST_CONVERTER] == self::REQUEST_CONVERTER_TYPE_HTML) {
-            $this->parameters[self::REQUEST_CONVERTER] = 'Converter\Request\HtmlConverter';
-        }
+        $this->setDefaultParameterValue(self::FRONTEND_RESPONSE_CONVERTER, 'Converter\Response\FrontendServiceResponseConverter');
+        $this->setDefaultParameterValue(self::DISABLE_RSA_BLINDING, false);
     }
 
     /**
@@ -136,7 +136,7 @@ class ExecutorContainer
      */
     public function getExecutor($type)
     {
-        $cryptutil = $this->getCryptography();
+        $cryptutil = $this->getCryptography($this->parameters[self::DISABLE_RSA_BLINDING]);
         if ($type === self::EXECUTOR_TYPE_FRONTEND) {
             return $this->getFrontendExecutor($cryptutil);
         }
@@ -161,7 +161,7 @@ class ExecutorContainer
 
         $config = $this->getConfig();
         $validation = $this->getValidation($cryptUtil, $config, self::EXECUTOR_TYPE_FRONTEND);
-        $converter = $this->getResponseConverter();
+        $converter = $this->getResponseConverter(self::EXECUTOR_TYPE_FRONTEND_RESPONSE);
         $exec = new FrontendServiceResponseExecutor($validation, $converter);
         return self::$shared[self::EXECUTOR_TYPE_FRONTEND_RESPONSE] = $exec;
     }
@@ -179,7 +179,7 @@ class ExecutorContainer
         $config = $this->getConfig();
         $validation = $this->getValidation($cryptutil, $config, self::EXECUTOR_TYPE_BACKEND);
         $transport = $this->getTransport();
-        $converter = $this->getResponseConverter();
+        $converter = $this->getResponseConverter(self::EXECUTOR_TYPE_BACKEND);
         $exec =  new BackendServiceExecutor($validation, $cryptutil, $transport, $converter, $config);
         return self::$shared[self::EXECUTOR_TYPE_BACKEND] = $exec;
     }
@@ -198,7 +198,8 @@ class ExecutorContainer
         $config = $this->getConfig();
         $validation = $this->getValidation($cryptutil, $config, self::EXECUTOR_TYPE_FRONTEND);
         $converter = $this->getRequestConverter();
-        $exec = new FrontendServiceExecutor($validation, $converter);
+        $transport = $this->getTransport();
+        $exec = new FrontendServiceExecutor($validation, $converter, $transport);
         return self::$shared[self::EXECUTOR_TYPE_FRONTEND] = $exec;
     }
 
@@ -216,15 +217,16 @@ class ExecutorContainer
     }
 
     /**
+     * @param bool $disableRsaBlinding default to false
      * @return CryptUtil
      * @throws ExecutorCreationFailedException if class doesn't exist
      */
-    private function getCryptography()
+    private function getCryptography($disableRsaBlinding = false)
     {
         $cryptoClass = $this->getAndValidateClassName(self::CRYPTOGRAPHY);
         $cryptUtilClass = $this->getAndValidateClassName(self::CRYPTUTILS);
         $cryptography = new $cryptoClass();
-        return new $cryptUtilClass($cryptography);
+        return new $cryptUtilClass($cryptography, $disableRsaBlinding);
     }
 
     /**
@@ -240,12 +242,19 @@ class ExecutorContainer
     }
 
     /**
+     * @oaram string $type either backend or frontend response converter
      * @return ResponseConverter
      * @throws ExecutorCreationFailedException if class doesn't exist
      */
-    private function getResponseConverter()
+    private function getResponseConverter($type)
     {
-        $converterClassName = $this->getAndValidateClassName(self::RESPONSE_CONVERTER);
+        if ($type === self::EXECUTOR_TYPE_BACKEND) {
+            $converterClassName = $this->getAndValidateClassName(self::RESPONSE_CONVERTER);
+        }
+        else {
+            $converterClassName = $this->getAndValidateClassName(self::FRONTEND_RESPONSE_CONVERTER);
+        }
+
         return new $converterClassName();
     }
 

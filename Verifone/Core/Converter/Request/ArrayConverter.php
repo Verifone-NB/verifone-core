@@ -20,8 +20,9 @@ use Verifone\Core\Storage\Storage;
  * 
  * Takes in Storage containing verifone fields and returns them as an array.
  */
-final class ArrayConverter implements RequestConverter
+class ArrayConverter implements RequestConverter
 {
+    const FIELD_ACTION = 'action';
     /**
      * Converts the fields in StorageInterface into array form and returns it
      * @param Storage $storage containing fields
@@ -34,7 +35,8 @@ final class ArrayConverter implements RequestConverter
         if (!is_array($storage->getAsArray())) {
             throw new UnableToConvertFieldsException();
         }
-
-        return $storage->getAsArray();
+        $fields = $storage->getAsArray();
+        $fields[self::FIELD_ACTION] = $action;
+        return $fields;
     }
 }

@@ -22,24 +22,27 @@ class PaymentInfoImplTest extends \PHPUnit_Framework_TestCase
      * @param $locale
      * @param $saveMethod
      * @param $savedMethodId
+     * @param $saveMaskedPan
      * @param $recurring
      *
      * @dataProvider providerTestConstructHappy
      */
-    public function testConstructHappy($locale, $saveMethod, $savedMethodId, $recurring)
+    public function testConstructHappy($locale, $saveMethod, $savedMethodId, $note, $saveMaskedPan, $recurring)
     {
-        $paymentInfo = new PaymentInfoImpl($locale, $saveMethod, $savedMethodId, $recurring);
+        $paymentInfo = new PaymentInfoImpl($locale, $saveMethod, $savedMethodId, $note, $saveMaskedPan, $recurring);
         $this->assertEquals($locale, $paymentInfo->getLocale());
         $this->assertEquals($saveMethod, $paymentInfo->getSaveMethod());
         $this->assertEquals($savedMethodId, $paymentInfo->getSavedMethodId());
         $this->assertEquals($recurring, $paymentInfo->getRecurring());
+        $this->assertEquals($saveMaskedPan, $paymentInfo->getSaveMaskedPan());
+        $this->assertEquals($note, $paymentInfo->getNote());
     }
 
     public function providerTestConstructHappy()
     {
         return array(
-            array('a', 'a', 'a', null, null),
-            array('', '', '', new RecurringImpl('a', 'a')),
+            array('a', 'a', 'a', 'a', false, null),
+            array('', '', '', '', true, new RecurringImpl('a', 'a')),
         );
     }
 }

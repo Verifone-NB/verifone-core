@@ -30,13 +30,19 @@ class CryptUtilImpl implements CryptUtil
      * CryptUtilImpl constructor.
      *
      * @param Cryptography $cryptography interface to cryptography lib implementation
+     * @param bool $disableRsaBlinding whether to disable or enable rsa blinding
      */
-    public function __construct(Cryptography $cryptography)
+    public function __construct(Cryptography $cryptography, $disableRsaBlinding = false)
     {
         $this->cryptography = $cryptography;
+
+        if ($disableRsaBlinding && !defined('CRYPT_RSA_DISABLE_BLINDING')) {
+            define('CRYPT_RSA_DISABLE_BLINDING', $disableRsaBlinding);
+        }
     }
 
     /**
+     * Generate signature using RSA with SHA1
      * @param $privateKey string contents of a private key to sign with
      * @param $fields     array of fields to generate signature one from
      *
@@ -44,12 +50,29 @@ class CryptUtilImpl implements CryptUtil
      */
     public function generateSignatureOne($privateKey, $fields)
     {
-        $this->validateSignatureOneParameters($privateKey, $fields);
-        $data = $this->formatFieldsForSignature($fields);
-        $signature = $this->cryptography->sign($data, $privateKey);
-        return strtoupper(bin2hex($signature));
+        return $this->generateSignature($privateKey, $fields);
     }
 
+    /**
+     * Generate signature using RSA with SHA512
+     * @param $privateKey string contents of a private key to sign with
+     * @param $fields     array of fields to generate signature one from
+     *
+     * @return string signature one generated from fields
+     */
+    public function generateSignatureTwo($privateKey, $fields)
+    {
+        return $this->generateSignature($privateKey, $fields, 'sha512');
+    }
+    
+    private function generateSignature($privateKey, $fields, $hash = 'sha1')
+    {
+        $this->validateSignatureParameters($privateKey, $fields);
+        $data = $this->formatFieldsForSignature($fields);
+        $signature = $this->cryptography->sign($data, $privateKey, $hash);
+        return strtoupper(bin2hex($signature));
+    }
+    
     /**
      * @param $publicKey string public key contents
      * @param $fields    string data to verify signature for
@@ -60,11 +83,13 @@ class CryptUtilImpl implements CryptUtil
     {
         $this->validateVerifySignatureParameters($publicKey, $fields);
         $sigOne = $fields[self::SIG_ONE];
+        $sigTwo = $fields[self::SIG_TWO];
         unset($fields[self::SIG_ONE]);
         unset($fields[self::SIG_TWO]);
         unset($fields[self::ORDER_PHASE]);
         $data = $this->formatFieldsForSignature($fields);
-        return $this->cryptography->verify($publicKey, $data, $sigOne);
+        return $this->cryptography->verify($publicKey, $data, $sigOne)
+            && $this->cryptography->verify($publicKey, $data, $sigTwo, 'sha512');
     }
 
     /**
@@ -89,7 +114,7 @@ class CryptUtilImpl implements CryptUtil
      *
      * @throws CryptUtilException if validation failed
      */
-    private function validateSignatureOneParameters($privateKey, $fields)
+    private function validateSignatureParameters($privateKey, $fields)
     {
         if (is_array($fields) === false) {
             throw new CryptUtilException('Tried to generate signature one but parameter fields is not an array');

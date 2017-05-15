@@ -87,7 +87,7 @@ abstract class AbstractServiceTest extends \PHPUnit_Framework_TestCase
     public function getFieldsMultipleTimes()
     {
         $this->mockCrypto->expects($this->once())
-            ->method('generateSignatureOne')
+            ->method('generateSignatureTwo')
             ->will($this->returnValue(''));
 
         $this->mockConf->expects($this->once())
@@ -123,7 +123,7 @@ abstract class AbstractServiceTest extends \PHPUnit_Framework_TestCase
     public function testConstructAndGetFields()
     {
         $this->mockCrypto->expects($this->once())
-            ->method('generateSignatureOne')
+            ->method('generateSignatureTwo')
             ->will($this->returnValue(''));
 
         $this->mockConf->expects($this->once())
@@ -155,7 +155,7 @@ abstract class AbstractServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('s-f-1-36_merchant-agreement-code', $keys);
         $this->assertContains('s-f-1-10_software-version', $keys);
         $this->assertContains('s-f-1-30_software', $keys);
-        $this->assertContains('s-t-256-256_signature-one', $keys);
+        $this->assertContains('s-t-256-256_signature-two', $keys);
     }
 
     protected function checkCustomer($keys)

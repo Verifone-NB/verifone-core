@@ -47,8 +47,8 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
     public function testChangeDefaultConfigurationSad($config)
     {
         $transportImpl = new TransportImpl($this->transport);
+        $this->expectException(\TypeError::class);
         $result = $transportImpl->changeDefaultConfiguration($config);
-        $this->assertFalse($result);
     }
 
     public function providerTestChangeDefaultConfigurationSad()
@@ -63,27 +63,29 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param $config
-     *
-     * @dataProvider providerTestChangeDefaultConfigurationHappy
-     */
-    public function testChangeDefaultConfigurationHappy($config)
+    public function testChangeDefaultConfigurationHappy1()
     {
         $transportImpl = new TransportImpl($this->transport);
-        $result = $transportImpl->changeDefaultConfiguration($config);
+        $this->transport->expects($this->exactly(2))->method('setOption')
+            ->withConsecutive(
+                array($this->equalTo('jee123'), $this->equalTo('jee321')),
+                array($this->equalTo('jeer2'), $this->equalTo('jee'))
+            );
+        $result = $transportImpl->changeDefaultConfiguration(array('jee123' => 'jee321', 'jeer2' => 'jee'));
         $this->assertTrue($result);
     }
-    
-    public function providerTestChangeDefaultConfigurationHappy()
+
+    public function testChangeDefaultConfigurationHappy2()
     {
-        return array(
-            array(array('jee' => 'jee', 'jeer2' => 'jee')),
-            array(array('asdf')),
-        );
+        $transportImpl = new TransportImpl($this->transport);
+        $this->transport->expects($this->once())
+            ->method('setOption')
+            ->with($this->equalTo('0'), $this->equalTo('asdf'));
+        $result = $transportImpl->changeDefaultConfiguration(array('asdf'));
+        $this->assertTrue($result);
     }
 
-    public function testRequestTrue()
+    public function testPostTrue()
     {
         $transportImpl = new TransportImpl($this->transport);
         $response =$this->getMockBuilder('\Verifone\Core\DependencyInjection\Transporter\TransportationResponse')->getMock();
@@ -94,9 +96,25 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->will($this->returnValue($response));
 
-        $result = $transportImpl->request('http://localhost', 'data');
+        $result = $transportImpl->post('http://localhost', 'data');
         $this->assertNotFalse($result);
     }
+
+    public function testGetTrue()
+    {
+        $transportImpl = new TransportImpl($this->transport);
+        $response = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Transporter\TransportationResponse')->getMock();
+        $response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+        $this->transport->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($response));
+
+        $result = $transportImpl->get('http://localhost');
+        $this->assertNotFalse($result);
+    }
+
 
     /**
      * @param $code
@@ -104,7 +122,7 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerTestRequestWrongResponseCode
      */
-    public function testRequestWrongResponseCode($code)
+    public function testRequestPostResponseCode($code)
     {
         $transportImpl = new TransportImpl($this->transport);
         $response =$this->getMockBuilder('\Verifone\Core\DependencyInjection\Transporter\TransportationResponse')->getMock();
@@ -116,7 +134,28 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         $this->expectException(TransportationFailedException::class);
-        $transportImpl->request('http://localhost', 'data');
+        $transportImpl->post('http://localhost', 'data');
+    }
+
+    /**
+     * @param $code
+     * @throws TransportationFailedException
+     *
+     * @dataProvider providerTestRequestWrongResponseCode
+     */
+    public function testGetWrongResponseCode($code)
+    {
+        $transportImpl = new TransportImpl($this->transport);
+        $response =$this->getMockBuilder('\Verifone\Core\DependencyInjection\Transporter\TransportationResponse')->getMock();
+        $response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue($code));
+        $this->transport->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($response));
+
+        $this->expectException(TransportationFailedException::class);
+        $transportImpl->get('http://localhost');
     }
 
     public function providerTestRequestWrongResponseCode()
@@ -131,7 +170,7 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRequestFalse()
+    public function testPostFalse()
     {
         $transportImpl = new TransportImpl($this->transport);
         $this->transport->expects($this->once())
@@ -139,7 +178,18 @@ class TransportImplTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->expectException(TransportationFailedException::class);
-        $transportImpl->request('http://localhost', 'data');
+        $transportImpl->post('http://localhost', 'data');
+    }
+
+    public function testGetFalse()
+    {
+        $transportImpl = new TransportImpl($this->transport);
+        $this->transport->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue(false));
+
+        $this->expectException(TransportationFailedException::class);
+        $transportImpl->get('http://localhost');
     }
 
     public function testTransportationWrapperNull()

@@ -101,7 +101,7 @@ class AddNewCardServiceTest extends AbstractFrontendServiceTest
         $this->checkPaymentInfo($keys);
         $this->checkCustomer($keys);
         $this->checkOrder($keys);
-        $this->assertEquals(32, count($keys));
+        $this->assertEquals(33, count($keys));
     }
 }
 

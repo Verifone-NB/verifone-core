@@ -10,6 +10,7 @@
 
 namespace Verifone\Core\Service\Backend;
 
+use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\Service\Service;
 
 /**
@@ -19,9 +20,18 @@ use Verifone\Core\Service\Service;
  */
 interface BackendService extends Service
 {
+    /**
+     * @return array of urls the request is tried to send to
+     */
     public function getUrls();
-    
+
+    /**
+     * @return ResponseConverter for converting the verifone response to general response
+     */
     public function getResponseConverter();
-    
+
+    /**
+     * @return array of fields that should match in both the request and the response.
+     */
     public function getMatchingFields();
 }

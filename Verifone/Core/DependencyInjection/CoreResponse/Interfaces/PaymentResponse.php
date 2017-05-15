@@ -13,15 +13,24 @@ namespace Verifone\Core\DependencyInjection\CoreResponse\Interfaces;
 
 interface PaymentResponse
 {
-    public function __construct($orderNumber, $transactionNumber, $orderGrossAmount, $paymentMethodCode, $cancelMessage);
+    public function __construct(
+        $orderNumber,
+        $transactionNumber,
+        $orderGrossAmount,
+        $paymentMethodCode,
+        $cancelMessage,
+        Card $card = null
+    );
 
     public function getOrderNumber();
 
-    public function getTransactionNUmber();
+    public function getTransactionNumber();
 
     public function getOrderGrossAmount();
 
     public function getPaymentMethodCode();
     
     public function getCancelMessage();
+    
+    public function getCard();
 }

@@ -26,6 +26,22 @@ class LamiaHttpClientWrapper implements TransportationWrapper
         $this->client->setHeaders(array($key => $value));
     }
 
+    public function get($url)
+    {
+        try {
+            $response = $this->client->get($url);
+            $statusCode = $response->getStatusCode();
+            if (in_array($statusCode, $this->getOkResponseCodes()) !== false) {
+                return new HttpResponse(
+                    $statusCode, json_encode($response->getHeaders()) . "\r\n\r\n" . $response->getBody()
+                );
+            }
+        } catch (\Exception $e) {
+
+        }
+        return false;
+    }
+
     public function post($url, $data)
     {
         $data = $this->prepareData($data);

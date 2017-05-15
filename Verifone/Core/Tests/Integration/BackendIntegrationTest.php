@@ -65,6 +65,20 @@ class BackendIntegrationTest extends \PHPUnit_Framework_TestCase
         //$responseFields = $this->exec->executeService($service, $this->publicKey);
     }
 
+    public function testCheckAvailability()
+    {
+        $config = new BackendConfigurationImpl(
+            $this->privateKey,
+            'demo-merchant-agreement',
+            'Magento',
+            '1.9.2.2',
+            array($this->testUrl)
+        );
+
+        $service = ServiceFactory::createService($config, 'Backend\CheckAvailabilityService');
+       // $responseFields = $this->exec->executeService($service, $this->publicKey);
+    }
+
     public function testGetPaymentStatus()
     {
         $config = new BackendConfigurationImpl(

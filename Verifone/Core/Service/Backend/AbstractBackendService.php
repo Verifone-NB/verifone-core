@@ -27,6 +27,7 @@ abstract class AbstractBackendService extends AbstractService implements Backend
 {
     private $urls;
     private $responseConverter;
+    // fields that should match in both the backend request and response
     private $matchingFields = array(
         FieldConfigImpl::OPERATION,
         FieldConfigImpl::REQUEST_ID
@@ -53,16 +54,25 @@ abstract class AbstractBackendService extends AbstractService implements Backend
         $this->responseConverter = $converter;
     }
 
+    /**
+     * @return array of urls the request is tried to send to
+     */
     public function getUrls()
     {
         return $this->urls;
     }
-    
+
+    /**
+     * @return ResponseConverter for converting the verifone response to general response
+     */
     public function getResponseConverter()
     {
         return $this->responseConverter;
     }
-    
+
+    /**
+     * @return array of fields that should match in both the request and the response.
+     */
     public function getMatchingFields()
     {
         return $this->matchingFields;

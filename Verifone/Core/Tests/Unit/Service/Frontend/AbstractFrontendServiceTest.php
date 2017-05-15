@@ -26,11 +26,11 @@ abstract class AbstractFrontendServiceTest extends AbstractServiceTest
     protected function checkKeys($keys)
     {
         parent::checkKeys($keys);
-        $this->assertContains('s-f-5-128_cancel-url', $keys);
-        $this->assertContains('s-f-5-128_error-url', $keys);
-        $this->assertContains('s-f-5-128_expired-url', $keys);
-        $this->assertContains('s-f-5-128_rejected-url', $keys);
-        $this->assertContains('s-f-5-128_success-url', $keys);
+        $this->assertContains('s-f-5-256_cancel-url', $keys);
+        $this->assertContains('s-f-5-256_error-url', $keys);
+        $this->assertContains('s-f-5-256_expired-url', $keys);
+        $this->assertContains('s-f-5-256_rejected-url', $keys);
+        $this->assertContains('s-f-5-256_success-url', $keys);
         $this->assertContains('i-t-1-1_skip-confirmation-page', $keys);
     }
     

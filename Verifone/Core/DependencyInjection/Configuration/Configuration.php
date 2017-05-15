@@ -19,4 +19,6 @@ interface Configuration
     public function getSoftware();
 
     public function getSoftwareVersion();
+    
+    public function getDisableRsaBlinding();
 }

@@ -12,6 +12,7 @@ namespace Verifone\Core\Service\Backend;
 
 use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\ResponseConverter;
+use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration;
 use Verifone\Core\DependencyInjection\Configuration\Backend\GetAvailablePaymentMethodsConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\Storage\Storage;
@@ -20,27 +21,26 @@ use Verifone\Core\Storage\Storage;
  * Class GetAvailablePaymentMethodsService
  * @package Verifone\Core\Service\Backend
  * 
- * A service for getting a list of available payment methods
+ * A service for checking the availability of given interface url.
  */
-final class GetAvailablePaymentMethodsService extends AbstractBackendService
+final class CheckAvailabilityService extends AbstractBackendService
 {
-    const OPERATION_VALUE = 'list-payment-methods';
+    const OPERATION_VALUE = 'is-available';
 
     /**
-     * GetAvailablePaymentMethodsService constructor.
+     * CheckAvailabilityService constructor.
      * @param Storage $storage
-     * @param GetAvailablePaymentMethodsConfiguration $configuration
+     * @param BackendConfiguration $configuration
      * @param CryptUtil $crypto
      * @param ResponseConverter $responseConverter
      */
     public function __construct(
         Storage $storage,
-        GetAvailablePaymentMethodsConfiguration $configuration,
+        BackendConfiguration $configuration,
         CryptUtil $crypto,
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $configuration, $crypto, $responseConverter);
-        $this->addToStorage(FieldConfigImpl::CONFIG_CURRENCY, $configuration->getCurrency());
         $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
 }

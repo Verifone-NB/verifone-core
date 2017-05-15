@@ -22,10 +22,18 @@ class GetAvailablePaymentMethodsConfigurationImpl extends BackendConfigurationIm
      * @param $softwareVersion string between 1 and 10 characters
      * @param $urls array of at least 1 long
      * @param string $currency numeric between 1 and 3 characters
+     * @param bool $disableRsaBlinding whether to disable rsa blinding
      */
-    public function __construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $urls, $currency)
-    {
-        parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $urls);
+    public function __construct(
+        $privateKey,
+        $merchantAgreementCode,
+        $software,
+        $softwareVersion,
+        $urls,
+        $currency,
+        $disableRsaBlinding = false
+    ) {
+        parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $urls, $disableRsaBlinding);
         $this->currency = $currency;
     }
     

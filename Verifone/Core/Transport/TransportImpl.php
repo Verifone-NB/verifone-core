@@ -15,16 +15,20 @@ use Verifone\Core\DependencyInjection\Transporter\TransportationWrapper;
 use Verifone\Core\Exception\TransportationFailedException;
 
 /**
- * Class CurlTransport
+ * Class TransportImpl
  * @package Verifone\Core\Transport
+ * The purpose of this class is to set default validation, configuration etc around the actual transportation
+ * wrapper that is used for transporting stuff.
  */
 final class TransportImpl implements Transport
 {
     private $transport;
 
     /**
-     * CurlTransport constructor.
+     * TransportImpl constructor.
      * @param TransportationWrapper $transport
+     * Sets the default settings, timeout 30, max redirects 0, connection close and content type
+     * application/x-www-form-urlencoded.
      */
     public function __construct(TransportationWrapper $transport)
     {
@@ -36,14 +40,12 @@ final class TransportImpl implements Transport
     }
 
     /**
-     * @param $config array of options to change
+     * @param array $config of options to change, should be in mode key => value.
      * @return bool whether the change succeeded
+     * A possibility to change transportation options.
      */
-    public function changeDefaultConfiguration($config)
+    public function changeDefaultConfiguration(array $config)
     {
-        if (!is_array($config)) {
-            return false;
-        }
         foreach ($config as $key => $value) {
             $this->transport->setOption($key, $value);
         }
@@ -51,20 +53,39 @@ final class TransportImpl implements Transport
     }
 
     /**
-     * @param $url string to send the data to
-     * @param $data mixed to be sent
+     * Post given data to given destination
+     * @param string $destination to send the data to
+     * @param mixed $data to be sent
      * @return TransportationResponse containing response
      * @throws TransportationFailedException if transportation fails.
      */
-    public function request($url, $data)
+    public function post($destination, $data)
     {
-        $response = $this->transport->post($url, $data);
+        $response = $this->transport->post($destination, $data);
         if ($response === false || $response->getStatusCode() !== 200) {
-            throw new TransportationFailedException($url, $data);
+            throw new TransportationFailedException($destination, $data);
         }
         return $response;
     }
 
+    /**
+     * Get from given destination.
+     * @param string $destination
+     * @return TransportationResponse containing response
+     * @throws TransportationFailedException if transportation fails.
+     */
+    public function get($destination)
+    {
+        $response = $this->transport->get($destination);
+        if ($response === false || $response->getStatusCode() !== 200) {
+            throw new TransportationFailedException($destination, '');
+        }
+        return $response;
+    }
+
+    /**
+     * Closes the given transportation if needed.
+     */
     public function close()
     {
         $this->transport->close();

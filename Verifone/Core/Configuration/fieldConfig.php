@@ -18,7 +18,7 @@
  * min: 1, max: 10000, cut: false, optional: false, numeric: false, values: null, countable: false
  */
 return array(
-    's-f-5-128_cancel-url' => array(
+    's-f-5-256_cancel-url' => array(
         'type' => 'string',
         'min' => 5,
         'max' => 128
@@ -28,12 +28,12 @@ return array(
         'max' => 3,
         'numeric' => true
     ),
-    's-f-5-128_error-url' => array(
+    's-f-5-256_error-url' => array(
         'type' => 'string',
         'min' => 5,
         'max' => 128
     ),
-    's-f-5-128_expired-url' => array(
+    's-f-5-256_expired-url' => array(
         'type' => 'string',
         'min' => 5,
         'max' => 128
@@ -51,7 +51,7 @@ return array(
         'type' => 'string',
         'max' => 30
     ),
-    's-f-5-128_rejected-url' => array(
+    's-f-5-256_rejected-url' => array(
         'type' => 'string',
         'min' => 5,
         'max' => 128
@@ -83,7 +83,7 @@ return array(
         'max' => 10,
         'cut' => true
     ),
-    's-f-5-128_success-url' => array(
+    's-f-5-256_success-url' => array(
         'type' => 'string',
         'min' => 5,
         'max' => 128

@@ -178,7 +178,7 @@ class ArrayStorageTest extends \PHPUnit_Framework_TestCase
             ), // test non countables
             array(
                 'l-t-1-20_bi-gross-amount-444',
-                's-f-5-128_cancel-url',
+                's-f-5-256_cancel-url',
                 'i-t-1-11_bi-unit-count-0',
             ), // test both in the same
         );
@@ -188,7 +188,7 @@ class ArrayStorageTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('s-f-1-36_merchant-agreement-code'),
-            array('s-f-5-128_rejected-url'),
+            array('s-f-5-256_rejected-url'),
             array('s-t-256-256_signature-one'),
             array('s-t-1-30_bi-name-1'),
             array('i-t-1-11_bi-unit-count-4555'),

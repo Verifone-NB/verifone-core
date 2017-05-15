@@ -16,6 +16,7 @@ class ConfigurationImpl implements Configuration
     private $merchantAgreementCode;
     private $software;
     private $softwareVersion;
+    private $disableRsaBlinding;
 
 
     /**
@@ -25,13 +26,15 @@ class ConfigurationImpl implements Configuration
      * @param $merchantAgreementCode string between 1 and 36 characters
      * @param $software string between 1 and 30 characters
      * @param $softwareVersion string between 1 and 10 characters
+     * @param bool $disableRsaBlinding defaults to false
      */
-    public function __construct($privateKey, $merchantAgreementCode, $software, $softwareVersion)
+    public function __construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $disableRsaBlinding = false)
     {
         $this->privateKey = $privateKey;
         $this->merchantAgreementCode = $merchantAgreementCode;
         $this->software = $software;
         $this->softwareVersion = $softwareVersion;
+        $this->disableRsaBlinding = $disableRsaBlinding;
     }
     
     public function getPrivateKey()
@@ -52,5 +55,10 @@ class ConfigurationImpl implements Configuration
     public function getSoftwareVersion()
     {
         return $this->softwareVersion;
+    }
+    
+    public function getDisableRsaBlinding()
+    {
+        return $this->disableRsaBlinding;
     }
 }

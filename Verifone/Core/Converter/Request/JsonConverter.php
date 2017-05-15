@@ -17,10 +17,10 @@ use Verifone\Core\Storage\Storage;
  * Class ArrayConverter
  * @package Verifone\Core\Converter\Request
  */
-final class JsonConverter implements RequestConverter
+final class JsonConverter extends ArrayConverter implements RequestConverter
 {
     /**
-     * Converts the fields in StorageInterface into a html form and returns it
+     * Converts the fields in StorageInterface into a json form and returns it
      * @param Storage $storage containing fields
      * @param string $action
      * @return string json representation of fields
@@ -28,10 +28,7 @@ final class JsonConverter implements RequestConverter
      */
     public function convert(Storage $storage, $action)
     {
-        if (!is_array($storage->getAsArray())) {
-            throw new UnableToConvertFieldsException();
-        }
-
-        return json_encode($storage->getAsArray());
+        $fields = parent::convert($storage, $action);
+        return json_encode($fields);
     }
 }

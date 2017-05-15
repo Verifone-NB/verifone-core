@@ -17,7 +17,7 @@ namespace Verifone\Core\DependencyInjection\Service\Interfaces;
  */
 interface Customer
 {
-    public function __construct($firstName, $lastName, $phoneNumber, $email, Address $address);
+    public function __construct($firstName, $lastName, $phoneNumber, $email, $externalId, Address $address);
 
     public function getFirstName();
 
@@ -26,6 +26,8 @@ interface Customer
     public function getPhoneNumber();
 
     public function getEmail();
+    
+    public function getExternalId();
     
     public function getAddress();
 }

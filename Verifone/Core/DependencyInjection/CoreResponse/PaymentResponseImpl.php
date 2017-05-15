@@ -11,6 +11,7 @@
 namespace Verifone\Core\DependencyInjection\CoreResponse;
 
 
+use Verifone\Core\DependencyInjection\CoreResponse\Interfaces\Card;
 use Verifone\Core\DependencyInjection\CoreResponse\Interfaces\PaymentResponse;
 
 class PaymentResponseImpl implements PaymentResponse
@@ -20,14 +21,16 @@ class PaymentResponseImpl implements PaymentResponse
     private $orderGrossAmount;
     private $paymentMethodCode;
     private $cancelMessage;
+    private $card;
     
-    public function __construct($orderNumber, $transactionNumber, $orderGrossAmount, $paymentMethodCode, $cancelMessage)
+    public function __construct($orderNumber, $transactionNumber, $orderGrossAmount, $paymentMethodCode, $cancelMessage, Card $card = null)
     {
         $this->orderNumber = $orderNumber;
         $this->transactionNumber = $transactionNumber;
         $this->orderGrossAmount = $orderGrossAmount;
         $this->paymentMethodCode = $paymentMethodCode;
         $this->cancelMessage = $cancelMessage;
+        $this->card = $card;
     }
     
     public function getOrderNumber()
@@ -50,8 +53,13 @@ class PaymentResponseImpl implements PaymentResponse
         return $this->paymentMethodCode;
     }
     
-    public function getTransactionNUmber()
+    public function getTransactionNumber()
     {
         return $this->transactionNumber;
+    }
+
+    public function getCard()
+    {
+        return $this->card;
     }
 }

@@ -24,13 +24,15 @@ class SeclibCryptography implements Cryptography
     /**
      * @param string $data to sign with private key
      * @param string $privateKey to sign the data with
+     * @param string $hash algorithm used with the signing
      * @return string the signature
      * @throws CryptUtilException if validation of parameters failed
      */
-    public function sign($data, $privateKey)
+    public function sign($data, $privateKey, $hash = 'sha1')
     {
         $this->validateSignParameters($data, $privateKey);
         $rsa = new RSA();
+        $rsa->setHash($hash);
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
         $rsa->loadKey($privateKey);
         return $rsa->sign($data);
@@ -55,13 +57,15 @@ class SeclibCryptography implements Cryptography
      * @param string $key to verify the signature with
      * @param string $dataToVerify data to verify signature for
      * @param string $signatureData signature data as hex string
+     * @param string $hash algorithm to use, defaults to sha1
      * @return bool true if signature valid, false if invalid
      * @throws CryptUtilException if validation of parameters failed
      */
-    public function verify($key, $dataToVerify, $signatureData)
+    public function verify($key, $dataToVerify, $signatureData, $hash = 'sha1')
     {
         $this->validateVerifyParameters($key, $dataToVerify, $signatureData);
         $rsa = new RSA();
+        $rsa->setHash($hash);
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
         $rsa->loadKey($key);
         return $rsa->verify($dataToVerify, pack("H*", $signatureData));

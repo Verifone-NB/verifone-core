@@ -60,6 +60,12 @@ class CurlWrapper implements TransportationWrapper
         return $this->execRequest();
     }
 
+    public function get($url)
+    {
+        $this->setOption(CURLOPT_URL, $url);
+        return $this->execRequest();
+    }
+
     /**
      * close curl
      */

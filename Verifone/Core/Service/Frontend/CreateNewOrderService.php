@@ -22,19 +22,34 @@ use Verifone\Core\DependencyInjection\Service\Interfaces\Recurring;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Transaction;
 use Verifone\Core\Storage\Storage;
 
+/**
+ * Class CreateNewOrderService
+ * @package Verifone\Core\Service\Frontend
+ * The purpose of this class is to contain and generate request fields for creating a new order.
+ */
 final class CreateNewOrderService extends AbstractFrontendService
 {
     const RECURRING_PAYMENT_VALUE = '1';
     const RECURRING_PERIOD_VALUE = '7';
     
     private $productCounter;
-    
+
+    /**
+     * CreateNewOrderService constructor.
+     * @param Storage $storage
+     * @param FrontendConfiguration $config
+     * @param CryptUtil $crypto
+     */
     public function __construct(Storage $storage, FrontendConfiguration $config, CryptUtil $crypto)
     {
         parent::__construct($storage, $config, $crypto);
         $this->productCounter = 0;
     }
-    
+
+    /**
+     * @param PaymentInfo $paymentInfo
+     * Add payment info to order
+     */
     public function insertPaymentInfo(PaymentInfo $paymentInfo)
     {
         parent::insertPaymentInfo($paymentInfo);
@@ -47,13 +62,28 @@ final class CreateNewOrderService extends AbstractFrontendService
         else {
             $this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, $paymentInfo->getSaveMethod());
         }
+        
+        if ($paymentInfo->getSaveMaskedPan() === true) {
+            $this->addToStorage(
+                FieldConfigImpl::PAYMENT_DYNAMIC_FEEDBACK,
+                FieldConfigImpl::PAYMENT_PAN_LAST_2 . ',' . FieldConfigImpl::PAYMENT_PAN_FIRST_6
+            );
+        }
     }
-    
+
+    /**
+     * @param Transaction $transaction
+     * add transaction info to order.
+     */
     public function insertTransaction(Transaction $transaction)
     {
         $this->addToStorage(FieldConfigImpl::FRONTEND_PAYMENT_METHOD, $transaction->getMethodCode());
     }
 
+    /**
+     * @param Recurring $recurring
+     * Adds recurring payment information to order
+     */
     private function insertRecurring(Recurring $recurring)
     {
         $this->addToStorage(FieldConfigImpl::RECURRING_PAYMENT, self::RECURRING_PAYMENT_VALUE);
@@ -61,8 +91,11 @@ final class CreateNewOrderService extends AbstractFrontendService
         $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_CODE, $recurring->getSubscriptionCode());
         $this->addToStorage(FieldConfigImpl::RECURRING_PERIOD, self::RECURRING_PERIOD_VALUE);
     }
-    
 
+    /**
+     * @param Order $order
+     * Add general order information to order
+     */
     public function insertOrder(Order $order)
     {
         parent::insertOrder($order);
@@ -75,6 +108,10 @@ final class CreateNewOrderService extends AbstractFrontendService
         $this->addPaymentToken($order->getIdentificator());
     }
 
+    /**
+     * @param Product $product
+     * Add a product to order(multiple can be added)
+     */
     public function insertProduct(Product $product)
     {
         $taxPercent = $this->calculateTaxPercent($product->getPriceInclTax(), $product->getPriceExclTax());
@@ -88,6 +125,10 @@ final class CreateNewOrderService extends AbstractFrontendService
         $this->productCounter++;
     }
 
+    /**
+     * @param Customer $customer
+     * Add customer information to order
+     */
     public function insertCustomer(Customer $customer)
     {
         parent::insertCustomer($customer);
@@ -96,6 +137,10 @@ final class CreateNewOrderService extends AbstractFrontendService
         }
     }
 
+    /**
+     * @param Address $address
+     * Add address information to order
+     */
     private function insertAddress(Address $address)
     {
         $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_1, $address->getLineOne());
@@ -106,6 +151,11 @@ final class CreateNewOrderService extends AbstractFrontendService
         $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_COUNTRY, $address->getCountryCode());
     }
 
+    /**
+     * @param $key
+     * @return string
+     * Return product field key with a counter number appended to the end.
+     */
     private function getWithCounter($key)
     {
         return $key . $this->productCounter;

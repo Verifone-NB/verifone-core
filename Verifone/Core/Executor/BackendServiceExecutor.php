@@ -83,7 +83,7 @@ class BackendServiceExecutor
         }
 
         foreach ($urls as $url) {
-            $response = $this->transport->request($url, $requestFields);
+            $response = $this->transport->post($url, $requestFields);
             if ($response instanceof TransportationResponse) {
                 return $this->validateAndFormatResponse(
                     $response,

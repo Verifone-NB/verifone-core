@@ -21,9 +21,9 @@ class BackendConfigurationImpl extends ConfigurationImpl implements BackendConfi
 {
     private $urls;
     
-    public function __construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, array $urls)
+    public function __construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, array $urls, $disableRsaBlinding = false)
     {
-        parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion);
+        parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $disableRsaBlinding);
         $this->urls = $urls;
     }
     

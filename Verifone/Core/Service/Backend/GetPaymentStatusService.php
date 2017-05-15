@@ -25,27 +25,43 @@ use Verifone\Core\Storage\Storage;
 final class GetPaymentStatusService extends AbstractBackendService
 {
     const OPERATION_VALUE = 'get-payment-status';
+    // fields that should match in both request and response
     private $matchingFields = array(
         FieldConfigImpl::CONFIG_TRANSACTION,
         FieldConfigImpl::PAYMENT_METHOD
     );
 
 
-    public function __construct(Storage $storage
-        , BackendConfiguration $configuration,
+    /**
+     * GetPaymentStatusService constructor.
+     * @param Storage $storage
+     * @param BackendConfiguration $configuration
+     * @param CryptUtil $crypto
+     * @param ResponseConverter $responseConverter
+     */
+    public function __construct(
+        Storage $storage,
+        BackendConfiguration $configuration,
         CryptUtil $crypto,
         ResponseConverter $responseConverter
     ) {
         parent::__construct($storage, $configuration, $crypto, $responseConverter);
         $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
-    
+
+    /**
+     * @param Transaction $transaction
+     * Insert transaction information of the payment that's status is wanted to check
+     */
     public function insertTransaction(Transaction $transaction)
     {
         $this->addToStorage(FieldConfigImpl::PAYMENT_METHOD, $transaction->getMethodCode());
         $this->addToStorage(FieldConfigImpl::CONFIG_TRANSACTION, $transaction->getNumber());
     }
 
+    /**
+     * @return array of fields that need to match in both request and response
+     */
     public function getMatchingFields()
     {
         return array_merge(parent::getMatchingFields(), $this->matchingFields);

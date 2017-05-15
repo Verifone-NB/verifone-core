@@ -12,7 +12,7 @@ namespace Verifone\Core\DependencyInjection\CoreResponse\Interfaces;
 
 interface Card
 {
-    public function __construct($code, $id, $title, $validity);
+    public function __construct($code, $id, $title, $validity, $first6, $last2);
     
     public function getCode();
     
@@ -21,4 +21,8 @@ interface Card
     public function getTitle();
     
     public function getValidity();
+    
+    public function getFirst6();
+    
+    public function getLast2();
 }

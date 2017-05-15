@@ -18,13 +18,17 @@ class CardImpl implements Card
     private $id;
     private $title;
     private $validity;
+    private $first6;
+    private $last2;
     
-    public function __construct($code, $id, $title, $validity)
+    public function __construct($code, $id, $title, $validity, $first6 = '', $last2 = '')
     {
         $this->code = $code;
         $this->id = $id;
         $this->title = $title;
         $this->validity = $validity;
+        $this->first6 = $first6;
+        $this->last2 = $last2;
     }
     
     public function getCode()
@@ -45,5 +49,15 @@ class CardImpl implements Card
     public function getValidity()
     {
         return $this->validity;
+    }
+
+    public function getFirst6()
+    {
+        return $this->first6;
+    }
+
+    public function getLast2()
+    {
+        return $this->last2;
     }
 }

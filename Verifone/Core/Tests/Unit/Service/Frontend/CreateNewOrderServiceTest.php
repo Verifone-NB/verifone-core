@@ -68,7 +68,7 @@ class CreateNewOrderServiceTest extends AbstractFrontendServiceTest
         $this->assertContains('i-t-1-3_delivery-address-country-code', $keys);
         $this->assertContains('s-t-1-30_payment-method-code', $keys);
         $this->assertContains('l-t-1-20_saved-payment-method-id', $keys);
-        $this->assertEquals(54, count($keys));
+        $this->assertEquals(55, count($keys));
     }
 
     public function testConstructAndGetFieldsNullAddress()
@@ -106,7 +106,7 @@ class CreateNewOrderServiceTest extends AbstractFrontendServiceTest
         $this->assertContains('s-t-1-30_payment-method-code', $keys);
         $this->assertContains('l-t-1-20_saved-payment-method-id', $keys);
         $this->assertEquals($fields['i-t-1-4_bi-vat-percentage-0'], 2300);
-        $this->assertEquals(48, count($keys));
+        $this->assertEquals(49, count($keys));
     }
 
     private function doMockExpectsForConstructAndGetFields()

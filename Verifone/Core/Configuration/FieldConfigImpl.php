@@ -26,16 +26,16 @@ namespace Verifone\Core\Configuration;
  */
 class FieldConfigImpl implements FieldConfig
 {
-    const CONFIG_CANCEL_URL = 's-f-5-128_cancel-url';
+    const CONFIG_CANCEL_URL = 's-f-5-256_cancel-url';
     const CONFIG_CURRENCY = 'i-f-1-3_currency-code';
-    const CONFIG_ERROR_URL = 's-f-5-128_error-url';
-    const CONFIG_EXPIRED_URL = 's-f-5-128_expired-url';
+    const CONFIG_ERROR_URL = 's-f-5-256_error-url';
+    const CONFIG_EXPIRED_URL = 's-f-5-256_expired-url';
     const CONFIG_MERCHANT_AGREEMENT_CODE = 's-f-1-36_merchant-agreement-code';
-    const CONFIG_REJECTED_URL = 's-f-5-128_rejected-url';
+    const CONFIG_REJECTED_URL = 's-f-5-256_rejected-url';
     const CONFIG_SKIP_CONFIRMATION = 'i-t-1-1_skip-confirmation-page';
     const CONFIG_SOFTWARE = 's-f-1-30_software';
     const CONFIG_SOFTWARE_VERSION = 's-f-1-10_software-version';
-    const CONFIG_SUCCESS_URL = 's-f-5-128_success-url';
+    const CONFIG_SUCCESS_URL = 's-f-5-256_success-url';
     const CONFIG_TRANSACTION = 'l-f-1-20_transaction-number';
     const CUSTOMER_ADDRESS_LINE_1 = 's-t-1-30_delivery-address-line-one';
     const CUSTOMER_ADDRESS_LINE_2 = 's-t-1-30_delivery-address-line-two';
@@ -44,6 +44,7 @@ class FieldConfigImpl implements FieldConfig
     const CUSTOMER_ADDRESS_POSTAL = 's-t-1-30_delivery-address-postal-code';
     const CUSTOMER_ADDRESS_COUNTRY = 'i-t-1-3_delivery-address-country-code';
     const CUSTOMER_EMAIL = 's-f-1-100_buyer-email-address';
+    const CUSTOMER_EXTERNAL_ID = 's-t-1-255_buyer-external-id';
     const CUSTOMER_FIRST_NAME = 's-f-1-30_buyer-first-name';
     const CUSTOMER_LAST_NAME = 's-f-1-30_buyer-last-name';
     const CUSTOMER_PHONE_NUMBER = 's-t-1-30_buyer-phone-number';
@@ -58,6 +59,9 @@ class FieldConfigImpl implements FieldConfig
     const PAYMENT_LOCALE = 'locale-f-2-5_payment-locale';
     const PAYMENT_METHOD = 's-f-1-30_payment-method-code';
     const FRONTEND_PAYMENT_METHOD = 's-t-1-30_payment-method-code';
+    const PAYMENT_DYNAMIC_FEEDBACK = 's-t-1-1024_dynamic-feedback';
+    const PAYMENT_PAN_FIRST_6 = 'i-t-6-6_card-pan-first6';
+    const PAYMENT_PAN_LAST_2 = 'i-t-2-2_card-pan-last2';
     const PAYMENT_SAVE_METHOD = 'i-t-1-1_save-payment-method';
     const PAYMENT_SAVED_METHOD_ID = 'l-t-1-20_saved-payment-method-id';
     const PAYMENT_TIMESTAMP = 't-f-14-19_payment-timestamp';
@@ -75,12 +79,16 @@ class FieldConfigImpl implements FieldConfig
     const RECURRING_SUBSCRIPTION_CODE = 's-t-1-30_recurring-payment-subscription-code';
     const REFUND_AMOUNT = 'l-f-1-20_refund-amount';
     const REFUND_CURRENCY = 'i-f-1-3_refund-currency-code';
-    const REFUND_NOTE = 's-t-1-36_order-note';
+    const ORDER_NOTE = 's-t-1-36_order-note';
     const REQUEST_ID = 'l-f-1-20_request-id';
     const REQUEST_TIMESTAMP = 't-f-14-19_request-timestamp';
     const RESPONSE_CANCEL_REASON = 's-t-1-30_cancel-reason';
     const RESPONSE_ERROR_MESSAGE = 's-f-1-30_error-message';
     const RESPONSE_ID = 'l-f-1-20_response-id';
+    const RESPONSE_PAYMENT_METHOD_MIN = 'l-t-1-20_payment-method-min-';
+    const RESPONSE_PAYMENT_METHOD_MAX = 'l-t-1-20_payment-method-max-';
+    const RESPONSE_PAYMENT_METHOD_CODE = 's-t-1-30_payment-method-code-';
+    const RESPONSE_PAYMENT_METHOD_TYPE = 's-t-1-30_payment-method-type-';
     const SIGNATURE_ONE = 's-t-256-256_signature-one';
     const SIGNATURE_TWO = 's-t-256-256_signature-two';
     
@@ -114,6 +122,10 @@ class FieldConfigImpl implements FieldConfig
             self::CONFIG_MERCHANT_AGREEMENT_CODE => array(
                 'type' => 'string',
                 'max' => 36
+            ),
+            self::PAYMENT_DYNAMIC_FEEDBACK => array(
+                'type' => 'string',
+                'optional' => true
             ),
             self::PAYMENT_LOCALE => array(
                 'type' => 'string',
@@ -212,6 +224,12 @@ class FieldConfigImpl implements FieldConfig
                 'max' => 100,
                 'cut' => true
             ),
+            self::CUSTOMER_EXTERNAL_ID => array(
+                'type' => 'string',
+                'max' => 255,
+                'cut' => true,
+                'optional' => true
+            ),
             self::CUSTOMER_FIRST_NAME => array(
                 'type' => 'string',
                 'max' => 30,
@@ -231,7 +249,7 @@ class FieldConfigImpl implements FieldConfig
             self::INTERFACE_VERSION => array(
                 'type' => 'string',
                 'max' => 1,
-                'values' => array(3)
+                'values' => array(3, 4, 5)
             ),
             self::OPERATION => array(
                 'type' => 'string',
@@ -368,9 +386,11 @@ class FieldConfigImpl implements FieldConfig
                 'max' => 3,
                 'numeric' => true
             ),
-            self::REFUND_NOTE => array(
+            self::ORDER_NOTE => array(
                 'type' => 'string',
-                'values' => array('Refund Request')
+                'optional' => true,
+                'max' => 36,
+                'cut' => true
             ),
             self::REQUEST_ID => array(
                 'type' => 'string',

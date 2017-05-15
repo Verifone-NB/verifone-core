@@ -28,9 +28,9 @@ class GetSavedCreditCardsResponseConverter extends CoreResponseConverter
         foreach($originalFields as $integrationField => $integrationValue) {
             if (strpos($integrationField, self::METHOD_CODE) !== false) {
                 $number = substr($integrationField, strrpos($integrationField, '-') + 1);
-                $id = $originalFields[self::METHOD_ID . $number];
-                $title = $originalFields[self::METHOD_TITLE . $number];
-                $validity = $originalFields[self::EXPECTED_VALIDITY . $number];
+                $id = isset($originalFields[self::METHOD_ID . $number]) ? $originalFields[self::METHOD_ID . $number] : '';
+                $title = isset($originalFields[self::METHOD_TITLE . $number]) ? $originalFields[self::METHOD_TITLE . $number] : '';
+                $validity = isset($originalFields[self::EXPECTED_VALIDITY . $number]) ? $originalFields[self::EXPECTED_VALIDITY . $number] : '';
                 $content[] = new CardImpl($integrationValue, $id, $title, $validity);
             }
         }

@@ -16,11 +16,15 @@ class PaymentMethodImpl implements PaymentMethod
 {
     private $code;
     private $type;
+    private $minLimit;
+    private $maxLimit;
 
-    public function __construct($code, $type)
+    public function __construct($code, $type, $minLimit, $maxLimit)
     {
         $this->type = $type;
         $this->code = $code;
+        $this->minLimit = $minLimit;
+        $this->maxLimit = $maxLimit;
     }
 
     public function getCode()
@@ -31,5 +35,15 @@ class PaymentMethodImpl implements PaymentMethod
     public function getType()
     {
         return $this->type;
+    }
+
+    public function getMaxLimit()
+    {
+        return $this->maxLimit;
+    }
+
+    public function getMinLimit()
+    {
+        return $this->minLimit;
     }
 }

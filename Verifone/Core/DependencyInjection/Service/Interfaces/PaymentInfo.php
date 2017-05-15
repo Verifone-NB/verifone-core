@@ -12,7 +12,7 @@ namespace Verifone\Core\DependencyInjection\Service\Interfaces;
 
 interface PaymentInfo
 {
-    public function __construct($locale, $saveMethod, $savedMethodIdId, Recurring $recurring);
+    public function __construct($locale, $saveMethod, $savedMethodIdId, $note, $saveMaskedPan, Recurring $recurring);
     
     public function getLocale();
     
@@ -20,5 +20,9 @@ interface PaymentInfo
     
     public function getSavedMethodId();
     
+    public function getSaveMaskedPan();
+    
     public function getRecurring();
+    
+    public function getNote();
 }

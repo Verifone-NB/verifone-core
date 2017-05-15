@@ -20,6 +20,7 @@ class FrontendServiceExecutorTest extends \PHPUnit_Framework_TestCase
     private $storage;
     private $service;
     private $executor;
+    private $transport;
 
     public function setUp()
     {
@@ -27,11 +28,12 @@ class FrontendServiceExecutorTest extends \PHPUnit_Framework_TestCase
         $this->converter = $this->getMockBuilder('\Verifone\Core\Converter\Request\RequestConverter')->getMock();
         $this->storage = $this->getMockBuilder('\Verifone\Core\Storage\Storage')->getMock();
         $this->service = $this->getMockBuilder('\Verifone\Core\Service\Frontend\FrontendService')->getMock();
+        $this->transport = $this->getMockBuilder('\Verifone\Core\Transport\Transport')->getMock();
 
         $this->service->expects($this->once())
             ->method('getFields')
             ->willReturn($this->storage);
-        $this->executor = new FrontendServiceExecutor($this->validation, $this->converter);
+        $this->executor = new FrontendServiceExecutor($this->validation, $this->converter, $this->transport);
     }
 
     public function testExecute()
@@ -45,6 +47,6 @@ class FrontendServiceExecutorTest extends \PHPUnit_Framework_TestCase
         $this->converter->expects($this->once())
             ->method('convert')
             ->with($this->storage, 'asfd');
-        $this->executor->executeService($this->service, 'asfd');
+        $this->executor->executeService($this->service, array('asfd'));
     }
 }

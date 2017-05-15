@@ -19,6 +19,7 @@ use Verifone\Core\DependencyInjection\Configuration\Backend\RefundPaymentConfigu
 use Verifone\Core\DependencyInjection\Configuration\Backend\RemoveSavedCreditCardsConfigurationImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfigurationImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\RedirectUrlsImpl;
+use Verifone\Core\Service\Backend\CheckAvailabilityService;
 use Verifone\Core\Service\Backend\GetAvailablePaymentMethodsService;
 use Verifone\Core\Service\Backend\GetPaymentStatusService;
 use Verifone\Core\Service\Backend\GetSavedCreditCardsService;
@@ -45,7 +46,7 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateServiceFrontend($serviceName, $class)
     {
         $urls = new RedirectUrlsImpl('http://testi', 'http://testi', 'http://testi', 'http://testi', 'http://testi');
-        $config = new FrontendConfigurationImpl($urls, 'a', 'asdf', 'asdf', 'asdf', array('asfd'), 'aa', '');
+        $config = new FrontendConfigurationImpl($urls, 'a', 'asdf', 'asdf', 'asdf', 1, false);
         $service = ServiceFactory::createService($config, $serviceName);
         $this->assertTrue($service instanceof $class);
     }
@@ -56,6 +57,14 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
             array('Frontend\AddNewCardService', AddNewCardService::class),
             array('Frontend\CreateNewOrderService', CreateNewOrderService::class),
         );
+    }
+
+    public function testCreateServiceFrontendWithBlinding()
+    {
+        $urls = new RedirectUrlsImpl('http://testi', 'http://testi', 'http://testi', 'http://testi', 'http://testi');
+        $config = new FrontendConfigurationImpl($urls, 'a', 'asdf', 'asdf', 'asdf', 1, true);
+        $service = ServiceFactory::createService($config, 'Frontend\AddNewCardService');
+        $this->assertTrue($service instanceof AddNewCardService);
     }
 
     /**
@@ -121,6 +130,13 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $config = new BackendConfigurationImpl('a', 'asdf', 'asdf', 'asdf', array('asfd'));
         $service = ServiceFactory::createService($config, 'Backend\ProcessPaymentService');
         $this->assertTrue($service instanceof ProcessPaymentService);
+    }
+
+    public function testCreateCheckAvailabilityService()
+    {
+        $config = new BackendConfigurationImpl('a', 'asdf', 'asdf', 'asdf', array('asfd'));
+        $service = ServiceFactory::createService($config, 'Backend\CheckAvailabilityService');
+        $this->assertTrue($service instanceof CheckAvailabilityService);
     }
 
     public function testCreateServiceNullConfig()

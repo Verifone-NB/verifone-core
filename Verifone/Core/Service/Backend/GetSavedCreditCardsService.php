@@ -26,7 +26,15 @@ use Verifone\Core\Storage\Storage;
 final class GetSavedCreditCardsService extends AbstractBackendService
 {
     const OPERATION_VALUE = 'list-saved-payment-methods';
+    const INTERFACE_VERSION_VALUE = '4';
 
+    /**
+     * GetSavedCreditCardsService constructor.
+     * @param Storage $storage
+     * @param BackendConfiguration $config
+     * @param CryptUtil $crypto
+     * @param ResponseConverter $responseConverter
+     */
     public function __construct(
         Storage $storage,
         BackendConfiguration $config,
@@ -36,13 +44,24 @@ final class GetSavedCreditCardsService extends AbstractBackendService
         parent::__construct($storage, $config, $crypto, $responseConverter);
         $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
     }
-
-
+    
+    /**
+     * @param Customer $customer
+     * Insert customer information for the customer whose saved method list is requested
+     */
     public function insertCustomer(Customer $customer)
     {
         $this->addToStorage(FieldConfigImpl::CUSTOMER_FIRST_NAME, $customer->getFirstName());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_LAST_NAME, $customer->getLastName());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_PHONE_NUMBER, $customer->getPhoneNumber());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_EMAIL, $customer->getEmail());
+        if ($customer->getExternalId() != '') {
+            $this->addToStorage(FieldConfigImpl::CUSTOMER_EXTERNAL_ID, $customer->getExternalId());
+        }
+    }
+
+    protected function getInterfaceVersion()
+    {
+        return self::INTERFACE_VERSION_VALUE;
     }
 }

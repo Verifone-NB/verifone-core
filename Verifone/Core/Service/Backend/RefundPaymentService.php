@@ -28,6 +28,7 @@ final class RefundPaymentService extends AbstractBackendService
     const OPERATION_VALUE = 'refund-payment';
     const REFUND_NOTE_VALUE = 'Refund Request';
 
+    // fields that should match in both request and response
     private $matchingFields = array(
         FieldConfigImpl::CONFIG_TRANSACTION,
         FieldConfigImpl::PAYMENT_METHOD
@@ -48,9 +49,13 @@ final class RefundPaymentService extends AbstractBackendService
     ) {
         parent::__construct($storage, $config, $crypto, $responseConverter);
         $this->addToStorage(FieldConfigImpl::OPERATION, self::OPERATION_VALUE);
-        $this->addToStorage(FieldConfigImpl::REFUND_NOTE, self::REFUND_NOTE_VALUE);
+        $this->addToStorage(FieldConfigImpl::ORDER_NOTE, self::REFUND_NOTE_VALUE);
     }
 
+    /**
+     * @param Transaction $transaction
+     * Information of the transaction that is requested to be refunded
+     */
     public function insertTransaction(Transaction $transaction)
     {
         $this->addToStorage(FieldConfigImpl::PAYMENT_METHOD, $transaction->getMethodCode());
@@ -59,6 +64,9 @@ final class RefundPaymentService extends AbstractBackendService
         $this->addToStorage(FieldConfigImpl::REFUND_CURRENCY, $transaction->getRefundCurrency());
     }
 
+    /**
+     * @return array of fields that need to match in both request and response
+     */
     public function getMatchingFields()
     {
         return array_merge(parent::getMatchingFields(), $this->matchingFields);

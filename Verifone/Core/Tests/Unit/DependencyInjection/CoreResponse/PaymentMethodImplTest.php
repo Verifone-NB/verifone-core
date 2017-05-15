@@ -18,21 +18,25 @@ class PaymentMethodImplTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $type
      * @param $code
+     * @param $max
+     * @param $min
      *
      * @dataProvider providerTestConstructHappy
      */
-    public function testConstructHappy($type, $code)
+    public function testConstructHappy($type, $code, $min, $max)
     {
-        $paymentMethod = new PaymentMethodImpl($code, $type);
+        $paymentMethod = new PaymentMethodImpl($code, $type, $min, $max);
         $this->assertEquals($code, $paymentMethod->getCode());
         $this->assertEquals($type, $paymentMethod->getType());
+        $this->assertEquals($min, $paymentMethod->getMinLimit());
+        $this->assertEquals($max, $paymentMethod->getMaxLimit());
     }
 
     public function providerTestConstructHappy()
     {
         return array(
-            array('d', 'c'),
-            array('', ''),
+            array('a', 'b', 'd', 'c'),
+            array('', '', '', ''),
         );
     }
 }

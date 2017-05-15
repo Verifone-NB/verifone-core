@@ -11,11 +11,14 @@
 namespace Verifone\Core\Tests\Integration;
 
 
+use Verifone\Core\Executor\FrontendServiceExecutor;
 use Verifone\Core\ExecutorContainer;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtilImpl;
 use Verifone\Core\DependencyInjection\CryptUtils\SeclibCryptography;
 use Verifone\Core\DependencyInjection\Service\PaymentInfoImpl;
 use Verifone\Core\DependencyInjection\Transporter\CurlWrapper;
+use Verifone\Core\Service\Frontend\AddNewCardService;
+use Verifone\Core\Service\Frontend\CreateNewOrderService;
 use Verifone\Core\ServiceFactory;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\RedirectUrlsImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfigurationImpl;
@@ -31,6 +34,9 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
     private $urls;
     private $customer;
     private $order;
+    /**
+     * @var FrontendServiceExecutor $exec
+     */
     private $exec;
 
     public function setUp()
@@ -78,6 +84,9 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
             '1.9.2.2',
             '1'
         );
+        /**
+         * @var CreateNewOrderService $service
+         */
         $service = ServiceFactory::createService($config, 'Frontend\CreateNewOrderService');
 
         $product1 = new ProductImpl(
@@ -107,7 +116,7 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
         $storage = $service->getFields();
         $fields = $storage->getAsArray();
         $expectedResult = $this->getExpectedResult($expectedResult, $fields);
-        $form = $this->exec->executeService($service, 'https://epayment.test.point.fi/pw/payment');
+        $form = $this->exec->executeService($service, array('https://epayment.test.point.fi/pw/payment'));
         $this->assertEquals($expectedResult, $form);
     }
 
@@ -122,6 +131,9 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
             '1.9.2.2',
             '1'
         );
+        /**
+         * @var AddNewCardService $service
+         */
         $service = ServiceFactory::createService($config, 'Frontend\AddNewCardService');
 
         $product = new ProductImpl(
@@ -143,7 +155,7 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
         $storage = $service->getFields();
         $fields = $storage->getAsArray();
         $expectedResult = $this->getExpectedResult($expectedResult, $fields);
-        $form = $this->exec->executeService($service, 'https://epayment.test.point.fi/pw/payment');
+        $form = $this->exec->executeService($service, array('https://epayment.test.point.fi/pw/payment'));
         $this->assertEquals($expectedResult, $form);
     }
 
@@ -157,9 +169,9 @@ class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
 
     private function generateSignature($fields)
     {
-        unset($fields['s-t-256-256_signature-one']);
+        unset($fields['s-t-256-256_signature-two']);
         $cryptUtil = new CryptUtilImpl(new SeclibCryptography());
-        return $cryptUtil->generateSignatureOne($this->key, $fields);
+        return $cryptUtil->generateSignatureTwo($this->key, $fields);
     }
 
     private function getExpectedResult($expectedResult, $fields)

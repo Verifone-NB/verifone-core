@@ -65,7 +65,7 @@ final class ServiceFactory
         $storage = self::createStorage();
         $scope = self::validateConfig($serviceName, $config);
         $className = self::getAndValidateClassName(self::SERVICE_NAMESPACE, $serviceName);
-        $cryptography = self::createCrypto();
+        $cryptography = self::createCrypto($config->getDisableRsaBlinding());
         if ($scope === 'Backend') {
             $responseConverter = self::createResponseConverter($serviceName);
             return new $className($storage, $config, $cryptography, $responseConverter);
@@ -157,11 +157,12 @@ final class ServiceFactory
 
     /**
      * Creates the cryptography
+     * @param bool $disableRsaBlinding
      * @return CryptUtilImpl
      */
-    private static function createCrypto()
+    private static function createCrypto($disableRsaBlinding = false)
     {
         $cryptography = new SeclibCryptography();
-        return new CryptUtilImpl($cryptography);
+        return new CryptUtilImpl($cryptography, $disableRsaBlinding);
     }
 }

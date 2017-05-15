@@ -10,17 +10,17 @@
 
 return '<form method="POST" id="verifone_form" action="https://epayment.test.point.fi/pw/payment" target="_parent">
 Redirecting to VerifonePayment.
-<input type="hidden" name="i-f-1-11_interface-version" value="3" />
+<input type="hidden" name="i-f-1-11_interface-version" value="5" />
 <input type="hidden" name="s-f-1-36_merchant-agreement-code" value="demo-merchant-agreement" />
 <input type="hidden" name="s-f-1-30_software" value="Magento" />
 <input type="hidden" name="s-f-1-10_software-version" value="1.9.2.2" />
 <input type="hidden" name="t-f-14-19_payment-timestamp" value="' . gmdate('Y-m-d H:i:s') . '" />
 <input type="hidden" name="i-t-1-1_skip-confirmation-page" value="1" />
-<input type="hidden" name="s-f-5-128_cancel-url" value="http://www.testikauppa.fi/cancel" />
-<input type="hidden" name="s-f-5-128_error-url" value="http://www.testikauppa.fi/error" />
-<input type="hidden" name="s-f-5-128_expired-url" value="http://www.testikauppa.fi/expired" />
-<input type="hidden" name="s-f-5-128_rejected-url" value="http://www.testikauppa.fi/rejected" />
-<input type="hidden" name="s-f-5-128_success-url" value="http://www.testikauppa.fi/success" />
+<input type="hidden" name="s-f-5-256_cancel-url" value="http://www.testikauppa.fi/cancel" />
+<input type="hidden" name="s-f-5-256_error-url" value="http://www.testikauppa.fi/error" />
+<input type="hidden" name="s-f-5-256_expired-url" value="http://www.testikauppa.fi/expired" />
+<input type="hidden" name="s-f-5-256_rejected-url" value="http://www.testikauppa.fi/rejected" />
+<input type="hidden" name="s-f-5-256_success-url" value="http://www.testikauppa.fi/success" />
 <input type="hidden" name="i-t-1-1_save-payment-method" value="2" />
 <input type="hidden" name="t-f-14-19_order-timestamp" value="' . gmdate('Y-m-d H:i:s') . '" />
 <input type="hidden" name="s-f-1-36_order-number" value="addNewCard" />
@@ -40,8 +40,9 @@ Redirecting to VerifonePayment.
 <input type="hidden" name="s-t-1-30_buyer-phone-number" value="0401234567" />
 <input type="hidden" name="s-f-1-100_buyer-email-address" value="example@domain.fi" />
 <input type="hidden" name="locale-f-2-5_payment-locale" value="fi_FI" />
+<input type="hidden" name="s-t-1-36_order-note" value="" />
 <input type="hidden" name="i-f-1-3_order-currency-code" value="978" />
-<input type="hidden" name="s-t-256-256_signature-one" value="placeholder_sig_one" />
+<input type="hidden" name="s-t-256-256_signature-two" value="placeholder_sig_one" />
 <br>
 <script type="text/javascript">document.getElementById("verifone_form").submit();</script>
 </form>';

@@ -16,6 +16,11 @@ use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Order;
 use Verifone\Core\Storage\Storage;
 
+/**
+ * Class AddNewCardService
+ * @package Verifone\Core\Service\Frontend
+ * The purpose of this class is to contain and generate request fields for adding a new card.
+ */
 final class AddNewCardService extends AbstractFrontendService
 {
     const PRODUCT_NAME_VALUE = 'fake product';
@@ -26,6 +31,12 @@ final class AddNewCardService extends AbstractFrontendService
     const ORDER_NUMBER_VALUE = 'addNewCard';
     const SAVE_PAYMENT_METHOD_VALUE = '2';
 
+    /**
+     * AddNewCardService constructor.
+     * @param Storage $storage
+     * @param FrontendConfiguration $frontEndConfiguration
+     * @param CryptUtil $crypto
+     */
     public function __construct(Storage $storage, FrontendConfiguration $frontEndConfiguration, CryptUtil $crypto)
     {
         parent::__construct($storage, $frontEndConfiguration, $crypto);
@@ -33,17 +44,27 @@ final class AddNewCardService extends AbstractFrontendService
         $this->insertFakeOrder();
         $this->insertFakeProduct();
     }
-    
+
+    /**
+     * @param Order $order
+     * Only currency is really needed.
+     */
     public function insertOrder(Order $order)
     {
         $this->addToStorage(FieldConfigImpl::ORDER_CURRENCY, $order->getCurrency());
     }
-    
+
+    /**
+     * Insert fake payment info, since this request is only made to save the credit card.
+     */
     private function insertFakePaymentInfo()
     {
         $this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, self::SAVE_PAYMENT_METHOD_VALUE);
     }
 
+    /**
+     * Insert fake order information, since this request is only made to save the credit card.
+     */
     private function insertFakeOrder()
     {
         $this->addToStorage(FieldConfigImpl::ORDER_TIMESTAMP, gmdate('Y-m-d H:i:s'));
@@ -54,6 +75,9 @@ final class AddNewCardService extends AbstractFrontendService
         $this->addPaymentToken(self::ORDER_NUMBER_VALUE);
     }
 
+    /**
+     * Insert fake values for the product, since this request is only done to save the credit card
+     */
     private function insertFakeProduct()
     {
         $this->addToStorage(FieldConfigImpl::PRODUCT_NAME . '0', self::PRODUCT_NAME_VALUE);

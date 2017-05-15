@@ -10,8 +10,15 @@
 
 namespace Verifone\Core\Configuration;
 
-
+/**
+ * Interface FieldConfig
+ * @package Verifone\Core\Configuration
+ * The purpose of this class is to return the configuration of the verifone fields
+ */
 interface FieldConfig
 {
+    /**
+     * @return array of verifone field configuration
+     */
     public function getConfig();
 }

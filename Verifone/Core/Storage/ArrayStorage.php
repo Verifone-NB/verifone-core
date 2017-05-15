@@ -77,13 +77,18 @@ final class ArrayStorage implements Storage
     {
         return $this->storage;
     }
-    
+
     public function isValidUncountableKey($key)
     {
         return $this->isCorrectlyDefined($key) && (!isset($this->possibleKeySpace[$key][self::CONF_COUNTABLE])
             || $this->possibleKeySpace[$key][self::CONF_COUNTABLE] === false);
     }
 
+    /**
+     * Whether the key is a valid countable key with a number as suffix, that is, of mode example-key-1
+     * @param string $key
+     * @return bool true if is valid countable key, false if not
+     */
     private function isValidCountableKey($key)
     {
         $number = $this->getNumberFromCountableKey($key);
@@ -95,10 +100,21 @@ final class ArrayStorage implements Storage
             && $this->possibleKeySpace[$key][self::CONF_COUNTABLE];
     }
 
+    /**
+     * Whether the key has a valid configuration in possible keyspace
+     * @param string $key
+     * @return bool
+     */
     private function isCorrectlyDefined($key) {
         return isset($this->possibleKeySpace[$key]) && is_array($this->possibleKeySpace[$key]);
     }
 
+    /**
+     * Validate that the key exists in the possible keyspace
+     * @param string $key to validate
+     * @param string $value only needed for exception information
+     * @throws StorageKeyNotInKeyspaceException if key was not in possible keyspace
+     */
     private function validateKey($key, $value)
     {
         // if key is found as itself, return true
@@ -114,11 +130,21 @@ final class ArrayStorage implements Storage
         throw new StorageKeyNotInKeyspaceException($key, $value);
     }
 
+    /**
+     * Get the number at the end of the key.
+     * @param string $key
+     * @return string
+     */
     private function getNumberFromCountableKey($key)
     {
         return substr($key, strrpos($key, '-') + 1);
     }
 
+    /**
+     * Get the key of type key-name-x-1 in mode key-name-x-. That is, get everything else than the last number.
+     * @param string $key
+     * @return string
+     */
     private function getCountableKeyWithoutNumber($key)
     {
         return substr($key, 0, strrpos($key, '-') + 1);

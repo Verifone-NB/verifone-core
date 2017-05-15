@@ -77,7 +77,7 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
             ->method('getUrls')
             ->willReturn(array(true));
         $this->transport->expects($this->once())
-            ->method('request')
+            ->method('post')
             ->will($this->throwException(new TransportationFailedException('', '')));
 
         $this->expectException(TransportationFailedException::class);
@@ -96,7 +96,7 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
             ->method('getUrls')
             ->willReturn(array());
 
-        $this->transport->expects($this->never())->method('request');
+        $this->transport->expects($this->never())->method('post');
 
         $this->expectException(ResponseCheckFailedException::class);
         $this->executor->executeService($this->service, 'test');

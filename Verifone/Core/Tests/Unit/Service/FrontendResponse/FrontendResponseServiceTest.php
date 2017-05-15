@@ -11,6 +11,7 @@
 namespace Verifone\Core\Tests\Unit\Service\FrontendResponse;
 
 
+use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Service\FrontendResponse\FrontendResponseServiceImpl;
 use Verifone\Core\Tests\Unit\Service\TestStorage;
 
@@ -45,6 +46,28 @@ class FrontendResponseServiceTest extends \PHPUnit_Framework_TestCase
         $keys = array_keys($fields);
         $this->checkOrder($keys);
         $this->assertEquals(4, count($keys));
+    }
+
+    public function testGetOrderNumber()
+    {
+        $result = '123456';
+        $service = new FrontendResponseServiceImpl($this->mockStorage, array(FieldConfigImpl::ORDER_NUMBER => $result));
+        $orderNumber = $service->getOrderNumber();
+        $this->assertEquals($orderNumber, $result);
+    }
+
+    public function testGetOrderNumberSad()
+    {
+        $service = new FrontendResponseServiceImpl($this->mockStorage, array());
+        $orderNumber = $service->getOrderNumber();
+        $this->assertNull($orderNumber);
+    }
+
+    public function testGetResponse()
+    {
+        $service = new FrontendResponseServiceImpl($this->mockStorage, array('aa' => 'bb'));
+        $response = $service->getResponse();
+        $this->assertEquals($response, array('aa' => 'bb'));
     }
 
     protected function checkOrder($keys)
