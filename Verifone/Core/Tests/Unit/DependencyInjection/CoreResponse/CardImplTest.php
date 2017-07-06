@@ -11,8 +11,9 @@
 namespace Verifone\Core\Tests\Unit\DependecyInjection\CoreResponse;
 
 use Verifone\Core\DependencyInjection\CoreResponse\CardImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class CardImplTest extends \PHPUnit_Framework_TestCase
+class CardImplTest extends VerifoneTest
 {
     /**
      * @param $code

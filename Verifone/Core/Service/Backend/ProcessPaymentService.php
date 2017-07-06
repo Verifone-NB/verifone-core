@@ -31,6 +31,7 @@ final class ProcessPaymentService extends AbstractBackendService
 {
     const OPERATION_VALUE = 'process-payment';
     const RECURRING_PAYMENT_VALUE = '1';
+    const INTERFACE_VERSION_VALUE = '5';
     
     
     private $productCounter;
@@ -144,5 +145,10 @@ final class ProcessPaymentService extends AbstractBackendService
     public function getMatchingFields()
     {
         return array_merge(parent::getMatchingFields(), $this->matchingFields);
+    }
+
+    protected function getInterfaceVersion()
+    {
+        return self::INTERFACE_VERSION_VALUE;
     }
 }

@@ -21,6 +21,7 @@ use Verifone\Core\Converter\Response\ResponseConverter;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\DependencyInjection\Transporter\CoreResponse;
 use Verifone\Core\DependencyInjection\Transporter\TransportationResponse;
+use Verifone\Core\DependencyInjection\Utils\Cutter;
 use Verifone\Core\DependencyInjection\Validation\CommonValidation;
 use Verifone\Core\DependencyInjection\Validation\Response\ResponseValidation;
 use Verifone\Core\Exception\ResponseCheckFailedException;
@@ -39,7 +40,7 @@ class BackendServiceExecutor
     private $cryptUtil;
     private $validation;
     private $converter;
-    private $fieldConfig;
+    private $cutter;
     private $serviceResponseConverter;
 
     /**
@@ -48,20 +49,20 @@ class BackendServiceExecutor
      * @param CryptUtil $cryptUtil
      * @param Transport $transport
      * @param ResponseConverter $converter
-     * @param FieldConfig $config
+     * @param Cutter $cutter
      */
     public function __construct(
         CommonValidation $validation,
         CryptUtil $cryptUtil,
         Transport $transport,
         ResponseConverter $converter,
-        FieldConfig $config
+        Cutter $cutter
     ) {
         $this->transport = $transport;
         $this->cryptUtil = $cryptUtil;
         $this->validation = $validation;
         $this->converter = $converter;
-        $this->fieldConfig = $config->getConfig();
+        $this->cutter = $cutter;
     }
 
     /**
@@ -76,7 +77,7 @@ class BackendServiceExecutor
         $this->serviceResponseConverter = $service->getResponseConverter();
         $urls = $service->getUrls();
         $requestFields = $service->getFields()->getAsArray();
-        $requestFields = $this->cutFields($requestFields);
+        $requestFields = $this->cutter->cutFields($requestFields);
         $this->validation->validate($requestFields);
         if (!is_array($urls)) {
             throw new FieldValidationFailedException('urls', 'should be array');
@@ -114,25 +115,5 @@ class BackendServiceExecutor
         $responseFields = $this->converter->convert($response);
         $this->validation->validateResponse($requestFields, $responseFields, $publicKey, $matchingFields);
         return $this->serviceResponseConverter->convert(new CoreResponse(0, $responseFields));
-    }
-
-    /**
-     * Temporary function...
-     * @param array $fields
-     * @return array of fields
-     */
-    private function cutFields(array $fields)
-    {
-        foreach ($fields as $name => $value) {
-            if (!isset($this->fieldConfig[$name])) {
-                continue;
-            }
-            $constraints = $this->fieldConfig[$name];
-            if (isset($constraints['cut']) && $constraints['cut'] === true
-                && isset($constraints['max']) && is_int($constraints['max'])) {
-                $fields[$name] =  substr($value, 0, $constraints['max']);
-            }
-        }
-        return $fields;
     }
 }

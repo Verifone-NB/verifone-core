@@ -11,13 +11,14 @@
 namespace Verifone\Core\Tests\Unit\Exception;
 
 use Verifone\Core\Exception\TransportationFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class CurlFailedExceptionTest
  * @package Verifone\Core\Tests\Exception
  * @codeCoverageIgnore
  */
-class TransportationFailedExceptionTest extends \PHPUnit_Framework_TestCase
+class TransportationFailedExceptionTest extends VerifoneTest
 {
     /**
      * @param $message

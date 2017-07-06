@@ -11,13 +11,14 @@
 namespace Verifone\Core\Tests\Unit\Exception;
 
 use Verifone\Core\Exception\StorageValueOverwriteException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class StorageValueOverWriteExceptionTest
  * @package Verifone\Core\Tests\Exception
  * @codeCoverageIgnore
  */
-class StorageValueOverWriteExceptionTest extends \PHPUnit_Framework_TestCase
+class StorageValueOverWriteExceptionTest extends VerifoneTest
 {
     /**
      * @param $key

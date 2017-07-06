@@ -11,8 +11,9 @@
 namespace Verifone\Core\Tests\Unit\DependecyInjection\CoreResponse;
 
 use Verifone\Core\DependencyInjection\CoreResponse\PaymentResponseImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class PaymentResponseImplTest extends \PHPUnit_Framework_TestCase
+class PaymentResponseImplTest extends VerifoneTest
 {
     /**
      * @param $orderNumber

@@ -25,8 +25,9 @@ use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfigurati
 use Verifone\Core\DependencyInjection\Service\CustomerImpl;
 use Verifone\Core\DependencyInjection\Service\ProductImpl;
 use Verifone\Core\DependencyInjection\Service\OrderImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class FrontendIntegrationTest extends \PHPUnit_Framework_TestCase
+class FrontendIntegrationTest extends VerifoneTest
 {
     private $testUrl;
     private $curl;

@@ -14,8 +14,9 @@ namespace Verifone\Core\Tests\Unit\DependencyInjection\CryptUtils;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtilImpl;
 use \TypeError;
 use Verifone\Core\Exception\CryptUtilException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class CryptUtilImplTest extends \PHPUnit_Framework_TestCase
+class CryptUtilImplTest extends VerifoneTest
 {
     private $cryptUtils;
     private $mockCryptography;

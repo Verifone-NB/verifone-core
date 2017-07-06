@@ -12,8 +12,9 @@ namespace Verifone\Core\Tests\Unit\Executor;
 
 
 use Verifone\Core\Executor\FrontendServiceResponseExecutor;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class FrontendResponseServiceExecutorTest extends \PHPUnit_Framework_TestCase
+class FrontendResponseServiceExecutorTest extends VerifoneTest
 {
     private $validation;
     private $converter;

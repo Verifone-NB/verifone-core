@@ -12,8 +12,9 @@ namespace Verifone\Core\Tests\Unit\DependencyInjection\Transporter;
 
 use Lamia\Validation\Exception\FieldValidationFailedException;
 use Verifone\Core\DependencyInjection\Transporter\HttpResponse;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class HttpResponseTest extends \PHPUnit_Framework_TestCase
+class HttpResponseTest extends VerifoneTest
 {
     /**
      * @param $statusCode

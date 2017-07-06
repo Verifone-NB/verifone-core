@@ -12,13 +12,14 @@ namespace Verifone\Core\Tests\Unit\Exception;
 
 
 use Verifone\Core\Exception\UnableToConvertFieldsException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class UnableToConvertFieldsExceptionTest
  * @package Verifone\Core\Tests\Exception
  * @codeCoverageIgnore
  */
-class UnableToConvertFieldsExceptionTest extends \PHPUnit_Framework_TestCase
+class UnableToConvertFieldsExceptionTest extends VerifoneTest
 {
     public function testConstructMessageWithoutParameter()
     {

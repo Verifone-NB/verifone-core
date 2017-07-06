@@ -12,12 +12,13 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Service;
 
 use Verifone\Core\DependencyInjection\Service\CustomerImpl;
 use Verifone\Core\DependencyInjection\Service\AddressImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class CustomerImplTest
  * @package Verifone\Core\Tests\DependecyInjection\Service
  */
-class CustomerImplTest extends \PHPUnit_Framework_TestCase
+class CustomerImplTest extends VerifoneTest
 {
     /**
      * @param $firstName

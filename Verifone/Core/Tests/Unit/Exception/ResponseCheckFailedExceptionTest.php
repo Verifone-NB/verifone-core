@@ -11,13 +11,14 @@
 namespace Verifone\Core\Tests\Unit\Exception;
 
 use Verifone\Core\Exception\ResponseCheckFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class FieldValidationFailedExceptionTest
  * @package Verifone\Core\Tests\Exception
  * @codeCoverageIgnore
  */
-class ResponseCheckFailedExceptionTest extends \PHPUnit_Framework_TestCase
+class ResponseCheckFailedExceptionTest extends VerifoneTest
 {
     /**
      * @param $message

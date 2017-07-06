@@ -14,8 +14,9 @@ namespace Verifone\Core\Tests\Unit\Service\FrontendResponse;
 use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Service\FrontendResponse\FrontendResponseServiceImpl;
 use Verifone\Core\Tests\Unit\Service\TestStorage;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class FrontendResponseServiceTest extends \PHPUnit_Framework_TestCase
+class FrontendResponseServiceTest extends VerifoneTest
 {
     private $mockStorage;
     private $mockOrder;

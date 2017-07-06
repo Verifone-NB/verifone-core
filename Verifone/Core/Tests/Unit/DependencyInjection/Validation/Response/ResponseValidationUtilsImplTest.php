@@ -14,8 +14,9 @@ namespace Verifone\Core\Tests\Unit\DependencyInjection\Validation\Response;
 use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Validation\Response\ResponseValidationUtilsImpl;
 use Verifone\Core\Exception\ResponseCheckFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class ResponseValidationUtilsImplTest extends \PHPUnit_Framework_TestCase
+class ResponseValidationUtilsImplTest extends VerifoneTest
 {
     private $cryptUtil;
 

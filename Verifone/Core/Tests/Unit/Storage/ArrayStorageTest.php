@@ -13,13 +13,14 @@ namespace Verifone\Core\Tests\Unit\Storage;
 use Verifone\Core\Storage\ArrayStorage;
 use Verifone\Core\Exception\StorageValueOverwriteException;
 use Verifone\Core\Exception\StorageKeyNotInKeyspaceException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class ArrayStorageTest
  * @package Verifone\Core\Tests\Storage
  * @codeCoverageIgnore
  */
-class ArrayStorageTest extends \PHPUnit_Framework_TestCase
+class ArrayStorageTest extends VerifoneTest
 {
     protected $arrayStorage;
 

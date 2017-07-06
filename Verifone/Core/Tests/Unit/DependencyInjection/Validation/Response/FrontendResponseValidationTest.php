@@ -13,8 +13,9 @@ namespace Verifone\Core\Tests\Unit\DependencyInjection\Validation\Response;
 
 use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Validation\Response\FrontendResponseValidation;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class FrontendResponseValidationTest extends \PHPUnit_Framework_TestCase
+class FrontendResponseValidationTest extends VerifoneTest
 {
     private $utils;
 

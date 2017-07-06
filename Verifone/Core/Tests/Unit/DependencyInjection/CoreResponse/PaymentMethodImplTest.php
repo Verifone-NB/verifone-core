@@ -12,8 +12,9 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\CoreResponse;
 
 
 use Verifone\Core\DependencyInjection\CoreResponse\PaymentMethodImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class PaymentMethodImplTest extends \PHPUnit_Framework_TestCase
+class PaymentMethodImplTest extends VerifoneTest
 {
     /**
      * @param $type

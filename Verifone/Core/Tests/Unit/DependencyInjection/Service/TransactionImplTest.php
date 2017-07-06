@@ -14,8 +14,9 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Service;
 use Verifone\Core\DependencyInjection\Service\PaymentInfoImpl;
 use Verifone\Core\DependencyInjection\Service\RecurringImpl;
 use Verifone\Core\DependencyInjection\Service\TransactionImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class TransactionImplTest extends \PHPUnit_Framework_TestCase
+class TransactionImplTest extends VerifoneTest
 {
 
     /**

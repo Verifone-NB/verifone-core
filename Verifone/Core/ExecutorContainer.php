@@ -56,6 +56,9 @@ class ExecutorContainer
     const REQUEST_CONVERTER = 'requestConversion.class';
     // Field configuration
     const FIELD_CONFIGURATION = 'fieldConfiguration.class';
+    // Cutter
+    const FIELD_CUTTER = 'cutter.class';
+
     const DISABLE_RSA_BLINDING = 'disableRsaBlinding';
 
     const REQUEST_CONVERTER_TYPE_JSON = 'Converter\Request\JsonConverter';
@@ -110,6 +113,7 @@ class ExecutorContainer
         $this->setDefaultParameterValue(self::REQUEST_CONVERTER, 'Converter\Request\ArrayConverter');
         $this->setDefaultParameterValue(self::FIELD_CONFIGURATION, 'Configuration\FieldConfigImpl');
         $this->setDefaultParameterValue(self::FRONTEND_RESPONSE_CONVERTER, 'Converter\Response\FrontendServiceResponseConverter');
+        $this->setDefaultParameterValue(self::FIELD_CUTTER, 'DependencyInjection\Utils\FieldCutter');
         $this->setDefaultParameterValue(self::DISABLE_RSA_BLINDING, false);
     }
 
@@ -180,7 +184,8 @@ class ExecutorContainer
         $validation = $this->getValidation($cryptutil, $config, self::EXECUTOR_TYPE_BACKEND);
         $transport = $this->getTransport();
         $converter = $this->getResponseConverter(self::EXECUTOR_TYPE_BACKEND);
-        $exec =  new BackendServiceExecutor($validation, $cryptutil, $transport, $converter, $config);
+        $cutter = $this->getCutter($config);
+        $exec =  new BackendServiceExecutor($validation, $cryptutil, $transport, $converter, $cutter);
         return self::$shared[self::EXECUTOR_TYPE_BACKEND] = $exec;
     }
 
@@ -199,7 +204,8 @@ class ExecutorContainer
         $validation = $this->getValidation($cryptutil, $config, self::EXECUTOR_TYPE_FRONTEND);
         $converter = $this->getRequestConverter();
         $transport = $this->getTransport();
-        $exec = new FrontendServiceExecutor($validation, $converter, $transport);
+        $cutter = $this->getCutter($config);
+        $exec = new FrontendServiceExecutor($validation, $converter, $transport, $cutter);
         return self::$shared[self::EXECUTOR_TYPE_FRONTEND] = $exec;
     }
 
@@ -276,6 +282,12 @@ class ExecutorContainer
     {
         $className = $this->getAndValidateClassName(self::FIELD_CONFIGURATION);
         return new $className();
+    }
+
+    private function getCutter(FieldConfig $config)
+    {
+        $className = $this->getAndValidateClassName(self::FIELD_CUTTER);
+        return new $className($config);
     }
 
     /**

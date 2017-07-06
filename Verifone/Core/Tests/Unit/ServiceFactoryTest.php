@@ -38,7 +38,7 @@ use Verifone\Core\Exception\ServiceCreationFailedException;
  * @package Verifone\Core\Tests\Unit
  * @codeCoverageIgnore
  */
-class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
+class ServiceFactoryTest extends VerifoneTest
 {
     /**
      * @dataProvider providerTestCreateServiceFrontend

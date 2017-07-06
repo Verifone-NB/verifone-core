@@ -12,8 +12,9 @@ namespace Verifone\Core\Tests\Unit\Service;
 
 use \TypeError;
 use Verifone\Core\Tests\Unit\Service\TestStorage;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-abstract class AbstractServiceTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractServiceTest extends VerifoneTest
 {
     protected $mockStorage;
     protected $mockConf;

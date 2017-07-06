@@ -12,8 +12,9 @@ namespace Verifone\Core\Tests\Unit\Converter\Response;
 
 
 use Verifone\Core\Converter\Response\ArrayResponseConverter;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class ArrayResponseConverterTest extends \PHPUnit_Framework_TestCase
+class ArrayResponseConverterTest extends VerifoneTest
 {
     private $mockResponse;
     private $converter;

@@ -11,6 +11,7 @@
 namespace Verifone\Core\Executor;
 
 use Verifone\Core\Converter\Request\RequestConverter;
+use Verifone\Core\DependencyInjection\Utils\Cutter;
 use Verifone\Core\DependencyInjection\Validation\CommonValidation;
 use Verifone\Core\Exception\NoAvailableUrlException;
 use Verifone\Core\Service\Frontend\FrontendService;
@@ -26,18 +27,25 @@ class FrontendServiceExecutor
     private $validation;
     private $converter;
     private $transport;
+    private $cutter;
 
     /**
      * FrontendServiceExecutor constructor.
      * @param CommonValidation $validation
      * @param RequestConverter $converter
      * @param Transport $transport
+     * @param Cutter $cutter
      */
-    public function __construct(CommonValidation $validation, RequestConverter $converter, Transport $transport)
-    {
+    public function __construct(
+        CommonValidation $validation,
+        RequestConverter $converter,
+        Transport $transport,
+        Cutter $cutter
+    ) {
         $this->validation = $validation;
         $this->converter = $converter;
         $this->transport = $transport;
+        $this->cutter = $cutter;
     }
 
     /**
@@ -50,7 +58,9 @@ class FrontendServiceExecutor
     {
         $actionUrl = $this->resolveActionUrl($actionUrls, $checkUrlAvailability);
         $storage = $service->getFields();
-        $this->validation->validate($storage->getAsArray());
+        $requestFields = $storage->getAsArray();
+        $requestFields = $this->cutter->cutFields($requestFields);
+        $this->validation->validate($requestFields);
         return $this->converter->convert($storage, $actionUrl);
     }
 

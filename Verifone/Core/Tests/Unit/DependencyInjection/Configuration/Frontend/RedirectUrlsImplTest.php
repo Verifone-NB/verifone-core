@@ -13,13 +13,14 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Configuration\Frontend;
 
 use Verifone\Core\DependencyInjection\Configuration\Frontend\RedirectUrlsImpl;
 use Verifone\Core\Exception\FieldValidationFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class RedirectUrlsImplTest
  * @package Verifone\Core\Tests\DependecyInjection\Configuration
  * @codeCoverageIgnore
  */
-class RedirectUrlsImplTest extends \PHPUnit_Framework_TestCase
+class RedirectUrlsImplTest extends VerifoneTest
 {
     /**
      * @param $success

@@ -13,8 +13,9 @@ namespace Verifone\Core\Tests\Unit\DependencyInjection\CryptUtils;
 
 use Verifone\Core\DependencyInjection\CryptUtils\SeclibCryptography;
 use Verifone\Core\Exception\CryptUtilException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class SeclibCrypotographyTest extends \PHPUnit_Framework_TestCase
+class SeclibCrypotographyTest extends VerifoneTest
 {
     /**
      * @param $privateKey

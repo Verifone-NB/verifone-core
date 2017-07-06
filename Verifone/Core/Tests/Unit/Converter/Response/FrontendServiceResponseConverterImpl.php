@@ -14,8 +14,9 @@ namespace Verifone\Core\Tests\Unit\Converter\Response;
 use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\Converter\Response\FrontendServiceResponseConverter;
 use Verifone\Core\DependencyInjection\Transporter\CoreResponse;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class FrontendServiceResponseConverterImpl extends \PHPUnit_Framework_TestCase
+class FrontendServiceResponseConverterImpl extends VerifoneTest
 {
     public function testConvert()
     {

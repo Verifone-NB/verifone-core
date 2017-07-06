@@ -12,13 +12,14 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Service;
 
 use Verifone\Core\DependencyInjection\Service\ProductImpl;
 use Verifone\Core\Exception\FieldValidationFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class ProductImplTest
  * @package Verifone\Core\Tests\DependecyInjection\Service
  * @codeCoverageIgnore
  */
-class ProductImplTest extends \PHPUnit_Framework_TestCase
+class ProductImplTest extends VerifoneTest
 {
     /**
      * @param $name

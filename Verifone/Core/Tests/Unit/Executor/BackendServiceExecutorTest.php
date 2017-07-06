@@ -14,8 +14,9 @@ use Lamia\Validation\Exception\FieldValidationFailedException;
 use Verifone\Core\Exception\ResponseCheckFailedException;
 use Verifone\Core\Executor\BackendServiceExecutor;
 use Verifone\Core\Exception\TransportationFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
+class BackendServiceExecutorTest extends VerifoneTest
 {
     private $service;
     private $storage;
@@ -24,7 +25,7 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
     private $validation;
     private $crypto;
     private $converter;
-    private $config;
+    private $cutter;
 
     public function setUp()
     {
@@ -34,8 +35,8 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
         $this->validation = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Validation\CommonValidation')->getMock();
         $this->crypto = $this->getMockBuilder('\Verifone\Core\DependencyInjection\CryptUtils\CryptUtil')->getMock();
         $this->converter = $this->getMockBuilder('\Verifone\Core\Converter\Response\ResponseConverter')->getMock();
-        $this->config = $this->getMockBuilder('\Verifone\Core\Configuration\FieldConfig')->getMock();
-        
+        $this->cutter = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Utils\Cutter')->getMock();
+
         $this->service->expects($this->once())
             ->method('getFields')
             ->willReturn($this->storage);
@@ -45,7 +46,7 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
             $this->crypto,
             $this->transport,
             $this->converter,
-            $this->config
+            $this->cutter
         );
     }
 
@@ -53,6 +54,11 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
     {
         $this->storage->expects($this->once())
             ->method('getAsArray')
+            ->willReturn(array(
+                'i-f-1-3_currency-code' => '978',
+            ));
+        $this->cutter->expects($this->once())
+            ->method('cutFields')
             ->willReturn(array(
                 'i-f-1-3_currency-code' => '978',
             ));
@@ -72,6 +78,11 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
             ->willReturn(array(
                 'i-f-1-3_currency-code' => '978',
             ));
+        $this->cutter->expects($this->once())
+            ->method('cutFields')
+            ->willReturn(array(
+                'i-f-1-3_currency-code' => '978',
+            ));
 
         $this->service->expects($this->once())
             ->method('getUrls')
@@ -88,6 +99,11 @@ class BackendServiceExecutorTest extends \PHPUnit_Framework_TestCase
     {
         $this->storage->expects($this->once())
             ->method('getAsArray')
+            ->willReturn(array(
+                'i-f-1-3_currency-code' => '978',
+            ));
+        $this->cutter->expects($this->once())
+            ->method('cutFields')
             ->willReturn(array(
                 'i-f-1-3_currency-code' => '978',
             ));

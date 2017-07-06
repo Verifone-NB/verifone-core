@@ -11,8 +11,9 @@
 namespace Verifone\Core\Tests\Unit\DependencyInjection\Transporter;
 
 use Verifone\Core\DependencyInjection\Transporter\CurlWrapper;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class CurlWrapperTest extends \PHPUnit_Framework_TestCase
+class CurlWrapperTest extends VerifoneTest
 {
     public function testConstructAndCloseAndOptions()
     {
@@ -23,15 +24,6 @@ class CurlWrapperTest extends \PHPUnit_Framework_TestCase
         $curl->addHeader('Connection', 'close');
         $curl->close();
         $this->assertTrue(true);
-    }
-
-    public function testPost()
-    {
-        $curl = new CurlWrapper();
-        $response = $curl->post('http://localhost/', array('jee' => 'value', 'jee2' => 'value2'));
-        $curl->close();
-        $this->assertNotFalse($response);
-        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testPost404()

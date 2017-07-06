@@ -20,12 +20,13 @@ use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration
 use Verifone\Core\DependencyInjection\Configuration\Backend\GetAvailablePaymentMethodsConfigurationImpl;
 use Verifone\Core\DependencyInjection\Service\CustomerImpl;
 use Verifone\Core\ServiceFactory;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class BackendIntegrationTest
  * @package Verifone\Core\Tests\Integration
  */
-class BackendIntegrationTest extends \PHPUnit_Framework_TestCase
+class BackendIntegrationTest extends VerifoneTest
 {
     private $testUrl;
     private $privateKey;

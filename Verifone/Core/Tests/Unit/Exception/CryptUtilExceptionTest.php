@@ -12,13 +12,14 @@ namespace Verifone\Core\Tests\Unit\Exception;
 
 
 use Verifone\Core\Exception\CryptUtilException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class FieldValidationFailedExceptionTest
  * @package Verifone\Core\Tests\Exception
  * @codeCoverageIgnore
  */
-class CryptUtilExceptionTest extends \PHPUnit_Framework_TestCase
+class CryptUtilExceptionTest extends VerifoneTest
 {
     /**
      * @param $message

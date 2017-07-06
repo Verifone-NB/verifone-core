@@ -11,8 +11,9 @@
 namespace Verifone\Core\Tests\Unit\DependecyInjection\Validation;
 
 use Verifone\Core\DependencyInjection\Validation\VerifoneValidation;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class VerifoneValidationTest extends \PHPUnit_Framework_TestCase
+class VerifoneValidationTest extends VerifoneTest
 {
     private $fieldValidation;
     private $responseValidation;

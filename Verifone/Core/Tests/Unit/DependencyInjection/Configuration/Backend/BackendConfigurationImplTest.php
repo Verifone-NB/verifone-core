@@ -12,13 +12,14 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Configuration\Backend;
 
 use Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfigurationImpl;
 use Verifone\Core\Exception\FieldValidationFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class BackendConfigurationImplTest
  * @package Verifone\Core\Tests\DependecyInjection\Configuration
  * @codeCoverageIgnore
  */
-class BackendConfigurationImplTest extends \PHPUnit_Framework_TestCase
+class BackendConfigurationImplTest extends VerifoneTest
 {
     /**
      * @oaram $pKey

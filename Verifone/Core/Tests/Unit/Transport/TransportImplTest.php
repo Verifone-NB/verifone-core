@@ -10,6 +10,7 @@
 
 namespace Verifone\Core\Tests\Unit\Transport;
 
+use Verifone\Core\Tests\Unit\VerifoneTest;
 use Verifone\Core\Transport\TransportImpl;
 use Verifone\Core\Exception\TransportationFailedException;
 
@@ -18,7 +19,7 @@ use Verifone\Core\Exception\TransportationFailedException;
  * @package Verifone\Core\Tests\Transport
  * @codeCoverageIgnore
  */
-class TransportImplTest extends \PHPUnit_Framework_TestCase
+class TransportImplTest extends VerifoneTest
 {
     protected $transport;
 

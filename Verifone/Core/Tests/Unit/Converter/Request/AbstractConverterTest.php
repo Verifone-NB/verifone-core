@@ -8,7 +8,7 @@
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
-abstract class AbstractConverterTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractConverterTest extends \Verifone\Core\Tests\Unit\VerifoneTest
 {
     protected $mockStorage;
     protected $converter;

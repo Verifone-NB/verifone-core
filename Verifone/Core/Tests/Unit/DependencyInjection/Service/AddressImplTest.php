@@ -12,8 +12,9 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Service;
 
 
 use Verifone\Core\DependencyInjection\Service\AddressImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class AddressImplTest extends \PHPUnit_Framework_TestCase
+class AddressImplTest extends VerifoneTest
 {
     /**
      * @param $lineONe

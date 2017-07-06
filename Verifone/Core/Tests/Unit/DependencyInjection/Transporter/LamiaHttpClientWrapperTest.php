@@ -11,8 +11,9 @@
 namespace Verifone\Core\Tests\Unit\DependencyInjection\Transporter;
 
 use Verifone\Core\DependencyInjection\Transporter\LamiaHttpClientWrapper;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class LamiaHttpClientWrapperTest extends \PHPUnit_Framework_TestCase
+class LamiaHttpClientWrapperTest extends VerifoneTest
 {
     public function testConstructAndCloseAndOptions()
     {
@@ -23,15 +24,6 @@ class LamiaHttpClientWrapperTest extends \PHPUnit_Framework_TestCase
         $httpClientWrapper->addHeader('Connection', 'close');
         $httpClientWrapper->close();
         $this->assertTrue(true);
-    }
-
-    public function testPost()
-    {
-        $httpClientWrapper = new LamiaHttpClientWrapper();
-        $response = $httpClientWrapper->post('http://localhost/', array('jee' => 'value', 'jee2' => 'value2'));
-        $httpClientWrapper->close();
-        $this->assertNotFalse($response);
-        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testPost404()

@@ -12,13 +12,14 @@ namespace Verifone\Core\Tests\Unit\Exception;
 
 
 use Verifone\Core\Exception\StorageKeyNotInKeyspaceException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class StorageKeyNotInKeyspaceExceptionTest
  * @package Verifone\Core\Tests\Exception
  * @codeCoverageIgnore
  */
-class StorageKeyNotInKeyspaceExceptionTest extends \PHPUnit_Framework_TestCase
+class StorageKeyNotInKeyspaceExceptionTest extends VerifoneTest
 {
 
     /**

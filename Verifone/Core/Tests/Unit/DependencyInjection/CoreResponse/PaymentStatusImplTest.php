@@ -12,25 +12,30 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\CoreResponse;
 
 
 use Verifone\Core\DependencyInjection\CoreResponse\PaymentStatusImpl;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
-class PaymentStatusImplTest extends \PHPUnit_Framework_TestCase
+class PaymentStatusImplTest extends VerifoneTest
 {
     /**
      * @param $code
+     * @param $orderAmount
+     * @param $transactionNumber
+     * @param $paymentMethodCode
+     * @param $orderNumber
      *
      * @dataProvider providerTestConstructHappy
      */
-    public function testConstructHappy($code)
+    public function testConstructHappy($code, $orderAmount, $transactionNumber, $paymentMethodCode, $orderNumber)
     {
-        $paymentStatus = new PaymentStatusImpl($code);
+        $paymentStatus = new PaymentStatusImpl($code, $orderAmount, $transactionNumber, $paymentMethodCode, $orderNumber);
         $this->assertEquals($code, $paymentStatus->getCode());
     }
 
     public function providerTestConstructHappy()
     {
         return array(
-            array('d'),
-            array(''),
+            array('d', 'd', 'd', 'd', 'd'),
+            array('', '', '', '', ''),
         );
     }
 }

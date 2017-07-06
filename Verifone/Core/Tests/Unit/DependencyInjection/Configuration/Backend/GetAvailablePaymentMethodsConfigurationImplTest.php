@@ -13,13 +13,14 @@ namespace Verifone\Core\Tests\Unit\DependecyInjection\Configuration\Backend;
 
 use Verifone\Core\DependencyInjection\Configuration\Backend\GetAvailablePaymentMethodsConfigurationImpl;
 use Verifone\Core\Exception\FieldValidationFailedException;
+use Verifone\Core\Tests\Unit\VerifoneTest;
 
 /**
  * Class GetAvailablePaymentMethodsConfigurationImplTest
  * @package Verifone\Core\Tests\Unit\DependecyInjection\Configuration\Backend
  * @codeCoverageIgnore 
  */
-class GetAvailablePaymentMethodsConfigurationImplTest extends \PHPUnit_Framework_TestCase
+class GetAvailablePaymentMethodsConfigurationImplTest extends VerifoneTest
 {
     /**
      * @param $currency
