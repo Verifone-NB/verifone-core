@@ -39,13 +39,11 @@ class FrontendServiceExecutor
     public function __construct(
         CommonValidation $validation,
         RequestConverter $converter,
-        Transport $transport,
-        Cutter $cutter
+        Transport $transport
     ) {
         $this->validation = $validation;
         $this->converter = $converter;
         $this->transport = $transport;
-        $this->cutter = $cutter;
     }
 
     /**
@@ -58,9 +56,7 @@ class FrontendServiceExecutor
     {
         $actionUrl = $this->resolveActionUrl($actionUrls, $checkUrlAvailability);
         $storage = $service->getFields();
-        $requestFields = $storage->getAsArray();
-        $requestFields = $this->cutter->cutFields($requestFields);
-        $this->validation->validate($requestFields);
+        $this->validation->validate($storage->getAsArray());
         return $this->converter->convert($storage, $actionUrl);
     }
 

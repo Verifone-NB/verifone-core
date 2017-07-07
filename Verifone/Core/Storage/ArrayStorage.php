@@ -45,7 +45,7 @@ final class ArrayStorage implements Storage
      */
     public function add($key, $value)
     {
-        $this->validateKey($key, $value);
+        $constraintKey = $this->validateKey($key, $value);
 
         // is there anything stored in storage with real key?
         if (isset($this->storage[$key])) {
@@ -53,8 +53,23 @@ final class ArrayStorage implements Storage
         }
 
         // store value with real key
-        $this->storage[$key] = $value;
+        $constraints = $this->possibleKeySpace[$constraintKey];
+        $this->storage[$key] = $this->formValue($constraints, $value);
         return $this;
+    }
+
+    private function formValue($constraints, $value)
+    {
+        if ($this->shouldBeCut($constraints)) {
+            return mb_substr($value, 0, $constraints['max']);
+        }
+        return $value;
+    }
+
+    private function shouldBeCut($constraints)
+    {
+        return isset($constraints['cut']) && $constraints['cut'] === true
+            && isset($constraints['max']) && is_int($constraints['max']);
     }
 
     /**
@@ -113,18 +128,19 @@ final class ArrayStorage implements Storage
      * Validate that the key exists in the possible keyspace
      * @param string $key to validate
      * @param string $value only needed for exception information
+     * @return string key used in configuration
      * @throws StorageKeyNotInKeyspaceException if key was not in possible keyspace
      */
     private function validateKey($key, $value)
     {
         // if key is found as itself, return true
         if ($this->isValidUncountableKey($key)) {
-            return;
+            return $key;
         }
 
         // if not, check if it is a valid countable key
         if (strpos($key, '-') !== false && $this->isValidCountableKey($key)) {
-            return;
+            return $this->getCountableKeyWithoutNumber($key);
         }
 
         throw new StorageKeyNotInKeyspaceException($key, $value);

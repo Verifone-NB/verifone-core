@@ -54,7 +54,7 @@ class BackendIntegrationTest extends VerifoneTest
         $config = new GetAvailablePaymentMethodsConfigurationImpl(
             $this->privateKey,
             'demo-merchant-agreement',
-            'Magento',
+            'Xtreme Viper 27,56 polkupyoraaaaaaaaaaaaaaaaa',
             '1.9.2.2',
             array($this->testUrl),
             '978'
@@ -63,7 +63,7 @@ class BackendIntegrationTest extends VerifoneTest
         $service = ServiceFactory::createService($config, 'Backend\GetAvailablePaymentMethodsService');
         $service->insertCustomer($this->customer);
 
-        //$responseFields = $this->exec->executeService($service, $this->publicKey);
+        $responseFields = $this->exec->executeService($service, $this->publicKey);
     }
 
     public function testCheckAvailability()

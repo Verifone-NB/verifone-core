@@ -55,14 +55,12 @@ class BackendServiceExecutor
         CommonValidation $validation,
         CryptUtil $cryptUtil,
         Transport $transport,
-        ResponseConverter $converter,
-        Cutter $cutter
+        ResponseConverter $converter
     ) {
         $this->transport = $transport;
         $this->cryptUtil = $cryptUtil;
         $this->validation = $validation;
         $this->converter = $converter;
-        $this->cutter = $cutter;
     }
 
     /**
@@ -77,7 +75,6 @@ class BackendServiceExecutor
         $this->serviceResponseConverter = $service->getResponseConverter();
         $urls = $service->getUrls();
         $requestFields = $service->getFields()->getAsArray();
-        $requestFields = $this->cutter->cutFields($requestFields);
         $this->validation->validate($requestFields);
         if (!is_array($urls)) {
             throw new FieldValidationFailedException('urls', 'should be array');

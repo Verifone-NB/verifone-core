@@ -22,7 +22,6 @@ class FrontendServiceExecutorTest extends VerifoneTest
     private $service;
     private $executor;
     private $transport;
-    private $cutter;
 
     public function setUp()
     {
@@ -31,12 +30,11 @@ class FrontendServiceExecutorTest extends VerifoneTest
         $this->storage = $this->getMockBuilder('\Verifone\Core\Storage\Storage')->getMock();
         $this->service = $this->getMockBuilder('\Verifone\Core\Service\Frontend\FrontendService')->getMock();
         $this->transport = $this->getMockBuilder('\Verifone\Core\Transport\Transport')->getMock();
-        $this->cutter = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Utils\Cutter')->getMock();
 
         $this->service->expects($this->once())
             ->method('getFields')
             ->willReturn($this->storage);
-        $this->executor = new FrontendServiceExecutor($this->validation, $this->converter, $this->transport, $this->cutter);
+        $this->executor = new FrontendServiceExecutor($this->validation, $this->converter, $this->transport);
     }
 
     public function testExecute()
@@ -50,10 +48,6 @@ class FrontendServiceExecutorTest extends VerifoneTest
         $this->converter->expects($this->once())
             ->method('convert')
             ->with($this->storage, 'asfd');
-        $this->cutter->expects($this->once())
-            ->method('cutFields')
-            ->with(array())
-            ->willReturn(array());
         $this->executor->executeService($this->service, array('asfd'));
     }
 }

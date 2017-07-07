@@ -25,7 +25,6 @@ class BackendServiceExecutorTest extends VerifoneTest
     private $validation;
     private $crypto;
     private $converter;
-    private $cutter;
 
     public function setUp()
     {
@@ -35,7 +34,6 @@ class BackendServiceExecutorTest extends VerifoneTest
         $this->validation = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Validation\CommonValidation')->getMock();
         $this->crypto = $this->getMockBuilder('\Verifone\Core\DependencyInjection\CryptUtils\CryptUtil')->getMock();
         $this->converter = $this->getMockBuilder('\Verifone\Core\Converter\Response\ResponseConverter')->getMock();
-        $this->cutter = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Utils\Cutter')->getMock();
 
         $this->service->expects($this->once())
             ->method('getFields')
@@ -45,8 +43,7 @@ class BackendServiceExecutorTest extends VerifoneTest
             $this->validation,
             $this->crypto,
             $this->transport,
-            $this->converter,
-            $this->cutter
+            $this->converter
         );
     }
 
@@ -54,11 +51,6 @@ class BackendServiceExecutorTest extends VerifoneTest
     {
         $this->storage->expects($this->once())
             ->method('getAsArray')
-            ->willReturn(array(
-                'i-f-1-3_currency-code' => '978',
-            ));
-        $this->cutter->expects($this->once())
-            ->method('cutFields')
             ->willReturn(array(
                 'i-f-1-3_currency-code' => '978',
             ));
@@ -75,11 +67,6 @@ class BackendServiceExecutorTest extends VerifoneTest
     {
         $this->storage->expects($this->once())
             ->method('getAsArray')
-            ->willReturn(array(
-                'i-f-1-3_currency-code' => '978',
-            ));
-        $this->cutter->expects($this->once())
-            ->method('cutFields')
             ->willReturn(array(
                 'i-f-1-3_currency-code' => '978',
             ));
@@ -102,12 +89,6 @@ class BackendServiceExecutorTest extends VerifoneTest
             ->willReturn(array(
                 'i-f-1-3_currency-code' => '978',
             ));
-        $this->cutter->expects($this->once())
-            ->method('cutFields')
-            ->willReturn(array(
-                'i-f-1-3_currency-code' => '978',
-            ));
-
         $this->service->expects($this->once())
             ->method('getUrls')
             ->willReturn(array());
