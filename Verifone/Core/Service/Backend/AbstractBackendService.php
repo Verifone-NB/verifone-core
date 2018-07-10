@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -20,7 +20,7 @@ use Verifone\Core\Storage\Storage;
 /**
  * Class AbstractBackendService
  * @package Verifone\Core\Service\Backend
- * 
+ *
  * Contains methods that are in common across all the backend services
  */
 abstract class AbstractBackendService extends AbstractService implements BackendService
@@ -49,7 +49,13 @@ abstract class AbstractBackendService extends AbstractService implements Backend
     ) {
         parent::__construct($storage, $configuration, $crypto);
         $this->addToStorage(FieldConfigImpl::REQUEST_TIMESTAMP, gmdate('Y-m-d H:i:s'));
-        $this->addToStorage(FieldConfigImpl::REQUEST_ID, strval(hexdec(uniqid())));
+
+        $requestId = (string)hexdec(uniqid());
+        if (empty($requestId)) {
+            $requestId = time();
+        }
+
+        $this->addToStorage(FieldConfigImpl::REQUEST_ID, $requestId);
         $this->urls = $configuration->getUrls();
         $this->responseConverter = $converter;
     }
@@ -77,4 +83,5 @@ abstract class AbstractBackendService extends AbstractService implements Backend
     {
         return $this->matchingFields;
     }
+
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -25,10 +25,13 @@ interface FrontendConfiguration extends Configuration
         $software,
         $softwareVersion,
         $skipConfirmation,
-        $disableRsaBlinding = false
+        $disableRsaBlinding = false,
+        $styleCode = ''
     );
 
     public function getRedirectUrls();
-    
+
     public function getSkipConfirmation();
+
+    public function getStyleCode();
 }

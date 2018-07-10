@@ -91,7 +91,8 @@ class FieldConfigImpl implements FieldConfig
     const RESPONSE_PAYMENT_METHOD_TYPE = 's-t-1-30_payment-method-type-';
     const SIGNATURE_ONE = 's-t-256-256_signature-one';
     const SIGNATURE_TWO = 's-t-256-256_signature-two';
-    
+    const STYLE_CODE = 's-t-1-30_style-code';
+
     /**
      * Get general verifone field configuration with field names mapped to their corresponding option values.
      * @return array with structure verifoneFieldName => options array. Options array is of structure optionName => value
@@ -407,6 +408,11 @@ class FieldConfigImpl implements FieldConfig
                 'numeric' => true,
                 'optional' => true
             ),
+            self::STYLE_CODE => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => true
+            )
         );
 
     }

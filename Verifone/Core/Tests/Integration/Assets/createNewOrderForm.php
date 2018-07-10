@@ -16,6 +16,7 @@ Redirecting to VerifonePayment.
 <input type="hidden" name="s-f-1-10_software-version" value="1.9.2.2" />
 <input type="hidden" name="t-f-14-19_payment-timestamp" value="' . gmdate('Y-m-d H:i:s') . '" />
 <input type="hidden" name="i-t-1-1_skip-confirmation-page" value="1" />
+<input type="hidden" name="s-t-1-30_style-code" value="" />
 <input type="hidden" name="s-f-5-256_cancel-url" value="http://www.testikauppa.fi/cancel" />
 <input type="hidden" name="s-f-5-256_error-url" value="http://www.testikauppa.fi/error" />
 <input type="hidden" name="s-f-5-256_expired-url" value="http://www.testikauppa.fi/expired" />

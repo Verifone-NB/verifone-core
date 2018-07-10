@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -67,6 +67,14 @@ class FrontendConfigurationImplTest extends VerifoneTest
                 '1.0.2',
                 '1'
             ), // common case
+            array('aaaaasfwerthieng.sdvcuhbaewjrnwe/f7wer17/-afdnsflkawe7asfd/fansdfnnn_fef78238r7000.fahha&fasdf0s',
+                '123asdfas',
+                'Magento Example',
+                '1.0.2',
+                '1',
+                false,
+                'test-style-code'
+            ),
         );
     }
 

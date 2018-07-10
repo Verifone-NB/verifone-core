@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -49,6 +49,7 @@ abstract class AbstractFrontendService extends AbstractService implements Fronte
     {
         $this->addToStorage(FieldConfigImpl::PAYMENT_TIMESTAMP, gmdate('Y-m-d H:i:s'));
         $this->addToStorage(FieldConfigImpl::CONFIG_SKIP_CONFIRMATION, $frontendConf->getSkipConfirmation());
+        $this->addToStorage(FieldConfigImpl::STYLE_CODE, $frontendConf->getStyleCode());
         $this->insertRedirectUrls($frontendConf->getRedirectUrls());
     }
 

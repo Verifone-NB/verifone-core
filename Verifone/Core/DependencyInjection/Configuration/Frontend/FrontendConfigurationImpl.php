@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -21,6 +21,7 @@ class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendCon
 {
     private $redirectUrls;
     private $skipConfirmation;
+    private $styleCode;
 
     /**
      * FrontendConfigurationImpl constructor.
@@ -30,8 +31,9 @@ class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendCon
      * @param $merchantAgreementCode string between 1 and 36 characters
      * @param $software string between 1 and 30 characters
      * @param $softwareVersion string between 1 and 10 characters
-     * @param string $skipConfirmation possible values 1 or 0. 
+     * @param string $skipConfirmation possible values 1 or 0.
      * @param bool $disableRsaBlinding defaults to false
+     * @param string $styleCode style code approved by Verifone, defaults to empty
      */
     public function __construct(
         RedirectUrls $redirectUrls,
@@ -40,20 +42,27 @@ class FrontendConfigurationImpl extends ConfigurationImpl implements FrontendCon
         $software,
         $softwareVersion,
         $skipConfirmation,
-        $disableRsaBlinding = false
+        $disableRsaBlinding = false,
+        $styleCode = ''
     ) {
         parent::__construct($privateKey, $merchantAgreementCode, $software, $softwareVersion, $disableRsaBlinding);
         $this->redirectUrls = $redirectUrls;
         $this->skipConfirmation = $skipConfirmation;
+        $this->styleCode = $styleCode;
     }
 
     public function getRedirectUrls()
     {
         return $this->redirectUrls;
     }
-    
+
     public function getSkipConfirmation()
     {
         return $this->skipConfirmation;
+    }
+
+    public function getStyleCode()
+    {
+        return $this->styleCode;
     }
 }
