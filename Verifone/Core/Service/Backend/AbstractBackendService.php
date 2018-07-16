@@ -51,8 +51,8 @@ abstract class AbstractBackendService extends AbstractService implements Backend
         $this->addToStorage(FieldConfigImpl::REQUEST_TIMESTAMP, gmdate('Y-m-d H:i:s'));
 
         $requestId = (string)hexdec(uniqid());
-        if (empty($requestId)) {
-            $requestId = time();
+        if (empty($requestId) || !ctype_digit($requestId)) {
+            $requestId = (string)time();
         }
 
         $this->addToStorage(FieldConfigImpl::REQUEST_ID, $requestId);
