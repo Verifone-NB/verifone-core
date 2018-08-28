@@ -23,6 +23,7 @@ class CryptUtilImpl implements CryptUtil
     const SIG_ONE = 's-t-256-256_signature-one';
     const SIG_TWO = 's-t-256-256_signature-two';
     const ORDER_PHASE = 's-t-1-40_shop-order__phase';
+    const RECEIPT_PHASE = 's-t-1-40_shop-receipt__phase';
 
     private $cryptography;
 
@@ -64,7 +65,7 @@ class CryptUtilImpl implements CryptUtil
     {
         return $this->generateSignature($privateKey, $fields, 'sha512');
     }
-    
+
     private function generateSignature($privateKey, $fields, $hash = 'sha1')
     {
         $this->validateSignatureParameters($privateKey, $fields);
@@ -72,7 +73,7 @@ class CryptUtilImpl implements CryptUtil
         $signature = $this->cryptography->sign($data, $privateKey, $hash);
         return strtoupper(bin2hex($signature));
     }
-    
+
     /**
      * @param $publicKey string public key contents
      * @param $fields    string data to verify signature for
@@ -84,9 +85,12 @@ class CryptUtilImpl implements CryptUtil
         $this->validateVerifySignatureParameters($publicKey, $fields);
         $sigOne = $fields[self::SIG_ONE];
         $sigTwo = $fields[self::SIG_TWO];
+
         unset($fields[self::SIG_ONE]);
         unset($fields[self::SIG_TWO]);
         unset($fields[self::ORDER_PHASE]);
+        unset($fields[self::RECEIPT_PHASE]);
+
         $data = $this->formatFieldsForSignature($fields);
         return $this->cryptography->verify($publicKey, $data, $sigOne)
             && $this->cryptography->verify($publicKey, $data, $sigTwo, 'sha512');
