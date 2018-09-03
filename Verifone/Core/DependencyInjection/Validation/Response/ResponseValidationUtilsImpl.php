@@ -63,7 +63,7 @@ class ResponseValidationUtilsImpl implements ResponseValidationUtils
         $errorMessage = FieldConfigImpl::RESPONSE_ERROR_MESSAGE;
         if (isset($responseFields[$errorMessage]) && $responseFields[$errorMessage] !== '') {
             throw new ResponseCheckFailedException(
-                'There wes error set in verifone response: ' . $responseFields[$errorMessage]
+                'There was an error set in server response: ' . $responseFields[$errorMessage]
             );
         }
     }
