@@ -1,11 +1,12 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2019 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
+ * @author     Szymon Nosal <simon@lamia.fi>
  */
 
 namespace Verifone\Core\Storage;
@@ -60,10 +61,22 @@ final class ArrayStorage implements Storage
 
     private function formValue($constraints, $value)
     {
+        if ($this->shouldBeSanitize($constraints)) {
+            // Remove special characters - trade, reg, copy
+            $value = preg_replace('/(™|®|©|&trade;|&reg;|&copy;|&#8482;|&#174;|&#169;)/u', '', $value);
+            // Remove all characters which are not from Latin or accents or space - _
+            $value = preg_replace('/[^\p{Latin}\d\p{L} _\-]/u', '', $value);
+        }
+
         if ($this->shouldBeCut($constraints)) {
             return mb_substr($value, 0, $constraints['max']);
         }
         return $value;
+    }
+
+    private function shouldBeSanitize($constraints)
+    {
+        return isset($constraints['sanitize']) && $constraints['sanitize'] === true;
     }
 
     private function shouldBeCut($constraints)
@@ -96,7 +109,7 @@ final class ArrayStorage implements Storage
     public function isValidUncountableKey($key)
     {
         return $this->isCorrectlyDefined($key) && (!isset($this->possibleKeySpace[$key][self::CONF_COUNTABLE])
-            || $this->possibleKeySpace[$key][self::CONF_COUNTABLE] === false);
+                || $this->possibleKeySpace[$key][self::CONF_COUNTABLE] === false);
     }
 
     /**
@@ -120,7 +133,8 @@ final class ArrayStorage implements Storage
      * @param string $key
      * @return bool
      */
-    private function isCorrectlyDefined($key) {
+    private function isCorrectlyDefined($key)
+    {
         return isset($this->possibleKeySpace[$key]) && is_array($this->possibleKeySpace[$key]);
     }
 

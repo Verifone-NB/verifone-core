@@ -5,7 +5,7 @@
  *
  * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
+ * @copyright  Copyright (c) 2019 Lamia Oy (https://lamia.fi)
  * @author     Szymon Nosal <simon@lamia.fi>
  * @author     Irina Mäkipaja <irina@lamia.fi>
  *
@@ -234,12 +234,14 @@ class FieldConfigImpl implements FieldConfig
             self::CUSTOMER_FIRST_NAME => array(
                 'type' => 'string',
                 'max' => 30,
-                'cut' => true
+                'cut' => true,
+                'sanitize' => true
             ),
             self::CUSTOMER_LAST_NAME => array(
                 'type' => 'string',
                 'max' => 30,
-                'cut' => true
+                'cut' => true,
+                'sanitize' => true
             ),
             self::CUSTOMER_PHONE_NUMBER => array(
                 'type' => 'string',
@@ -311,7 +313,8 @@ class FieldConfigImpl implements FieldConfig
                 'max' => 30,
                 'cut' => true,
                 'optional' => true,
-                'countable' => true
+                'countable' => true,
+                'sanitize' => true
             ),
             self::PRODUCT_PRICE_INCL_TAX => array(
                 'type' => 'string',
