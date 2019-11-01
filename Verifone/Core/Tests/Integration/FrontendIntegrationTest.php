@@ -22,6 +22,7 @@ use Verifone\Core\Service\Frontend\CreateNewOrderService;
 use Verifone\Core\ServiceFactory;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\RedirectUrlsImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfigurationImpl;
+use Verifone\Core\DependencyInjection\Service\AddressImpl;
 use Verifone\Core\DependencyInjection\Service\CustomerImpl;
 use Verifone\Core\DependencyInjection\Service\ProductImpl;
 use Verifone\Core\DependencyInjection\Service\OrderImpl;
@@ -53,11 +54,23 @@ class FrontendIntegrationTest extends VerifoneTest
             'http://www.testikauppa.fi/error'
         );
 
+        $address = new AddressImpl(
+            'Street 1',
+            '',
+            '',
+            '00100',
+            'Helsinki',
+            '123',
+            'FirstName',
+            'LastName'
+        );
+
         $this->customer = new CustomerImpl(
             'Example',
             'Exemplar',
             '0401234567',
-            'example@domain.fi'
+            'example@domain.fi',
+            $address
         );
 
         $this->order = new OrderImpl(

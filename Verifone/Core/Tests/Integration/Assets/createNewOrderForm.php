@@ -26,6 +26,16 @@ Redirecting to VerifonePayment.
 <input type="hidden" name="s-f-1-30_buyer-last-name" value="Exemplar" />
 <input type="hidden" name="s-t-1-30_buyer-phone-number" value="0401234567" />
 <input type="hidden" name="s-f-1-100_buyer-email-address" value="example@domain.fi" />
+<input type="hidden" name="s-t-1-30_bill-to-address-line-one" value="Street 1" />
+<input type="hidden" name="s-t-1-30_bill-to-address-line-two" value="" />
+<input type="hidden" name="s-t-1-30_bill-to-address-line-three" value="" />
+<input type="hidden" name="s-t-1-30_bill-to-address-city" value="00100" />
+<input type="hidden" name="s-t-1-30_bill-to-address-postal-code" value="Helsinki" />
+<input type="hidden" name="i-t-1-3_bill-to-address-country-code" value="123" />
+<input type="hidden" name="s-t-1-30_bill-to-address-first-name" value="FirstName" />
+<input type="hidden" name="s-t-1-30_bill-to-address-last-name" value="LastName" />
+<input type="hidden" name="s-t-1-30_bill-to-address-phone-number" value="" />
+<input type="hidden" name="s-t-1-100_bill-to-address-email" value="" />
 <input type="hidden" name="t-f-14-19_order-timestamp" value="2016-05-23 11:58:16" />
 <input type="hidden" name="s-f-1-36_order-number" value="1000000260" />
 <input type="hidden" name="l-f-1-20_order-gross-amount" value="2590" />

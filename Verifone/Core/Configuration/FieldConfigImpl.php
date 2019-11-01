@@ -37,17 +37,37 @@ class FieldConfigImpl implements FieldConfig
     const CONFIG_SOFTWARE_VERSION = 's-f-1-10_software-version';
     const CONFIG_SUCCESS_URL = 's-f-5-256_success-url';
     const CONFIG_TRANSACTION = 'l-f-1-20_transaction-number';
-    const CUSTOMER_ADDRESS_LINE_1 = 's-t-1-30_delivery-address-line-one';
-    const CUSTOMER_ADDRESS_LINE_2 = 's-t-1-30_delivery-address-line-two';
-    const CUSTOMER_ADDRESS_LINE_3 = 's-t-1-30_delivery-address-line-three';
-    const CUSTOMER_ADDRESS_CITY = 's-t-1-30_delivery-address-city';
-    const CUSTOMER_ADDRESS_POSTAL = 's-t-1-30_delivery-address-postal-code';
-    const CUSTOMER_ADDRESS_COUNTRY = 'i-t-1-3_delivery-address-country-code';
+
     const CUSTOMER_EMAIL = 's-f-1-100_buyer-email-address';
     const CUSTOMER_EXTERNAL_ID = 's-t-1-255_buyer-external-id';
     const CUSTOMER_FIRST_NAME = 's-f-1-30_buyer-first-name';
     const CUSTOMER_LAST_NAME = 's-f-1-30_buyer-last-name';
     const CUSTOMER_PHONE_NUMBER = 's-t-1-30_buyer-phone-number';
+
+    /** Billing address */
+    const CUSTOMER_ADDRESS_LINE_1 = 's-t-1-30_bill-to-address-line-one';
+    const CUSTOMER_ADDRESS_LINE_2 = 's-t-1-30_bill-to-address-line-two';
+    const CUSTOMER_ADDRESS_LINE_3 = 's-t-1-30_bill-to-address-line-three';
+    const CUSTOMER_ADDRESS_CITY = 's-t-1-30_bill-to-address-city';
+    const CUSTOMER_ADDRESS_POSTAL = 's-t-1-30_bill-to-address-postal-code';
+    const CUSTOMER_ADDRESS_COUNTRY = 'i-t-1-3_bill-to-address-country-code';
+    const CUSTOMER_ADDRESS_FIRST_NAME = 's-t-1-30_bill-to-address-first-name';
+    const CUSTOMER_ADDRESS_LAST_NAME = 's-t-1-30_bill-to-address-last-name';
+    const CUSTOMER_ADDRESS_PHONE_NUMBER = 's-t-1-30_bill-to-address-phone-number';
+    const CUSTOMER_ADDRESS_EMAIL = 's-t-1-100_bill-to-address-email';
+
+    /** Delivery address */
+    const CUSTOMER_DELIVERY_ADDRESS_LINE_1 = 's-t-1-30_delivery-address-line-one';
+    const CUSTOMER_DELIVERY_ADDRESS_LINE_2 = 's-t-1-30_delivery-address-line-two';
+    const CUSTOMER_DELIVERY_ADDRESS_LINE_3 = 's-t-1-30_delivery-address-line-three';
+    const CUSTOMER_DELIVERY_ADDRESS_CITY = 's-t-1-30_delivery-address-city';
+    const CUSTOMER_DELIVERY_ADDRESS_POSTAL = 's-t-1-30_delivery-address-postal-code';
+    const CUSTOMER_DELIVERY_ADDRESS_COUNTRY = 'i-t-1-3_delivery-address-country-code';
+    const CUSTOMER_DELIVERY_ADDRESS_FIRST_NAME = 's-t-1-30_delivery-address-first-name';
+    const CUSTOMER_DELIVERY_ADDRESS_LAST_NAME = 's-t-1-30_delivery-address-last-name';
+    const CUSTOMER_DELIVERY_ADDRESS_PHONE_NUMBER = 's-t-1-30_delivery-address-phone-number';
+    const CUSTOMER_DELIVERY_ADDRESS_EMAIL = 's-t-1-100_delivery-address-email';
+
     const INTERFACE_VERSION ='i-f-1-11_interface-version';
     const OPERATION = 's-f-1-30_operation';
     const ORDER_CURRENCY = 'i-f-1-3_order-currency-code';
@@ -187,7 +207,7 @@ class FieldConfigImpl implements FieldConfig
             self::CUSTOMER_ADDRESS_LINE_1 => array(
                 'type' => 'string',
                 'max' => 30,
-                'optional' => true,
+                'optional' => false,
                 'cut' => true
             ),
             self::CUSTOMER_ADDRESS_LINE_2 => array(
@@ -205,18 +225,106 @@ class FieldConfigImpl implements FieldConfig
             self::CUSTOMER_ADDRESS_CITY => array(
                 'type' => 'string',
                 'max' => 30,
-                'optional' => true,
+                'optional' => false,
                 'cut' => true
             ),
             self::CUSTOMER_ADDRESS_POSTAL => array(
                 'type' => 'string',
                 'max' => 30,
-                'optional' => true,
+                'optional' => false,
                 'cut' => true
             ),
             self::CUSTOMER_ADDRESS_COUNTRY => array(
                 'type' => 'string',
                 'max' => 3,
+                'optional' => false,
+                'cut' => true
+            ),
+            self::CUSTOMER_ADDRESS_FIRST_NAME => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true,
+                'sanitize' => true
+            ),
+            self::CUSTOMER_ADDRESS_LAST_NAME => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true,
+                'sanitize' => true
+            ),
+            self::CUSTOMER_ADDRESS_PHONE_NUMBER => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => true,
+                'cut' => true
+            ),
+            self::CUSTOMER_ADDRESS_EMAIL => array(
+                'type' => 'string',
+                'max' => 100,
+                'optional' => true,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_LINE_1 => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_LINE_2 => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => true,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_LINE_3 => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => true,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_CITY => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_POSTAL => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_COUNTRY => array(
+                'type' => 'string',
+                'max' => 3,
+                'optional' => false,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_FIRST_NAME => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true,
+                'sanitize' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_LAST_NAME => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => false,
+                'cut' => true,
+                'sanitize' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_PHONE_NUMBER => array(
+                'type' => 'string',
+                'max' => 30,
+                'optional' => true,
+                'cut' => true
+            ),
+            self::CUSTOMER_DELIVERY_ADDRESS_EMAIL => array(
+                'type' => 'string',
+                'max' => 100,
                 'optional' => true,
                 'cut' => true
             ),
@@ -246,8 +354,7 @@ class FieldConfigImpl implements FieldConfig
             self::CUSTOMER_PHONE_NUMBER => array(
                 'type' => 'string',
                 'max' => 30,
-                'cut' => true,
-                'optional' => true
+                'cut' => true
             ),
             self::INTERFACE_VERSION => array(
                 'type' => 'string',

@@ -13,6 +13,8 @@ namespace Verifone\Core\Service\Frontend;
 use Verifone\Core\Configuration\FieldConfigImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
+use Verifone\Core\DependencyInjection\Service\Interfaces\Address;
+use Verifone\Core\DependencyInjection\Service\Interfaces\Customer;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Order;
 use Verifone\Core\Storage\Storage;
 
@@ -87,5 +89,36 @@ final class AddNewCardService extends AbstractFrontendService
         $this->addToStorage(FieldConfigImpl::PRODUCT_UNIT_PRICE . '0', self::PRODUCT_PRICE_VALUE);
         $this->addToStorage(FieldConfigImpl::PRODUCT_PRICE_EXCL_TAX . '0', self::PRODUCT_PRICE_VALUE);
         $this->addToStorage(FieldConfigImpl::PRODUCT_PRICE_INCL_TAX . '0', self::PRODUCT_PRICE_VALUE);
+    }
+
+    /**
+     * @param Customer $customer
+     * Add customer information to order
+     * @throws \Verifone\Core\Exception\MissingBillingAddressException
+     */
+    public function insertCustomer(Customer $customer)
+    {
+        parent::insertCustomer($customer);
+        if ($customer->getAddress() instanceof Address) {
+            $this->insertAddress($customer->getAddress());
+        }
+    }
+
+    /**
+     * @param Address $address
+     * Add billing address information to order
+     */
+    private function insertAddress(Address $address)
+    {
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_1, $address->getLineOne());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_2, $address->getLineTwo());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LINE_3, $address->getLineThree());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_CITY, $address->getCity());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_POSTAL, $address->getPostalCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_COUNTRY, $address->getCountryCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_FIRST_NAME, $address->getFirstName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LAST_NAME, $address->getLastName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_PHONE_NUMBER, $address->getPhoneNumber());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_EMAIL, $address->getEmail());
     }
 }

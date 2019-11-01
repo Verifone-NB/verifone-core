@@ -20,6 +20,7 @@ use Verifone\Core\DependencyInjection\Service\Interfaces\PaymentInfo;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Product;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Recurring;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Transaction;
+use Verifone\Core\Exception\MissingBillingAddressException;
 use Verifone\Core\Storage\Storage;
 
 /**
@@ -128,18 +129,21 @@ final class CreateNewOrderService extends AbstractFrontendService
     /**
      * @param Customer $customer
      * Add customer information to order
+     * @throws \Verifone\Core\Exception\MissingBillingAddressException
      */
     public function insertCustomer(Customer $customer)
     {
         parent::insertCustomer($customer);
         if ($customer->getAddress() instanceof Address) {
             $this->insertAddress($customer->getAddress());
+        } else {
+            throw new MissingBillingAddressException('Billing address is require due to PSD/2 regulation');
         }
     }
 
     /**
      * @param Address $address
-     * Add address information to order
+     * Add billing address information to order
      */
     private function insertAddress(Address $address)
     {
@@ -149,6 +153,28 @@ final class CreateNewOrderService extends AbstractFrontendService
         $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_CITY, $address->getCity());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_POSTAL, $address->getPostalCode());
         $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_COUNTRY, $address->getCountryCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_FIRST_NAME, $address->getFirstName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_LAST_NAME, $address->getLastName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_PHONE_NUMBER, $address->getPhoneNumber());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_ADDRESS_EMAIL, $address->getEmail());
+    }
+
+    /**
+     * @param Address $address
+     * Add delivery address information to order
+     */
+    public function insertDeliveryAddress(Address $address)
+    {
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_LINE_1, $address->getLineOne());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_LINE_2, $address->getLineTwo());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_LINE_3, $address->getLineThree());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_CITY, $address->getCity());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_POSTAL, $address->getPostalCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_COUNTRY, $address->getCountryCode());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_FIRST_NAME, $address->getFirstName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_LAST_NAME, $address->getLastName());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_PHONE_NUMBER, $address->getPhoneNumber());
+        $this->addToStorage(FieldConfigImpl::CUSTOMER_DELIVERY_ADDRESS_EMAIL, $address->getEmail());
     }
 
     /**

@@ -37,7 +37,7 @@ class CustomerImpl implements Customer
      * @param $externalId string between 1 and 255 characters, will be cut is too long. can be empty.
      * @param $address Address optional
      */
-    public function __construct($firstName, $lastName, $phoneNumber, $email, $externalId = '', Address $address = null)
+    public function __construct($firstName, $lastName, $phoneNumber, $email, Address $address = null, $externalId = '')
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;

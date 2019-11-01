@@ -21,8 +21,12 @@ class AddressImpl implements Address
     private $city;
     private $postalCode;
     private $countryCode;
+    private $firstName;
+    private $lastName;
+    private $phoneNumber;
+    private $email;
     
-    public function __construct($lineOne, $lineTwo, $lineThree, $city, $postalCode, $countryCode)
+    public function __construct($lineOne, $lineTwo, $lineThree, $city, $postalCode, $countryCode, $firstName, $lastName, $phoneNumber = '', $email = '')
     {
         $this->lineOne = $lineOne;
         $this->lineTwo = $lineTwo;
@@ -30,6 +34,10 @@ class AddressImpl implements Address
         $this->city = $city;
         $this->postalCode = $postalCode;
         $this->countryCode = $countryCode;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->phoneNumber = $phoneNumber;
+        $this->email = $email;
     }
     
     public function getLineOne()
@@ -61,4 +69,26 @@ class AddressImpl implements Address
     {
         return $this->countryCode;
     }
+
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+
 }

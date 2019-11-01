@@ -60,15 +60,17 @@ class CreateNewOrderServiceTest extends AbstractFrontendServiceTest
         $this->checkProduct($keys, 2);
         $this->checkPaymentInfo($keys);
         $this->checkOrder($keys);
-        $this->assertContains('s-t-1-30_delivery-address-line-one', $keys);
-        $this->assertContains('s-t-1-30_delivery-address-line-two', $keys);
-        $this->assertContains('s-t-1-30_delivery-address-line-three', $keys);
-        $this->assertContains('s-t-1-30_delivery-address-city', $keys);
-        $this->assertContains('s-t-1-30_delivery-address-postal-code', $keys);
-        $this->assertContains('i-t-1-3_delivery-address-country-code', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-line-one', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-line-two', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-line-three', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-city', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-postal-code', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-first-name', $keys);
+        $this->assertContains('s-t-1-30_bill-to-address-last-name', $keys);
+        $this->assertContains('i-t-1-3_bill-to-address-country-code', $keys);
         $this->assertContains('s-t-1-30_payment-method-code', $keys);
         $this->assertContains('l-t-1-20_saved-payment-method-id', $keys);
-        $this->assertCount(56, $keys);
+        $this->assertCount(60, $keys);
     }
 
     public function testConstructAndGetFieldsNullAddress()

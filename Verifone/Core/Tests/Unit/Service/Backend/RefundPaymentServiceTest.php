@@ -42,11 +42,32 @@ class RefundPaymentServiceTest extends AbstractBackendServiceTest
             ->method('getIdentificator')
             ->will($this->returnValue(''));
 
+        $this->mockProduct = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Service\Interfaces\Product')
+            ->getMock();
+        $this->mockProduct->expects($this->exactly(0))
+            ->method('getName')
+            ->will($this->returnValue(''));
+        $this->mockProduct->expects($this->exactly(0))
+            ->method('getUnitPriceExclTax')
+            ->will($this->returnValue(''));
+        $this->mockProduct->expects($this->exactly(0))
+            ->method('getPriceExclTax')
+            ->will($this->returnValue(''));
+        $this->mockProduct->expects($this->exactly(0))
+            ->method('getPriceInclTax')
+            ->will($this->returnValue(''));
+        $this->mockProduct->expects($this->exactly(0))
+            ->method('getQuantity')
+            ->will($this->returnValue(''));
+        $this->mockProduct->expects($this->exactly(0))
+            ->method('getDiscountPercentage')
+            ->will($this->returnValue(''));
+
         $transaction = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Service\Interfaces\Transaction')
             ->getMock();
         $transaction->expects($this->once())->method('getNumber');
         $transaction->expects($this->once())->method('getMethodCode');
-        $transaction->expects($this->once())->method('getRefundAmount');
+        $transaction->expects($this->exactly(4))->method('getRefundAmount');
         $transaction->expects($this->once())->method('getRefundCurrency');
 
         $service = new $this->serviceName($this->mockStorage, $this->mockConf, $this->mockCrypto, $this->mockResponseConverter);
@@ -56,9 +77,7 @@ class RefundPaymentServiceTest extends AbstractBackendServiceTest
 
         $service->insertCustomer($this->mockCustomer);
         $service->insertOrder($this->mockOrder);
-        $service->insertProduct($this->mockProduct);
-        $service->insertProduct($this->mockProduct);
-        $service->insertProduct($this->mockProduct);
+        $service->insertRefundProduct($transaction);
         $service->insertTransaction($transaction);
 
         $fields = $resultStorage->getAsArray();
@@ -70,6 +89,6 @@ class RefundPaymentServiceTest extends AbstractBackendServiceTest
         $this->assertContains('i-f-1-3_refund-currency-code', $keys);
         $this->assertContains('l-f-1-20_refund-amount', $keys);
         $this->assertContains('s-t-1-36_order-note', $keys);
-        $this->assertEquals(13, count($keys));
+        $this->assertEquals(20, count($keys));
     }
 }

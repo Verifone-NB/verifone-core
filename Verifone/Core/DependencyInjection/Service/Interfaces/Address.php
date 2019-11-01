@@ -10,10 +10,14 @@
 
 namespace Verifone\Core\DependencyInjection\Service\Interfaces;
 
-
+/**
+ * Interface AddressInterface
+ * @package Verifone\Core\DependencyInjection\Service\Interfaces
+ * A value object interface for containing address information
+ */
 interface Address
 {
-    public function __construct($lineOne, $lineTwo, $lineThree, $city, $postalCode, $countryCode);
+    public function __construct($lineOne, $lineTwo, $lineThree, $city, $postalCode, $countryCode, $fistName, $lastName, $phoneNumber = '', $email = '');
     
     public function getLineOne();
     
@@ -26,4 +30,12 @@ interface Address
     public function getPostalCode();
     
     public function getCountryCode();
+
+    public function getFirstName();
+
+    public function getLastName();
+
+    public function getPhoneNumber();
+
+    public function getEmail();
 }

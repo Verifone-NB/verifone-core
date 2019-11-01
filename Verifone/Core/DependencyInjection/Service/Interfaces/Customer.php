@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -17,7 +17,7 @@ namespace Verifone\Core\DependencyInjection\Service\Interfaces;
  */
 interface Customer
 {
-    public function __construct($firstName, $lastName, $phoneNumber, $email, $externalId, Address $address);
+    public function __construct($firstName, $lastName, $phoneNumber, $email, Address $address, $externalId);
 
     public function getFirstName();
 
@@ -26,8 +26,8 @@ interface Customer
     public function getPhoneNumber();
 
     public function getEmail();
-    
+
     public function getExternalId();
-    
+
     public function getAddress();
 }
