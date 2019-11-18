@@ -1,7 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.0.13] 2019.11.01
+## [1.1.1] 2019.11.18
+### Added
+- Test for check that exception is thrown when address is empty
+
+### Removed
+- Test for check empty address for a new payment request
+
+### Fixed
+- Compatibility declaration for setUp() methods in tests.
+
+## [1.1.0] 2019.11.1
 ### Added
 - Fields for billing address in order - PSD/2 regulation
 

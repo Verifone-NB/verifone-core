@@ -24,7 +24,7 @@ class ArrayStorageTest extends VerifoneTest
 {
     protected $arrayStorage;
 
-    public function setUp()
+    public function setUp(): void
     {
         $config = include 'fieldNamesConfigTestData.php';
         $this->arrayStorage = new ArrayStorage($config);

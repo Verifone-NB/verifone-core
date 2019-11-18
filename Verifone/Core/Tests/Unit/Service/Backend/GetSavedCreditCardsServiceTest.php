@@ -17,7 +17,7 @@ namespace Verifone\Core\Tests\Unit\Service\Backend;
  */
 class GetSavedCreditCardsServiceTest extends AbstractBackendServiceTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->mockConf = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Configuration\Backend\BackendConfiguration')

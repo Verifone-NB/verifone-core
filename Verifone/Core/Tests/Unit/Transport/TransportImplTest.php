@@ -23,7 +23,7 @@ class TransportImplTest extends VerifoneTest
 {
     protected $transport;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->transport = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Transporter\TransportationWrapper')->getMock();
     }

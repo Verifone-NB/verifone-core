@@ -22,7 +22,7 @@ class FrontendResponseServiceExecutorTest extends VerifoneTest
     private $service;
     private $executor;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->validation = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Validation\CommonValidation')->getMock();
         $this->converter = $this->getMockBuilder('\Verifone\Core\Converter\Response\ResponseConverter')->getMock();

@@ -18,7 +18,7 @@ class VerifoneValidationTest extends VerifoneTest
     private $fieldValidation;
     private $responseValidation;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fieldValidation = $this->getMockBuilder('\Lamia\Validation\Validation\Interfaces\Validation')->getMock();
         $this->responseValidation = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Validation\Response\ResponseValidation')->getMock();

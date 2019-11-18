@@ -2,6 +2,7 @@
     "name": "verifone/core",
     "type": "library",
     "require": {
+        "php": ">=7.1.0",
         "phpseclib/phpseclib": "2.0.*",
         "lamiaoy/validation": "1.0.*",
         "lamiaoy/httpclient": "1.0.*"

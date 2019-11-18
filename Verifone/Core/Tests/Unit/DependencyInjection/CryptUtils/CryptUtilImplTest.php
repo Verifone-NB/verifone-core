@@ -21,7 +21,7 @@ class CryptUtilImplTest extends VerifoneTest
     private $cryptUtils;
     private $mockCryptography;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockCryptography = $this->getMockBuilder('\Verifone\Core\DependencyInjection\CryptUtils\Cryptography')
             ->getMock();

@@ -20,7 +20,7 @@ use Verifone\Core\Exception\UnableToConvertFieldsException;
  */
 class HtmlConverterTest extends \AbstractConverterTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->converter = new HtmlConverter();

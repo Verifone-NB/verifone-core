@@ -25,7 +25,7 @@ class FrontendConfigurationImplTest extends VerifoneTest
 {
     protected $urls;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->urls = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Configuration\Frontend\RedirectUrls')
             ->getMock();

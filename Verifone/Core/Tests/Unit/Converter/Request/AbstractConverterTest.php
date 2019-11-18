@@ -13,7 +13,7 @@ abstract class AbstractConverterTest extends \Verifone\Core\Tests\Unit\VerifoneT
     protected $mockStorage;
     protected $converter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockStorage = $this->getMockBuilder('\Verifone\Core\Storage\Storage')
             ->getMock();

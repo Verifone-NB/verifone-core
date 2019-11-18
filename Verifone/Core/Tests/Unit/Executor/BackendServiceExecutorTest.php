@@ -26,7 +26,7 @@ class BackendServiceExecutorTest extends VerifoneTest
     private $crypto;
     private $converter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = $this->getMockBuilder('\Verifone\Core\Service\Backend\BackendService')->getMock();
         $this->transport = $this->getMockBuilder('\Verifone\Core\Transport\Transport')->getMock();

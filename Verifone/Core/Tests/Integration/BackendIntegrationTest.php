@@ -34,7 +34,7 @@ class BackendIntegrationTest extends VerifoneTest
     private $customer;
     private $exec;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->testUrl = 'https://epayment.test.point.fi/pw/serverinterface';
         $this->privateKey = file_get_contents('Assets/demo-merchant-agreement-private.pem', true);

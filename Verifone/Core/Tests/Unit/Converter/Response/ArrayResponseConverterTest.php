@@ -19,7 +19,7 @@ class ArrayResponseConverterTest extends VerifoneTest
     private $mockResponse;
     private $converter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockResponse = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Transporter\TransportationResponse')->getMock();
         $this->converter = new ArrayResponseConverter();

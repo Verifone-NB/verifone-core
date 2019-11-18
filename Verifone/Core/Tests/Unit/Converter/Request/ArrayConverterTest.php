@@ -19,7 +19,7 @@ use Verifone\Core\Converter\Request\ArrayConverter;
  */
 class ArrayConverterTest extends \AbstractConverterTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->converter = new ArrayConverter();
         parent::setUp();

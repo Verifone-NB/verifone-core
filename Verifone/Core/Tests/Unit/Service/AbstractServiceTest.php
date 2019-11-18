@@ -28,7 +28,7 @@ abstract class AbstractServiceTest extends VerifoneTest
     protected $mockPayment;
     protected $mockResponseConverter;
     
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockStorage = new TestStorage();
         $this->mockConf = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfiguration')

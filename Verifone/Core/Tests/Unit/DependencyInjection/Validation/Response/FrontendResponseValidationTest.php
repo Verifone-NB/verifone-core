@@ -19,7 +19,7 @@ class FrontendResponseValidationTest extends VerifoneTest
 {
     private $utils;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->utils = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Validation\Response\ResponseValidationUtils')->getMock();
     }

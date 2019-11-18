@@ -21,7 +21,7 @@ class FrontendResponseServiceTest extends VerifoneTest
     private $mockStorage;
     private $mockOrder;
     
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockStorage = new TestStorage();
         $this->mockOrder = $this->getMockBuilder('\Verifone\Core\DependencyInjection\Service\Interfaces\Order')

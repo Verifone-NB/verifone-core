@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -41,7 +41,7 @@ class FrontendIntegrationTest extends VerifoneTest
      */
     private $exec;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->testUrl = 'https://epayment.test.point.fi/pw/payment';
         $this->curl = new CurlWrapper();

@@ -10,6 +10,8 @@
 
 namespace Verifone\Core\Tests\Unit\Service\Frontend;
 
+use Verifone\Core\Exception\MissingBillingAddressException;
+
 /**
  * Class CreateNewOrderServiceTest
  * @package Verifone\Core\Tests\Service\Frontend
@@ -19,7 +21,7 @@ class CreateNewOrderServiceTest extends AbstractFrontendServiceTest
 {
     private $transaction;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->serviceName = '\Verifone\Core\Service\Frontend\CreateNewOrderService';
@@ -73,42 +75,20 @@ class CreateNewOrderServiceTest extends AbstractFrontendServiceTest
         $this->assertCount(60, $keys);
     }
 
-    public function testConstructAndGetFieldsNullAddress()
+    public function testConstructAndGetFieldsException()
     {
         parent::testConstructAndGetFields();
 
         $this->mockCustomer->expects($this->once())
             ->method('getAddress')
-            ->will($this->returnValue(null));
-
-        $this->doMockExpectsForConstructAndGetFields();
+            ->willReturn(null);
 
         $service = new $this->serviceName($this->mockStorage, $this->mockConf, $this->mockCrypto);
         $resultStorage = $service->getFields();
 
-        $this->assertEquals($this->mockStorage, $resultStorage);
-
+        $this->expectException(MissingBillingAddressException::class);
         $service->insertCustomer($this->mockCustomer);
-        $service->insertOrder($this->mockOrder);
-        $service->insertPaymentInfo($this->mockPayment);
-        $service->insertProduct($this->mockProduct);
-        $service->insertProduct($this->mockProduct);
-        $service->insertProduct($this->mockProduct);
-        $service->insertTransaction($this->transaction);
 
-        $fields = $resultStorage->getAsArray();
-        $keys = array_keys($fields);
-        $this->checkKeys($keys);
-        $this->checkCustomer($keys);
-        $this->checkProduct($keys, 0);
-        $this->checkProduct($keys, 1);
-        $this->checkProduct($keys, 2);
-        $this->checkPaymentInfo($keys);
-        $this->checkOrder($keys);
-        $this->assertContains('s-t-1-30_payment-method-code', $keys);
-        $this->assertContains('l-t-1-20_saved-payment-method-id', $keys);
-        $this->assertEquals($fields['i-t-1-4_bi-vat-percentage-0'], 2300);
-        $this->assertCount(50, $keys);
     }
 
     private function doMockExpectsForConstructAndGetFields()

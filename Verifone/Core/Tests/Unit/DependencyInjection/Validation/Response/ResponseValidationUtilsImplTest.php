@@ -20,7 +20,7 @@ class ResponseValidationUtilsImplTest extends VerifoneTest
 {
     private $cryptUtil;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->cryptUtil = $this->getMockBuilder('\Verifone\Core\DependencyInjection\CryptUtils\CryptUtil')->getMock();
     }

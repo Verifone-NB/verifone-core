@@ -19,7 +19,7 @@ use Verifone\Core\Converter\Request\JsonConverter;
  */
 class JsonConverterTest extends \AbstractConverterTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->converter = new JsonConverter();

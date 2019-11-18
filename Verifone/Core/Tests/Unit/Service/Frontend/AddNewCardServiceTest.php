@@ -17,7 +17,7 @@ namespace Verifone\Core\Tests\Unit\Service\Frontend;
  */
 class AddNewCardServiceTest extends AbstractFrontendServiceTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->serviceName = '\Verifone\Core\Service\Frontend\AddNewCardService';
