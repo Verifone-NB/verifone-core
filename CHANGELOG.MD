@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] 2022.07.27
+### Added
+- Support for phpseclib version 3.0.9 required by Magento 2.4.4
+
 ## [1.1.1] 2019.11.18
 ### Added
 - Test for check that exception is thrown when address is empty
