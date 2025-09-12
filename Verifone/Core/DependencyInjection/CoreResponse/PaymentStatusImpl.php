@@ -25,12 +25,15 @@ class PaymentStatusImpl implements PaymentStatus
 
     private $orderNumber;
 
+    private $orderTimestamp;
+
     public function __construct(
         $code,
         $orderAmount,
         $transactionNumber,
         $paymentMethodCode,
-        $orderNumber
+        $orderNumber,
+        $orderTimestamp
     )
     {
         $this->code = $code;
@@ -38,6 +41,7 @@ class PaymentStatusImpl implements PaymentStatus
         $this->transactionNumber = $transactionNumber;
         $this->paymentMethodCode = $paymentMethodCode;
         $this->orderNumber = $orderNumber;
+        $this->orderTimestamp = $orderTimestamp;
     }
 
     public function getCode()
@@ -77,5 +81,12 @@ class PaymentStatusImpl implements PaymentStatus
         return $this->orderNumber;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getOrderTimestamp()
+    {
+        return $this->orderTimestamp;
+    }
 
 }

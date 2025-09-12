@@ -27,7 +27,8 @@ interface PaymentStatus
         $orderAmount,
         $transactionNumber,
         $paymentMethodCode,
-        $orderNumber
+        $orderNumber,
+        $orderTimestamp
     );
 
     public function getCode();
@@ -39,4 +40,6 @@ interface PaymentStatus
     public function getPaymentMethodCode();
 
     public function getOrderNumber();
+
+    public function getOrderTimestamp();
 }

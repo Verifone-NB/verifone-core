@@ -22,6 +22,7 @@ class GetPaymentStatusResponseConverter extends CoreResponseConverter
     const TRANSACTION_NUMBER = 'l-f-1-20_transaction-number';
     const PAYMENT_METHOD = 's-f-1-30_payment-method-code';
     const ORDER_NUMBER = 's-f-1-36_order-number';
+    const ORDER_TIMESTAMP = 't-f-14-19_order-timestamp';
 
     public function convert(TransportationResponse $response)
     {
