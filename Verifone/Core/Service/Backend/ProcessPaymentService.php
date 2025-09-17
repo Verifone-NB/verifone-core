@@ -76,7 +76,9 @@ final class ProcessPaymentService extends AbstractBackendService
             $this->addToStorage(FieldConfigImpl::RECURRING_PAYMENT, self::RECURRING_PAYMENT_VALUE);
             $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_NAME, $recurring->getSubscriptionName());
             $this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_CODE, $recurring->getSubscriptionCode());
-        }
+        } elseif( $recurring === true ) {
+			$this->addToStorage(FieldConfigImpl::RECURRING_PAYMENT, self::RECURRING_PAYMENT_VALUE);
+		}
 
         if ($paymentInfo->getSaveMaskedPan() === true) {
             $this->addToStorage(

@@ -40,7 +40,7 @@ class PaymentInfoImpl implements PaymentInfo
      * @param string $savedMethodId
      * @param string $note optional string, max 36 characters, will be cut if too long
      * @param bool $saveMaskedPan
-     * @param Recurring $recurring
+     * @param Recurring|boolean|null $recurring Recurring object to create new subscription, true to indicate recurring payment without subscription details, or null if not a recurring payment
      */
     public function __construct(
         $locale,
@@ -48,7 +48,7 @@ class PaymentInfoImpl implements PaymentInfo
         $savedMethodId = '',
         $note = '',
         $saveMaskedPan = false,
-        Recurring $recurring = null
+        $recurring = null
     ) {
         $this->locale = $locale;
         $this->saveMethod = $saveMethod;
