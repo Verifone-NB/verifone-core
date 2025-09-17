@@ -60,6 +60,15 @@ final class GetSavedCreditCardsService extends AbstractBackendService
         }
     }
 
+    /**
+	 * @param string $code
+	 * Insert recurring payment subscription code to identify the customer
+	 */
+	public function insertRecurringPaymentSubscriptionCode($code)
+	{
+		$this->addToStorage(FieldConfigImpl::RECURRING_SUBSCRIPTION_CODE, $code);
+	}
+
     protected function getInterfaceVersion()
     {
         return self::INTERFACE_VERSION_VALUE;
