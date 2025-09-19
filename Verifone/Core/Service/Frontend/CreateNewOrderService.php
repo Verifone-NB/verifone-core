@@ -11,6 +11,7 @@
 namespace Verifone\Core\Service\Frontend;
 
 use Verifone\Core\Configuration\FieldConfigImpl;
+use Verifone\Core\DependencyInjection\Service\PaymentInfoImpl;
 use Verifone\Core\DependencyInjection\Configuration\Frontend\FrontendConfiguration;
 use Verifone\Core\DependencyInjection\CryptUtils\CryptUtil;
 use Verifone\Core\DependencyInjection\Service\Interfaces\Address;
@@ -57,7 +58,20 @@ final class CreateNewOrderService extends AbstractFrontendService
         $this->addToStorage(FieldConfigImpl::PAYMENT_SAVED_METHOD_ID, $paymentInfo->getSavedMethodId());
 
         if ($paymentInfo->getRecurring() instanceof Recurring) {
-            $this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, '1');
+            /**
+			 * Allow to set save method to SAVE_METHOD_SAVE_ONLY if needed.
+			 *
+			 * This is useful for subscriptions that start with free trial (0 amount),
+			 * so that the card is saved without charging anything from it.
+			 *
+			 * Otherwise, force the save method to SAVE_METHOD_AUTO_SAVE for recurring payments to work.
+			 */
+			if (!empty($paymentInfo->getSaveMethod()) && $paymentInfo->getSaveMethod() === PaymentInfoImpl::SAVE_METHOD_SAVE_ONLY) {
+				$this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, PaymentInfoImpl::SAVE_METHOD_SAVE_ONLY);
+			} else {
+				$this->addToStorage(FieldConfigImpl::PAYMENT_SAVE_METHOD, PaymentInfoImpl::SAVE_METHOD_AUTO_SAVE);
+			}
+
             $this->insertRecurring($paymentInfo->getRecurring());
         }
         else {
