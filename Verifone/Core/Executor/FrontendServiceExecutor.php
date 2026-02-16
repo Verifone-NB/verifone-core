@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -55,6 +55,10 @@ class FrontendServiceExecutor
     public function executeService(FrontendService $service, array $actionUrls, $checkUrlAvailability = false)
     {
         $actionUrl = $this->resolveActionUrl($actionUrls, $checkUrlAvailability);
+		if ($actionUrl === false) {
+			return null;
+		}
+
         $storage = $service->getFields();
         $this->validation->validate($storage->getAsArray());
         return $this->converter->convert($storage, $actionUrl);
@@ -63,16 +67,22 @@ class FrontendServiceExecutor
     private function resolveActionUrl(array $actionUrls, $checkUrlAvailability)
     {
         if ($checkUrlAvailability) {
-            return $this->returnFirstAvailableUrl($actionUrls);
+			try {
+				return $this->returnFirstAvailableUrl($actionUrls);
+			} catch (NoAvailableUrlException $e) {
+				return false;
+			}
         }
         return current($actionUrls);
     }
 
     private function returnFirstAvailableUrl(array $urls)
     {
-        foreach ($urls as $url) {
-            if ($this->isAvailable($url)) {
-                return $url;
+        for ($attempt = 0; $attempt < 2; $attempt++) {
+            foreach ($urls as $url) {
+                if ($this->isAvailable($url)) {
+                    return $url;
+                }
             }
         }
         throw new NoAvailableUrlException('');
@@ -80,7 +90,9 @@ class FrontendServiceExecutor
 
     private function isAvailable($url)
     {
-        try {
+		// Shorter than default timeout for availability check
+		$this->transport->changeDefaultConfiguration(['timeout' => 3]);
+		try {
             $response = $this->transport->get($url);
             if ($response->getBody() == '') {
                 return true;
