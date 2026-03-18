@@ -1,10 +1,10 @@
 <?php
 /**
- * NOTICE OF LICENSE 
+ * NOTICE OF LICENSE
  *
- * This source file is released under commercial license by Lamia Oy. 
+ * This source file is released under commercial license by Lamia Oy.
  *
- * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi) 
+ * @copyright  Copyright (c) 2017 Lamia Oy (https://lamia.fi)
  * @author     Irina Mäkipaja <irina@lamia.fi>
  */
 
@@ -15,6 +15,7 @@ use Lamia\HttpClient\HttpClient;
 class LamiaHttpClientWrapper implements TransportationWrapper
 {
     private $client;
+	private $options = [];
 
     public function __construct()
     {
@@ -62,16 +63,26 @@ class LamiaHttpClientWrapper implements TransportationWrapper
     public function setMaxRedirects($maxRedirects)
     {
         $this->setOption(CURLOPT_MAXREDIRS, $maxRedirects);
-    }
 
-    public function setOption($option, $value)
-    {
-        $this->client->setOption($option, $value);
+		$this->options['allow_redirects'] = [
+			'max' => $maxRedirects,
+		];
     }
 
     public function setTimeout($timeout)
     {
         $this->setOption(CURLOPT_TIMEOUT, $timeout);
+		$this->options['timeout'] = $timeout;
+
+    }
+
+	public function setOption($option, $value)
+    {
+        $this->client->setOption($option, $value);
+		$this->options[$option] = $value;
+
+		// Recreate the client to apply the new options.
+		$this->client = new HttpClient('', $this->options);
     }
 
     public function close()
