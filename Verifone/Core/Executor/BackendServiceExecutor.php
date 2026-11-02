@@ -25,6 +25,7 @@ use Verifone\Core\DependencyInjection\Utils\Cutter;
 use Verifone\Core\DependencyInjection\Validation\CommonValidation;
 use Verifone\Core\DependencyInjection\Validation\Response\ResponseValidation;
 use Verifone\Core\Exception\ResponseCheckFailedException;
+use Verifone\Core\Exception\TransportationFailedException;
 use Verifone\Core\Service\Backend\BackendService;
 use Verifone\Core\Transport\Transport;
 
@@ -69,6 +70,7 @@ class BackendServiceExecutor
      * @return array of response fields
      * @throws ResponseCheckFailedException if something was wrong with response
      * @throws FieldValidationFailedException
+     * @throws TransportationFailedException if transportation to all urls failed
      */
     public function executeService(BackendService $service, $publicKey)
     {
@@ -80,8 +82,14 @@ class BackendServiceExecutor
             throw new FieldValidationFailedException('urls', 'should be array');
         }
 
+        $lastException = null;
         foreach ($urls as $url) {
-            $response = $this->transport->post($url, $requestFields);
+            try {
+                $response = $this->transport->post($url, $requestFields);
+            } catch (TransportationFailedException $e) {
+                $lastException = $e;
+                continue;
+            }
             if ($response instanceof TransportationResponse) {
                 return $this->validateAndFormatResponse(
                     $response,
@@ -90,6 +98,9 @@ class BackendServiceExecutor
                     $service->getMatchingFields()
                 );
             }
+        }
+        if ($lastException !== null) {
+            throw $lastException;
         }
         throw new ResponseCheckFailedException('None of the urls returned 200 ok -response');
     }
